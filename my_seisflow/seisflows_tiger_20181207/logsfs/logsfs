@@ -1,0 +1,5 @@
+Tue Dec  4 14:39:17 EST 2018
+created /scratch/gpfs/jiazeh/seisflows/logsfs/logsfs
+/scratch/gpfs/jiazeh/seisflows/seisflows/tools/graphics.py
+add colorbar to def plot_section(stream, ax=None, cmap='seismic', clip=100, title='', x_interval=1.0, y_interval=1.0):
+
