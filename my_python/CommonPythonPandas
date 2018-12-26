@@ -1316,7 +1316,7 @@ for f in copyfilelist:
 
 #######################################################################jupyter notebook #####
 
-###system related
+##### system related ######  
 
 #print python version 
 import sys
@@ -1345,7 +1345,14 @@ os.makedirs('foo/path/folder2')
 os.removedirs('foo/path/folder2')
 # rename 
 os.rename('oldfilename.txt','newfilename.txt')
-#
+
+# make new dir, if exist, delete it first
+import shutil
+dir='obf/output/%06d' % i2
+if os.path.exists(dir):
+   shutil.rmtree(dir)
+os.makedirs(dir)  
+
 
 
 

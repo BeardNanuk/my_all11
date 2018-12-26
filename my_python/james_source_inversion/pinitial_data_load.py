@@ -16,7 +16,7 @@ load_para.flag_obs_type=flag_obs_type
 
 #syn_file='Up_csic_rgauss_chi_f03000000_DT4d_9'
 #obs_file='Fan07_SRC08_ts2500_mat'
-#obs_file='Fan01_SRC08_mat_12dt'
+#obs_file='emFan01_SRC08_ts350_mat'
 #synpath='obf/input/Up_csic_rgauss_pres_f03000000_DT4d_9.su'
 synpath='obf/input/' + syn_file + '.su'
 #synpath='obf/input/Up_csic_rgauss_chi_f03000000_DT4d_9.su'
@@ -101,10 +101,10 @@ load_para.save_tukey_fn=save_tukey_fn
 save_istf_firstpart_fn = str_savefold + '/istf'
 load_para.save_istf_firstpart_fn=save_istf_firstpart_fn
 
-save_istf_txt_firstpart_fn = str_savefold + '/z2istf' 
+save_istf_txt_firstpart_fn = str_savefold + '/z6istf' 
 load_para.save_istf_txt_firstpart_fn= save_istf_txt_firstpart_fn 
 
-save_Re_obs_pickledump_fn = str_savefold + '/data_Re_obs.pickle'
+save_Re_obs_pickledump_fn = str_savefold + '/' + obs_file + 'data_Re_obs.pickle'
 load_para.save_Re_obs_pickledump_fn=save_Re_obs_pickledump_fn 
 
 save_exp_para_pickledump_fn = str_savefold + '/exp_para'

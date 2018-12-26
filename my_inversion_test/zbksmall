@@ -9,7 +9,7 @@
 
 
 #!!!!!!!!!!!! be really careful about the destination 
-final_dir="$HOME/Desktop/d/fwi_csic"
+final_dir="$HOME/Desktop/d/att_csic"
 
 final_foldername=$(printf "${final_dir}/${foldername}")
 #final_foldername=$(printf "${final_dir}/f0_${intf0}")
@@ -32,17 +32,22 @@ mkdir bk_small
 #final_dir="bk_small"
 dfolder='bk_small'
 
-
+cp -rf *.png $dfolder
+cp output.log output.optim $dfolder
 temp_full="$dfolder/specfem_data"
-mkdir -p $temp_full && eval cp -r specfem_data/* $temp_full
+mkdir -p $temp_full && eval cp -r specfem_data/[PaiS]* $temp_full
 temp_full="$dfolder/output"
 mkdir -p $temp_full && eval cp -r output/v* $temp_full && eval cp -r output/z* $temp_full
+eval cp -r output/traces $temp_full
+#eval cp -r output/traces*/*.png $temp_full
 temp_full="$dfolder/model_init"
-mkdir -p $temp_full && eval cp -r model_init/* $temp_full
+mkdir -p $temp_full && eval cp -r model_init/[p]* $temp_full
 temp_full="$dfolder/model_true"
-mkdir -p $temp_full && eval cp -r model_true/* $temp_full
+mkdir -p $temp_full && eval cp -r model_true/[p]* $temp_full
 temp_full="$dfolder/mask"
-mkdir -p $temp_full && eval cp -r mask/* $temp_full
+mkdir -p $temp_full && eval cp -r mask/[p]* $temp_full
+temp_full="$dfolder/DATA"
+mkdir -p $temp_full && eval cp -r DATA/[0]* $temp_full
 cp z* c* p* output.optim $dfolder
 
 

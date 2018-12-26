@@ -40,13 +40,13 @@ f0=3500000; exp_para.f0 = f0
 fmax = 10000000; exp_para.fmax = fmax
 #####   dt related  ####################################################
 #output_time_step = 20000; exp_para.output_time_step = output_time_step;
-dt = 4e-9; exp_para.dt = dt 
-dtsyn = 4e-9; exp_para.dtsyn = dtsyn
+dt = 4e-8; exp_para.dt = dt 
+dtsyn = 4e-8; exp_para.dtsyn = dtsyn
 dtobs = 5e-8; exp_para.dtobs = dtobs
 #DownSampleFact=8; exp_para.DownSampleFact = DownSampleFact;
 UpSampleFact = dtsyn/dtobs; exp_para.UpSampleFact=UpSampleFact
 UpSampleFact2 = 1; exp_para.UpSampleFact2=UpSampleFact2 
-SubSampleFact = 10; exp_para.SubSampleFact=SubSampleFact;
+SubSampleFact = 1; exp_para.SubSampleFact=SubSampleFact;
 dtNew = dt*UpSampleFact; exp_para.dtNew = dtNew;
 
 print('UpSampleFactor : %20.19f ' % UpSampleFact) 
@@ -90,13 +90,13 @@ nyq_freq=2.5e7; exp_para.nyq_freq = nyq_freq;
 #SOURCE_SIGNAL_MATRIX=para.SOURCE_SIGNAL_MATRIX;
 
 #%rawdata = para.rawdata;
-Nt=42000; exp_para.Nt = Nt; 
+Nt=5800; exp_para.Nt = Nt; 
 #Na=20250; exp_para.Na = Na; 
 NSrc=1; exp_para.NSrc = NSrc; 
 NRec=176; exp_para.NRec = NRec;
 
-Ntsyn=42000; exp_para.Ntsyn = Ntsyn;
-Ntsyncomp=58000; exp_para.Ntsyncomp=Ntsyncomp;
+Ntsyn=5800; exp_para.Ntsyn = Ntsyn;
+Ntsyncomp=5800; exp_para.Ntsyncomp=Ntsyncomp;
 Ntobs=3360; exp_para.Ntobs = Ntobs; 
 
 
@@ -221,8 +221,8 @@ xf_Newsyn = np.linspace(0.0, fsNewsyn, nfftNewsyn)
 
 
 ### 1.04 filtering the resampled signal 
-freqmin=350000; exp_para.freqmin=freqmin
-freqmax=650000; exp_para.freqmax=freqmax
+freqmin=1; exp_para.freqmin=freqmin
+freqmax=100000; exp_para.freqmax=freqmax
 
 # filtering
 #stf_filtered = bandpass(stf_cut_nodelay, freqmin, freqmax, fs_new, zerophase=True)
@@ -238,7 +238,7 @@ freqmax=650000; exp_para.freqmax=freqmax
 #yf_detrend_filtered = fft(stf_cut_nodelay_detrend_filtered, axis=0, n=nfft) 
 
 ### 1.05 plot FFT results for resampling
-freq_show_star = 100000; exp_para.freq_show_star=freq_show_star
+freq_show_star = 1; exp_para.freq_show_star=freq_show_star
 freq_show_end = 9000000; exp_para.freq_show_end=freq_show_end
 
 freq_step_star = int(round(freq_show_star/dfNew_pad))
@@ -264,9 +264,8 @@ exp_para.freq_step_endNewsyn=freq_step_endNewsyn
 
 
 # plot the received signals
-time_star= 10 * dtobs; exp_para.time_star=time_star
-time_end = 2600* dtobs; exp_para.time_end=time_end
-
+time_star= 100 * dtobs; exp_para.time_star=time_star
+time_end = 3200 * dtobs; exp_para.time_end=time_end
 
 t_star_show = int(time_star/dtNew); exp_para.t_star_show=t_star_show
 t_end_show = int(time_end/dtNew); exp_para.t_end_show=t_end_show
@@ -275,7 +274,6 @@ t_star_showsyn = int(time_star/dtsyn);
 exp_para.t_star_showsyn=t_star_showsyn
 t_end_showsyn = int(time_end/dtsyn)
 exp_para.t_end_showsyn=t_end_showsyn
-
 
 t_star_showobs = int(time_star/dtobs)
 exp_para.t_star_showobs=t_star_showobs
@@ -286,6 +284,8 @@ t_starNew_showobs = int(time_star/dtNewobs)
 exp_para.t_starNew_showobs=t_starNew_showobs
 t_endNew_showobs = int(time_end/dtNewobs)
 exp_para.t_endNew_showobs=t_endNew_showobs
+
+stf_subsample_factor = 1; exp_para.stf_subsample_factor = stf_subsample_factor 
 
 
 pickle.dump(exp_para,open(save_exp_para_pickledump_fn,'wb'))

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#./Printgllmap ./scratch/evalgrad/gradient_nomask/ last
+#./Printgllmap ./scratch/evalgrad/model last
+./Printgllmap ./scratch/evalgrad/gradient last
+

@@ -1,9 +1,14 @@
 #!/bin/bash
 
+# wrapper for all the things to do after inversion 
+
+# created on Sat Nov 24 17:59:23 EST 2018
+# created by Jiaze He 
+
 
         Xint=1.0
         Yint=1000.0
-        Clip_percent=90
+        Clip_percent=100
 
 #./savesismo ./OUTPUT_FILES/Up_file_single.su -save=./OUTPUT_FILES/seismo.png -c=$Clip_percent -xint=$Xint -yint=$Yint > /dev/null &
 
@@ -11,10 +16,21 @@
 
 ./zbash_try 
 
+
+echo 'number of time steps is '$NSTEP 
+echo 'bk path is '$foldname_for_results_saving
+./zplotallmodel vp > zplotallvp_log.txt
+./printgllmap model_true/ vp
+./zplotallmodel Qkappa > zplotallQkappa_log.txt
+./printgllmap model_true/ Qkappa 
+echo "plotting png has been completed"
+
 #python zconvert_su_to_mat
 #python zsavesismo
 
-./zcopy_files
+#./zcopy_files
+python zplot_signals_main.py
+python zauto_results
 
 
 

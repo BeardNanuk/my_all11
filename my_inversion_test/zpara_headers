@@ -5,7 +5,8 @@
 ## created on Sat Nov  3 15:34:10 UTC 2018
 ## created by Jiaze He 
 
-## revised by 
+## revised on Sat Nov 24 17:59:23 EST 2018
+## change flag_elastic=1 for the number of output properites axises
 
 # should be larger than the number of cores (to make the most use of the computer)
 # should also be small enough to make the computers memory not blow up
@@ -77,7 +78,8 @@ flag_elastic=1
 # should be larger than the number of cores (to make the most use of the computer)
 # should also be small enough to make the computers memory not blow up
 
-foldername="20181118int_4src_8proc_piter70f0$intf0"
+foldername="20181215_attQ40_numer_f0$intf0"
+
 
 
 

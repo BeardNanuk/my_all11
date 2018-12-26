@@ -28,7 +28,7 @@ print('nfft',nfft)
 print('nfftNewobs',nfftNewobs)
 
 #freq_pos = signal.tukey(tukey_length, alpha=0.01)
-freq_pos = signal.tukey(tukey_length, alpha=0.01)
+freq_pos = signal.tukey(tukey_length, alpha=0.002)
 print('freq_pos.shape - tukey',freq_pos.shape)
 freq_pos = np.pad(freq_pos, 0,'constant',constant_values=0)
 print('freq_pos.shape - pad',freq_pos.shape)

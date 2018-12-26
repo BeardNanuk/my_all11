@@ -72,7 +72,7 @@ if flag_plot_inverted_stf is 1:
    #save_fig_fn= 'obf/output/csic/istf_src01_rec%02d_trstar%03d_trend%03d.png' % (trace_num,inv_trace_num_star,inv_trace_num_end)
    plt.savefig(save_istf_complete_fn,format='png', dpi=200, bbox_inches='tight')
    add_slide_ze(save_istf_complete_fn,total_filename_pptx,width = 4)
-
+   print('istf_png',save_istf_complete_fn)
 
 #import time
 #

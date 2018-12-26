@@ -18,7 +18,7 @@ foldername=$(echo "${PWD##*/}")
 #foldername="csic_f78_90_f0${intf0}_DT${D_T}"
 echo 'foldername='$foldername
 # the folder to copy observed data from...
-from_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/james_source_inversion/src_csic"
+from_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/james_source_inversion/att_csic"
 
 from_full_dir=$(printf "${from_dir}/${foldername}")
 

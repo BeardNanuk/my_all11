@@ -12,7 +12,7 @@
 #echo 'intf0 ='$intf0
 
 # foldername 
-foldername="20181130_filtered"
+foldername="20181219_lowfreq"
 #foldername="gauss_empty_scan_f0$intf0"
 echo 'foldername='$foldername
 

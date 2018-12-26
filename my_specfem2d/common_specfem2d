@@ -460,8 +460,10 @@ mpirun noticed that process rank 0 with PID 15854 on node tiger-h23c1n2 exited o
  28 libc.so.6          00007F3E0670E3D5  Unknown               Unknown  Unknown
  29 xspecfem2D         00000000004095A9  Unknown               Unknown  Unknown
  30 running solver - done
-### causes: floating invalid is the spacing
+### cause1: floating invalid is the spacing
 ### solution, reduce dt 
+### cause2: wavefield snapshot too large
+### solution, subsample images
 
 ######### in slurm - floating overflow
   running solver...

@@ -530,6 +530,11 @@ forrtl: severe (38): error during write, unit 41, file /scratch/gpfs/jiazeh/seis
 ### you need to change the paths.py when create the paths 
 ### you can check plot the gradient 
 
+######## 
+
+srun: error: s_p_parse_file: unable to status file /etc/slurm/slurm.conf: No such file or directory, retrying in 1sec up to 60sec
+
+
 
 
 
@@ -928,7 +933,10 @@ The way is to replace "MODEL_TRUE" with "MODEL", without "DATA="
 
 ### then make your own script to copy the files over, under the path of "DATA"
 
+##### model_init error
+seisflows.tools.err.ParameterError: MODEL_INIT is not defined.
 
+##### when using the real data, model_init needs to be turned on, MODEL can lead to model_init
  
 
 

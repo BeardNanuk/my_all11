@@ -11,7 +11,7 @@ from myFormat.ze_plot_summary import one_signal_plot,txt_signal_load
 
 #one_signal_plot(t,nd_a[1,:],figtitle='hey',y_label='foo')
 
-stf_load = np.loadtxt("src_csic_jp_results/z2istf_trstar090_trend091")
+stf_load = np.loadtxt("src_csic_jp_results/z5istf_trstar089_trend090")
 #stf_load = txt_signal_load()
 one_signal_plot(stf_load[:,0],stf_load[:,1])
 #one_signal_plot(stf_load[:,0],stf_load[:,1],figtitle='hey',y_label='foo')

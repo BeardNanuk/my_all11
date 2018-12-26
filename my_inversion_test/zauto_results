@@ -128,6 +128,7 @@ if __name__ == "__main__":
 	
     flag_include_vp = 1 
     flag_include_vs = 2
+    flag_include_Qkappa = 1
     flag_seis_num_axis = 1
 
     print PAR.NT 
@@ -150,10 +151,11 @@ if __name__ == "__main__":
     prs.save(total_filename_pptx)
     add_slide_ze(save_parafile,total_filename_pptx)
 
-    #vp_matrix = [1,2,200]
-    #vp_matrix = [1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,30,40,50,60]
+    #vp_matrix = [1,2,3]
+    vp_matrix = [1,2,3,5,7,9,13,17,21]
+    #vp_matrix = [1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,30]
     if flag_include_vp is 1: 
-       vp_matrix = [1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,30,40,50,60]
+       #vp_matrix = [1,2,3,4,5,6,7,8,9,10,12,14,16]
        #vp_matrix = [1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,30,40,50,60,70,80,90,100,120,140,160,180,200]
        #vp_matrix = [1,2,9]
        for i in vp_matrix:
@@ -194,23 +196,33 @@ if __name__ == "__main__":
        print(os.getcwd())
        add_slide_ze(maxfilepath,total_filename_pptx)
 
+    if flag_include_Qkappa is 1:  
+       Qkappa_matrix = vp_matrix
+       for i in Qkappa_matrix:
+           Qkappa_filename='output/Qkappa_%04d.png' % i 
+           print Qkappa_filename
+           add_slide_ze(Qkappa_filename,total_filename_pptx)
+
+       # max filename only    
+       os.chdir('output')
+       print(os.getcwd())
+       maxfile=max(glob.glob("Qkappa*.png"))
+       # maxfile with relative path
+       maxfilepath='output/'+maxfile
+    
+       print maxfilepath
+       os.chdir('..') 
+       print(os.getcwd())
+       add_slide_ze(maxfilepath,total_filename_pptx)
+
+
+
+
     seismo_matrix = [0]
 
 
-#    for i in seismo_matrix:
-#      	seismo_filename='output/traces/obs_event_%06d.png' % i 
-#        print seismo_filename
-#        add_slide_ze(seismo_filename,total_filename_pptx,left_start=2, top_start=0.1, width=4,height=6)
-#        
-#        seismo_filename='output/traces/syn_event_%06d.png' % i 
-#        print seismo_filename
-#        add_slide_ze(seismo_filename,total_filename_pptx,left_start=2, top_start=0.1, width=4,height=6)
-#
-#        seismo_filename='output/traces/last_adj_event_%06d.png' % i 
-#        print seismo_filename
-#        add_slide_ze(seismo_filename,total_filename_pptx,left_start=2, top_start=0.1, width=4,height=6)
-    prop = 'pres'
-    
+    prop='pres'
+    #print 'prop' + prop 
     for i in seismo_matrix:
 	#seismo_filename='output/traces/obs_event_%06d.png' % i 
 
@@ -236,6 +248,22 @@ if __name__ == "__main__":
            add_slide_ze(seismo_filename,total_filename_pptx,left_start=2, top_start=0.1, width=4,height=6)
            seismo_filename="./output/traces/last_adj_%s_event_%06d.png" % (prop,i)
            add_slide_ze(seismo_filename,total_filename_pptx,left_start=2, top_start=0.1, width=4,height=6)
+
+#iter_matrix = [1,2,3]
+iter_matrix = vp_matrix 
+#iter_matrix = [1,2,3,4,5,6,7,8,9,10,11]
+source_matrix = [0]
+rec_matrix = [0,30,60,90]
+for source_num in source_matrix:   
+   for receiver_num in rec_matrix:  
+      for iter_num in iter_matrix:
+         OUTPUT_FILES_path = "./output/traces_%04d/" % (iter_num)
+         load_signals_seisflows_png = OUTPUT_FILES_path + 'one_signal_src%d_rec%d.png' % (source_num,receiver_num)
+         add_slide_ze(load_signals_seisflows_png,total_filename_pptx,left_start=2, top_start=0.1, width=7,height=5) 
+         #execfile('zplot_signals_one_iter_one_source.py')
+
+
+
 
     #print maxfile
 

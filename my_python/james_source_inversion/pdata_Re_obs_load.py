@@ -23,10 +23,11 @@ with open(save_Re_obs_pickledump_fn,'rb') as handle:
 load_Re_para = para_struct('load_Re_para')
 flag_Re_syn_type=1; load_Re_para.flag_Re_syn_type = flag_Re_syn_type
 
-syn_Re_file = 'Up_sp_mid_20181130_istf_fan7_350k_650k_f0500000_DT4d_8'
+#syn_Re_file = 'Up_sp_mid_20181130_istf_fan7_350k_650k_f0500000_DT4d_8'
 #syn_Re_file = 'Up_sp_lg_20181130_z2istf_delay_adjusted_trstar090_trend091_abs_chi_f03500000_DT4d_9'
-#syn_Re_file = 'Up_csic_tbd_chi_f02000000_DT4d_9'
-#syn_Re_file = 'Up_csic_tbd_pres_f02000000_DT4d_9'
+#syn_Re_file = 'Up_sp_istf_watt2Q100_f0500000'
+syn_Re_file = 'Up_sp_2100Rez2istf_trstar089_trend090_woatt4_f03500000'
+#syn_Re_file = 'Up_sp_2100z5istf_trstar089_trend090_woatt4_f03500000'
 
 sig_comp_folder = str_savefold + '/' + syn_Re_file
 
@@ -69,6 +70,8 @@ load_Re_para.save_evaluate_stfsff_firstpart_fn=save_evaluate_stfsff_firstpart_fn
 
 save_filterd_data_trace_firstpart_fn = sig_comp_folder + '/filt_data'
 load_Re_para.save_filterd_data_trace_firstpart_fn=save_filterd_data_trace_firstpart_fn
+
+#total_filename_pptx = load_para.total_filename_pptx
 
 textplot(load_Re_para,save_parafile_loadRedata,flag_close=0)
 add_slide_ze(save_parafile_loadRedata,total_filename_pptx)
