@@ -534,6 +534,25 @@ forrtl: severe (38): error during write, unit 41, file /scratch/gpfs/jiazeh/seis
 
 srun: error: s_p_parse_file: unable to status file /etc/slurm/slurm.conf: No such file or directory, retrying in 1sec up to 60sec
 
+#### the MPIEXEC missing in parameters.py 
+*** An error occurred in MPI_Init
+*** on a NULL communicator
+*** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+***    and potentially your MPI job)
+[tiger-i26c2n7:3955] Local abort before MPI_INIT completed successfully; not able to aggregate error messages, and not able to guarantee that all other processes were killed!
+##solution: the following line is needed in parameters.py. 
+   8 MPIEXEC='srun --wait=0 --ntasks=1 --nodes=1 '
+
+######################## common errors with GPU, ########### seisflows
+
+Generating data
+srun: Job step aborted: Waiting up to 47 seconds for job step to finish.
+slurmstepd: error: *** STEP 2043301.1 ON tiger-i21g7 CANCELLED AT 2019-01-06T13:04:33 ***
+srun: error: tiger-i21g7: task 0: Exited with exit code 30
+srun: Terminating job step 2043301.1
+### causes 
+
+### solution
 
 
 

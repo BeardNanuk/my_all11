@@ -477,6 +477,30 @@ xspecfem2D         00000000006C7414  Unknown               Unknown  Unknown
 ### reduce dt 
 
 
+#### #### specfem for cpu 
+(obspy) [jiazeh@tigercpu specfem2d]$ cat slurm-2064697.out 
+/scratch/gpfs/jiazeh/specfem2d
+cmdModule.c(567):ERROR:50: Cannot open file '/usr/local/share/Modules/modulefiles/cudatoolkit/9.2' for 'reading'
+Currently Loaded Modulefiles:
+  1) intel-mkl/11.3.4/4/64          3) openmpi/intel-16.0/1.10.2/64
+  2) intel/16.0/64/16.0.4.258
+
+### causes not quite sure the following has been done 
+# 1. not to be conflict with the specfem gpu job
+$  mv parallelgpu parallelcpu
+# 2. comment out 
+$ (obspy) [jiazeh@tigercpu specfem2d]$ vi parallelcpu 
+$  15 #module load cudatoolkit/9.2
+# 3. remove a space before after '='
+$ (obspy) [jiazeh@tigercpu specfem2d]$ vi DATA/SOURCE
+ 2 xs = -0.0947900
+# 4. reduce the mesh back from 300 to 800 
+# so maybe one core too small for the mesh size
+# the 4th is the cause !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
 
 
  

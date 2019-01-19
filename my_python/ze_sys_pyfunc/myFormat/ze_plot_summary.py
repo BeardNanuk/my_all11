@@ -66,9 +66,10 @@ def textplot(struct_variable,filename=None,flag_close=None,flag_save_fig=None):
        ###ax.text(0.3, 9.7-offset,textwrap.shorten(str_temp, 110), fontsize=11)
         if (i < 35):
            ax.text(0.3, 9.7-offset, str_temp, fontsize=9)
-        else:
-           ax.text(5.3, 9.7-offset+35*spc, str_temp, fontsize=9)
- 
+        elif (35 <= i < 70):
+           ax.text(3.8, 9.7-offset+35*spc, str_temp, fontsize=9)
+	else: 
+           ax.text(7.3, 9.7-offset+70*spc, str_temp, fontsize=9)
 
     ax.axis([0, 10, 0, 10])
     #plt.axis('off')

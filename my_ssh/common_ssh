@@ -35,16 +35,18 @@ module avail
 # unload all module 
 module purge
 # previous to startign to run specfem2d, especially when switch from GPU to CPU mode, or vise versa
-module load cudatoolkit/9.2 intel/16.0/64/16.0.4.258 openmpi/intel-16.0/1.10.2/64
+#module load cudatoolkit/9.2 intel/16.0/64/16.0.4.258 openmpi/intel-16.0/1.10.2/64
+module load intel/16.0/64/16.0.4.258 openmpi/intel-16.0/1.10.2/64
 # git pull specfem2d 
 git clone --recursive --branch devel https://github.com/geodynamics/specfem2d.git
 # copy the job submitter for tigercpu (equavalent to launch_specfem.sh)
 mv ../parallel ./
 # check again to see if all wantted modules have been loaded. 
 module list 
-#compile with mpi only (will be with cuda for gpu nodes later one)
 # clean the related files for old specfem2d installation 
 make realclean
+#compile with mpi only (will be with cuda for gpu nodes later one)
+./configure FC=gfortran --with-mpi # for large mesh size
 
 # make
 make -j
@@ -167,6 +169,7 @@ Connection to tigercpu closed.
   100  make realclean
   101  make -j
 ## vi parallel
+make xcombine_sem
 
 #SBATCH --nodes=1
 #SBATCH -t 0:59:00
@@ -207,6 +210,16 @@ Next, run the Dropbox daemon from the newly created .dropbox-dist folder.
 
 ~/.dropbox-dist/dropboxd
 
+
+
+########### more advanced slurmtop ####################
+
+### check slurm cores 
+$ lscpu
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                40
 
 
 

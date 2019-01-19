@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+#NE=000000
+#su_dir=./scratch/solver/$NE/traces
+#prop=disp
+#./savesismo "$su_dir/obs/Ux_file_single.su" -save="./output/traces/obs_${prop}_x_event_${NE}.png" > /dev/null &
+
+./zpara_headers
+
+        echo 'count ='$count
+        if [ "$count" -eq 0 ] 
+        then 
+        #if (( $count -eq 0 )); then
+        echo 'nothing'
+        else
+        echo $count
+        rm ./output/*.png
+        fi
+
+

@@ -1,0 +1,155 @@
+#!/bin/bash 
+
+### generate images from bin files automatically, in parallel 
+## Creation time: Tue Jun 11 15:59:47 UTC 2018
+## Revision time: 
+## Sat Nov 24 17:59:23 EST 2018 
+## updates: cleaner way to plot seismo pressure
+
+
+## Jiaze He, jiazeh@princeton.edu
+
+
+
+traces_DIR=traces
+
+if [ -d "$traces_DIR" ]; then
+    echo 'nothing'
+  else
+    echo 'make a folder'
+    mkdir "./output/$traces_DIR"
+fi
+
+
+############## parameter grebbing ################
+. ./zpara_headers
+
+#. ztemp
+
+rm ./output/*.png
+
+#        echo 'count ='$count
+#        if [ "$count" -eq 0 ] 
+#        then 
+#        #if (( $count -eq 0 )); then
+#        echo 'nothing'
+#        else
+#        echo $count
+#        rm ./output/*.png
+#        fi
+echo 'count again:', $count
+echo 'Elastic or acoustic:', $AC_or_El
+echo 'equal ? ', ["$AC_or_El" -eq "$str"]
+############## Plot the seismograms ################
+
+	for n_event in `seq 0 $Nevent` ; do
+		NE="$(printf "%06d" $n_event)"
+		echo 'the number of events for seimography generation is '$NE
+                su_dir=./scratch/solver/$NE/traces
+                prop=pres
+                echo 'AC_or_El:', $AC_or_El
+                
+                #if [ "$AC_or_El" -eq "Elastic" ]
+                if [ "$flag_elastic" -eq "2" ]
+                then
+                pngfile="./output/traces/obs_${prop}_x_event_${NE}.png"
+                seistitle="obs_${prop}_x_event_${NE}"
+                ./psavesismo "$su_dir/obs/Ux_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null & 
+                pngfile="./output/traces/obs_${prop}_z_event_${NE}.png"
+                seistitle="obs_${prop}_z_event_${NE}"
+                ./psavesismo "$su_dir/obs/Uz_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null & 
+
+                pngfile="./output/traces/syn_${prop}_x_event_${NE}.png"
+                seistitle="syn_${prop}_x_event_${NE}"
+                ./psavesismo "$su_dir/syn/Ux_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null &
+                pngfile="./output/traces/syn_${prop}_z_event_${NE}.png"
+                seistitle="syn_${prop}_z_event_${NE}"
+                ./psavesismo "$su_dir/syn/Uz_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null &
+
+                pngfile="./output/traces/last_adj_${prop}_x_event_${NE}.png"
+                seistitle="last_adj_${prop}_x_event_${NE}"
+                ./psavesismo "$su_dir/adj/Ux_file_single.su.adj" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null &
+                pngfile="./output/traces/last_adj_${prop}_z_event_${NE}.png"
+                seistitle="last_adj_${prop}_z_event_${NE}"
+                ./psavesismo "$su_dir/adj/Uz_file_single.su.adj" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null &
+
+                else
+
+                pngfile="./output/traces/obs_${prop}_event_${NE}.png"
+                seistitle="obs_${prop}_event_${NE}"
+                ./psavesismo "$su_dir/obs/Up_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null & 
+
+                pngfile="./output/traces/syn_${prop}_event_${NE}.png"
+                seistitle="syn_${prop}_event_${NE}"
+                ./psavesismo "$su_dir/syn/Up_file_single.su" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null & 
+
+                pngfile="./output/traces/last_adj_${prop}_event_${NE}.png"
+                seistitle="last_adj_${prop}_event_${NE}"
+                ./psavesismo "$su_dir/adj/Up_file_single.su.adj" -save=$pngfile -c=$Clip_percent -t=$seistitle -xint=$Xint -yint=$Yint > /dev/null & 
+
+
+
+#                ./savesismo ./scratch/solver/$NE/traces/obs/Up_file_single.su -save=./output/traces/obs_event_$NE.png -c=$Clip_percent -xint=$Xint -yint=$Yint > /dev/null & 
+#                ./savesismo ./scratch/solver/$NE/traces/syn/Up_file_single.su -save=./output/traces/syn_event_$NE.png -c=$Clip_percent -xint=$Xint -yint=$Yint > /dev/null &
+#                ./savesismo ./scratch/solver/$NE/traces/adj/Up_file_single.su.adj -save=./output/traces/last_adj_event_$NE.png -c=$Clip_percent -xint=$Xint -yint=$Yint > /dev/null &               
+                fi
+	done
+	wait
+
+########################## Plot the seismograms ################
+
+
+
+############## Plot the models ################
+
+# i.e., 3 jobs each loop, then total jobs perchuck is 3*jobs_perchuck = 30; this number
+############# Plot the models ################
+# should be larger than the number of cores (to make the most use of the computer)
+# should also be small enough to make the computers memory not blow up
+
+#        if [ "$AC_or_El" == "$str" ]
+#        then
+#        echo 'vp lssajflsjdsjkdfk'
+#############. ./zplotallmodel vp > zplotall_log.txt
+####        ./zplotallmodel 'vs' > zplotall_log2.txt
+#        else
+#        ./zplotallmodel 'vs'
+#        fi
+########################## Plot the models ################
+
+echo 'number of time steps is '$NSTEP 
+echo 'bk path is '$foldname_for_results_saving
+#./Printgllmap model_init/ vp
+echo "plotting png has been completed"
+
+#cp -fr "$foldname_for_results_saving" "$foldname_for_results_saving"/
+#rsync -av --progress ./* "$foldname_for_results_saving"/ --exclude "$foldname_for_results_saving"/
+
+
+#python zauto_results
+#. zcopy_files
+#. zbksmall
+
+
+# cp -r output/ "$foldname_for_results_saving"/ &
+# cp -r output.stats/ "$foldname_for_results_saving"/ &
+# cp -r specfem_data/ "$foldname_for_results_saving"/ &
+# cp -r z* "$foldname_for_results_saving"/ &
+# cp -r p* "$foldname_for_results_saving"/ &
+# cp -r v* "$foldname_for_results_saving"/ &
+# cp -r sa* "$foldname_for_results_saving"/ &
+# cp -r p* "$foldname_for_results_saving"/ &
+
+#echo "copying files has been completed"
+#cp -r output/* yyoutput/newoutput/
+#for i in `seq 0 $Nit`;
+#do
+#    #dirname=./output/model_0001
+#    dirname=$(printf "./output/model_%04d" $i)
+#    filenames2=_vp
+#    fullp=$dirname/proc000000$filenames2.bin
+#    echo $fullp
+#    #vi $fullp	
+#    ./zplotbin $dirname 'vp' $i
+#    #./zplotbin $dirname '*' $i 
+#done

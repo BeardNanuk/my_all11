@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "copy all files in current folder to jiazeh@tigergpu:/home/jiazeh/temp"
+
+eval scp -r $1 jiazeh@tigergpu:/scratch/gpfs/jiazeh/temp
+#scp -r ./* jiazeh@paris:/home/jiazeh/temp

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# array shape 1 for 4linear arrays; 2 for ring 
+# wrap code for generate new vp mask, using x,z in model_init
+
+# created by Jiaze He
+# created on Sat Nov 24 17:59:23 EST 2018
+
+# revised on Sat Nov 24 17:59:23 EST 2018
+# include ./Printgllmap
+
+flag_shape=2 
+
+echo 'flag_shape', $flag_shape
+if [ $flag_shape -eq 1 ];then 
+	echo 'hey'
+        #ifort cree_masque.f90 -o cree_masque_exe
+        gfortran cree_masque.f90 -o cree_masque_exe
+        ./cree_masque_exe
+        ./plotvp mask/
+        xdg-open vp.png
+elif [ "$flag_shape" -eq 2 ];then
+        ifort cree_masque_ring.f90 -o cree_masque_try_exe
+        #gfortran cree_masque_ring.f90 -o cree_masque_try_exe
+        ./cree_masque_try_exe
+        #./plotvp mask/
+        ./printgllmap mask vp
+#        ./printgllmap mask Qkappa
+        xdg-open vp.png
+        echo '22'
+elif [ "$flag_shape" -eq 3 ];then
+        #ifort cree_masque_ring.f90 -o cree_masque_try_exe
+        gfortran cree_vp_circles.f90 -o cree_vp_circles_exe
+        ./cree_vp_circles_exe
+        ./printgllmap model_create vp
+        xdg-open vp.png
+        echo '32'
+else
+        #ifort cree_masque_ring.f90 -o cree_masque_try_exe
+        gfortran cree_Qkappa_circles.f90 -o cree_Qkappa_circles_exe
+        ./cree_Qkappa_circles_exe
+        ./printgllmap model_create Qkappa
+        xdg-open Qkappa.png
+        echo '42'
+fi
+
+#gfortran cree_masque_ring.f90 -o cree_masque_try_exe
+#./cree_masque_try_exe
