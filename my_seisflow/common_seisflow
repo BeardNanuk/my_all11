@@ -543,18 +543,80 @@ srun: error: s_p_parse_file: unable to status file /etc/slurm/slurm.conf: No suc
 ##solution: the following line is needed in parameters.py. 
    8 MPIEXEC='srun --wait=0 --ntasks=1 --nodes=1 '
 
-######################## common errors with GPU, ########### seisflows
 
+#### the MPIEXEC wrong error 
 Generating data
 srun: Job step aborted: Waiting up to 47 seconds for job step to finish.
 slurmstepd: error: *** STEP 2043301.1 ON tiger-i21g7 CANCELLED AT 2019-01-06T13:04:33 ***
 srun: error: tiger-i21g7: task 0: Exited with exit code 30
 srun: Terminating job step 2043301.1
+
+in cat first_specfem_run.log 
+
+ Error: number of processors supposed to run on:            2
+ Error: number of MPI processors actually run on:            1
+ 
+ wrong number of MPI processes, must always have NPROC == nproc_read_from_databa
+ se
+ Error detected, aborting MPI... proc            0
+
 ### causes 
+this is because 
+  8 MPIEXEC='srun --wait=0 --ntasks=1 --nodes=1 '
+is for specfem calling, which means when you have NPROC=2, ntasks_needs to be 2 
+
+./solver/specfem2d_new.py:161:        call_solver(system.mpiexec(), 'bin/xmeshfem2D')
+./solver/specfem2d_new.py:162:        call_solver(system.mpiexec(), 'bin/xspecfem2D')
+./solver/specfem2d_new.py:165:            call_solver(system.mpiexec(), 'bin/xspecfem2D')
+./solver/specfem2d_new.py:186:        call_solver(system.mpiexec(), 'bin/xmeshfem2D')
+./solver/specfem2d_new.py:188:        call_solver(system.mpiexec(), 'bin/xspecfem2D')
+./solver/specfem2d_new.py:202:        call_solver(system.mpiexec(), 'bin/xspecfem2D')
+
+# for seisflows submision 
+(obspy) [jiazeh@tigercpu seisflows]$ vi system/slurm_sm_ze.py
+116                 + '--ntasks-per-node=40 ' # % ntasks
+this is where number of cpu per node got asked
+
+
 
 ### solution
+  8 MPIEXEC='srun --wait=0 --ntasks=2 --nodes=1 '
 
 
+##### the nproc mismatch error 
+srun: error: tiger-h21c2n14: tasks 0-1: Exited with exit code 24
+srun: Terminating job step 2103932.139
+
+(obspy) [jiazeh@tigercpu 000001]$ cat first_specfem_run.log 
+
+ Mesh dimensions:
+   Xmin,Xmax of the whole mesh =  -2.000000000000000E-002
+  2.000000000000000E-002
+   Zmin,Zmax of the whole mesh =  -2.000000000000000E-002
+  2.000000000000000E-002
+ 
+ Assigning an external velocity and density model
+   model: binary
+   reading external files: DATA/proc*****_rho.bin, .._vp.bin, .._vs.bin
+
+### causes 
+nproc in specfem_data/Par_file not equal to nproc in parameters.py
+
+the number of sources NSRC does not matter 
+the number of NTASK matter, and just put NTASKMAX=(the number src you want to use)
+the number of NSRC = NTASK, and in slurm_sm_ze.py, manully set the number of the cores per node
+
+### solution 
+make these two the same
+
+
+
+
+
+
+
+
+######################## common errors with GPU, ########### seisflows
 
 
 ############### for gpu mode working for inversion 

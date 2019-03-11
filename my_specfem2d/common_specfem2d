@@ -498,10 +498,23 @@ $ (obspy) [jiazeh@tigercpu specfem2d]$ vi DATA/SOURCE
 # so maybe one core too small for the mesh size
 # the 4th is the cause !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+  489 Computing search direction
+  490 Computing step length
+  491 /scratch/gpfs/jiazeh/seisflows/seisflows/optimize/base.py:158: RuntimeWarning: divide       by zero encountered in double_scalars
+  492   PAR.STEPLENMAX*norm_m/norm_p
+  493 /scratch/gpfs/jiazeh/seisflows/seisflows/plugins/line_search/bracket.py:31: RuntimeWa      rning: divide by zero encountered in double_scalars
+  494   alpha = gtg[-1]**-1
+  495 /scratch/gpfs/jiazeh/seisflows/seisflows/optimize/base.py:165: RuntimeWarning: divide       by zero encountered in double_scalars
+  496   alpha = PAR.STEPLENINIT*norm_m/norm_p
+  497 /scratch/gpfs/jiazeh/seisflows/seisflows/optimize/base.py:169: RuntimeWarning: invali      d value encountered in multiply
+  498   self.save('m_try', np.clip(m + alpha*p,10,10000))
+  499  trial step 1
 
+solution: check adj source
 
 
 
 
  
+
 

@@ -1,0 +1,29 @@
+#!/bin/sh
+''''exec python -W ignore -- "$0" "$@" # '''
+
+# revised by Jiaze He 
+# revised on Fri Dec  7 12:26:13 EST 2018
+# add colorbar formatting, tick control 
+
+execfile('zplotgll_libload.py')
+
+if __name__ == '__main__':
+    """ Plots data on 2-D unstructured mesh
+
+    Reads mesh coordinates from first two columns of text file and data from
+    subsequent columns, computes Delaunay triangulation, and plots data
+    using matplotlib.
+
+    In particular, can be used to plot kernels and models output from SPECFEM2D
+    on unstructured GLL bases.
+    """
+
+    #args = getargs()
+
+    dirname = sys.argv[1]
+    par = sys.argv[2]
+#    K = sys.argv[3]
+#    K = sys.argv
+    execfile('zplotgll_common_parts.py')
+    pylab.title(par,size=30)
+    plt.savefig(par +'.png')

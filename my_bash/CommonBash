@@ -385,6 +385,8 @@ grep -n 'wo..' let_vim_do_the_typing
 grep -n ^'[cs]' let_vim_do_the_typing
 # find all lines containing all files 
 grep -nr 'mkdir' ./*
+# find only lines that contain your target word as a complete word. 
+grep -w hub /usr/dict/words
 
 ### sed 
 ## substitute 
