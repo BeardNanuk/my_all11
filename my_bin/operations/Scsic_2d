@@ -18,12 +18,13 @@ foldername=$(echo "${PWD##*/}")
 #foldername="csic_f78_90_f0${intf0}_DT${D_T}"
 echo 'foldername='$foldername
 # the folder to copy observed data from...
-from_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/james_source_inversion/att_csic"
+from_dir="$HOME/Desktop/d/fwi_csic_fullsize"
+#from_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/james_source_inversion/att_csic"
 
 from_full_dir=$(printf "${from_dir}/${foldername}")
 
 # the inversion_test folder to hold the data
-to_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/james_source_inversion/obf/input"
+to_dir="$HOME/Desktop/my_files/py2project/pythonvenv_playground/prusct_wd/obf/input"
 
 if [ $flag_Uaxis_number -eq 1 ]
 then 
@@ -38,9 +39,9 @@ echo 'temp_from'$temp_from
 echo 'temp_to'$temp_to
 eval cp $temp_from $temp_to
 
-temp_from="$from_full_dir/OUTPUT_FILES/plot_source_time_function.txt"
-temp_to="${to_dir}/stf_${foldername}"
-eval cp $temp_from $temp_to
+#temp_from="$from_full_dir/OUTPUT_FILES/plot_source_time_function.txt"
+#temp_to="${to_dir}/stf_${foldername}"
+#eval cp $temp_from $temp_to
 
 
 #cp Up_file_single.su /home/jiazeh/Deskto y_files/py2prop/ject/pythonvenv_playground/james_source_inversion/obf/input/Up_tbd_81_96_f05000000.su

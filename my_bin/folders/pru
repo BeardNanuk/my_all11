@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "switch to the path and folder to /home/jiazeh/Desktop/my_files/py2project/pythonvenv_playground/prusct_wd venv environment"
+
+final_dir=$HOME/Desktop/my_files/py2project/pythonvenv_playground/prusct_wd
+
+cd $final_dir
+

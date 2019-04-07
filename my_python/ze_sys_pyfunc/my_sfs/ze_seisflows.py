@@ -116,3 +116,17 @@ def zplot_signals_one_iter_one_source(iter_num,source_num, rec_matrix,save_sig_p
     obs_data = load_su2np(INPUT_path,'obs',source_num)
     zplot_signals_one_src_all_rec(iter_num,source_num, rec_matrix, obs_data, OUTPUT_FILES_path,INPUT_path,save_sig_plot_para_pickledump_fn)
 
+def zplot_signals_one_iter_one_source2(data=np.random.rand(11, 11),iter_num=0,idir= ' ', odir= ' ',\
+                                       source_num=0, rec_matrix=[0], flag_given_dir=1, \
+                                       save_sig_plot_para_pickledump_fn=' '):
+    global processes
+    if flag_given_dir is 0: 
+        idir = "./output/traces_%04d/" % (iter_num)
+        odir = "./output/traces_%04d/" % (iter_num)
+
+    process_id = os.getpid()
+    print("Porcess ID: " + str(process_id))
+    #obs_data = load_su2np(idir,'obs',source_num)
+    zplot_signals_one_src_all_rec(iter_num,source_num, rec_matrix, data,odir,idir,save_sig_plot_para_pickledump_fn)
+
+

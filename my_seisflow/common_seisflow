@@ -609,7 +609,20 @@ the number of NSRC = NTASK, and in slurm_sm_ze.py, manully set the number of the
 ### solution 
 make these two the same
 
+##### the out of memory errors
+in output.log
+ 82 [tiger-h19c2n21:23412] *** Process received signal ***
+ 83 [tiger-h19c2n21:23414] *** Process received signal ***
+ 84 [tiger-h19c2n21:23412] Signal: Bus error (7)
+ 85 [tiger-h19c2n21:23412] Signal code: Non-existant physical address (2)\
+210 slurmstepd: error: Detected 1 oom-kill event(s) in step 2328843.35 cgroup. Some of your     processes may have been killed by the cgroup out-of-memory handler.
+211 slurmstepd: error: Detected 1 oom-kill event(s) in step 2328843.46 cgroup. Some of your     processes may have been killed by the cgroup out-of-memory handler.
+212 srun: error: tiger-h19c2n21: task 0: Out Of Memory
+213 srun: Terminating job step 2328843.35
+214 srun: error: tiger-h19c2n21: task 0: Out Of Memory
 
+
+#### solution - reduce the NTASKMAX
 
 
 
@@ -807,6 +820,30 @@ vi /home/jiazeh/seisflows/seisflows/plugins/adjoint.py
 
 ##### when line search failed 2 - many trials with smaller and smaller step lengths, i
 ### see if source and receiver numbers are correct
+
+
+##### the no-output errors with GPU - 
+ÿ (obspy) [jiazeh@tigergpu inversion_test_gpu]$ cat output.optim
+696       ITER     STEPLEN      MISFIT
+697 ==========  ==========  ==========
+698          1   0.000e+00   0.000e+00
+699                    inf   0.000e+00
+700 all sismograms empty
+
+###### causes 
+695 (obspy) [jiazeh@tigergpu inversion_test_gpu]$ cat output.optim
+696       ITER     STEPLEN      MISFIT
+697 ==========  ==========  ==========
+698          1   0.000e+00   0.000e+00
+699                    inf   0.000e+00
+700 all sismograms empty
+
+###### solution: 
+
+change seismotype from 6 to 4 
+
+
+
  
 
 ##################################### tricks ###############################

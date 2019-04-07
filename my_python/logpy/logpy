@@ -1,0 +1,31 @@
+create on Sun Mar 31 12:53:55 UTC 2019
+created by Jiaze He 
+### record your input for python related code 
+Sun Mar 31 12:54:30 UTC 2019
+let's start
+Sun Mar 31 22:27:12 UTC 2019
+/home/jiazeh/Desktop/my_files/py2project/pythonvenv_playground/prusct_wd
+
+(obspy) [jiazeh@paris prusct_wd]$ ls
+bk_temp  jp_mainpy_dev.ipynb  mainpy.py  obf  paths.py  wrapper_mainpy.sh
+
+(obspy) [jiazeh@paris my_sfs]$ vi ze_plot_section.py
+
+def plot_section_steps(data=np.random.rand(11, 11), clip=100, title='', dt = 5e-8, \
+                       y_star = 0, y_end = 11, x_interval=1.0, y_interval=100.0, \
+                       fraction_val=0.06, pad_val=0.04,cmap='seismic',\
+                       fsize = 6,scale_factor = 1.5,fig_filename='',flag_savepng=0):
+
+
+### now need to change 
+#(obspy) [jiazeh@paris my_sfs]$ vi ze_seisflows.py
+#
+# To make it adaptable to 
+#
+def zplot_signals_one_iter_one_source(iter_num,source_num, rec_matrix,save_sig_plot_para_pickledump_fn):
+    global processes
+
+
+
+
+

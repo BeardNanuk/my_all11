@@ -154,7 +154,8 @@ II:^xo
 ## vim formatting 
 # add the following line to ~/.vimrc 
 set background=dark
-
+# add comments 
+" this is a comment in vimrc. It does not have a closing quote 
 
 
 

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "open my developmental log for python"
+
+filename=$HOME/Desktop/my_files/my_python/logpy/logpy
+
+date >> $filename 
+
+vi $filename
+

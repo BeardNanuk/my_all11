@@ -1,4 +1,4 @@
-#!/bin/bash
+#!bin/bash
 
 If you would like to work in an isolated environment (which is strongly recom‐
 mended so you can work on different projects without having conflicting library ver‐
@@ -49,7 +49,9 @@ zip -r compressed_filename.zip foldername
 sudo apt-get update && sudo apt-get upgrade
 
 
-
+## top to have user info on a computing node 
+ssh tiger-i26c1n1
+top U jiazeh
 
 ###### google cloud computing related 
 https://console.cloud.google.com/compute/instances?project=cosmic-sensor-177719
@@ -373,6 +375,9 @@ find ./ -type d -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
 
 # list all files in full path under current_dir 
 ls -lrt -d -1 $PWD/{*,.*} 
+
+# full time
+ls --full-time
 
 # how to find if something exits
 grep 'gridfile.gnu' ./src/*/*

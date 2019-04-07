@@ -335,6 +335,16 @@ fig.show()
 plt.xlabel(r'time ($\mu s$)')
 
 
+
+##### making the figure not running on backend, 
+### insert the following lines before anything matplotlib functions are called 
+
+import matplotlib
+matplotlib.use('Agg')
+
+
+
+
 ############################################################ MatPlotLib Basics #####
 
 
@@ -1180,6 +1190,12 @@ print('Test accuracy:', acc)
 
 ##### &&& python general #######################################################################
 
+
+## activate help mode
+>>> help()
+
+###
+
 # data type 
 type(Y)
 
@@ -1283,6 +1299,9 @@ npfrom_matfile2 = matfile2['fan_beam_scan_full']
 type(npfrom_matfile2)
 
 
+## 
+""" This is how you to multiple """" 
+## 
 
 
 
@@ -1372,7 +1391,16 @@ if os.path.exists(dir):
    shutil.rmtree(dir)
 os.makedirs(dir)  
 
+## error free way to create a folder
 
+    ://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory-in-pythonter_matrix = [1,2,3,4,5,6,7,8,9]
+import os, errno
+
+try:
+    os.makedirs(directory)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
 
 
 
@@ -1499,3 +1527,8 @@ ts3.index = pd.to_datetime(ts3.index)
 ### when module loading not working, restart kernels in jupyter notebook
 
 
+##### &&& package management ###################################################################
+ 
+################################################################### package management #####
+
+conda install -c conda-forge python-pptx
