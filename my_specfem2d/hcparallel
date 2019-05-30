@@ -1,0 +1,44 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH -t 0:41:00
+#SBATCH --ntasks-per-node=40
+##SBATCH --gres=gpu:4
+
+
+#cd $SBATCH_O_WORKDIR 
+cd $HOME/specfem2d/
+
+echo `pwd`
+module purge
+module load intel/16.0/64/16.0.4.258   
+module load openmpi/intel-16.0/1.10.2/64
+#module load cudatoolkit/9.2
+
+module list
+
+NPROC=40 
+#rm outputmesher
+rm OUTPUT_FILES/*
+# creates and decomposes mesh
+echo
+echo "running mesher..."
+echo
+mpirun -n 1  ./bin/xmeshfem2D >> jmeshercpu
+
+rm outputsolver*
+# runs simulation
+echo
+echo "  running solver..."
+echo
+
+mpirun -n $NPROC ./bin/xspecfem2D >> ksolvercpu
+
+#mpirun -n $NPROC ./bin/xsmooth_sem 0.002 0.002 Qkappa ./DATA/ ./model T
+#mv ./model/proc000000_vp_smooth.bin ./model/proc000000_vp.bin 
+
+echo
+echo "see results in directory: OUTPUT_FILES/"
+echo
+echo "done"
+date
+

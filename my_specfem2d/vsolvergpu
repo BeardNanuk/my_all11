@@ -1,0 +1,2263 @@
+ 
+ **********************************************
+ **** Specfem 2-D Solver - MPI version     ****
+ **********************************************
+ 
+ Running Git version of the code corresponding to 
+ commit 19a7785ee0f59aa95c161f322db3420e4888375b
+ dating From Date:   Fri Jun 22 17:18:12 2018 +0200
+ 
+ There are            1  MPI processes
+ Processes are numbered from 0 to            0
+ 
+ There is a total of            1  slices
+ 
+ 
+ NDIM =            2
+ 
+ NGLLX =            5
+ NGLLZ =            5
+ 
+ using single precision for the calculations
+ 
+ smallest and largest possible floating-point numbers are:   1.1754944E-38
+  3.4028235E+38
+
+
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ Program SPECFEM2D: 
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ Test of SPECFEM2D with curved interfaces
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ D a t e : 27 - 05 - 2019                                 T i m e  : 16:55:35
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+
+
+ C o n t r o l
+ =============
+
+     Number of spectral element control nodes. . .(npgeo) =    3721
+     Number of space dimensions. . . . . . . . . . (NDIM) =       2
+
+
+ C o n t r o l
+ =============
+
+     Display frequency . . . .(NSTEP_BETWEEN_OUTPUT_INFO) =  30000
+     Color display . . . . . . . . . . . . . . . (colors) =      1
+      == 0     black and white display              
+      == 1     color display                        
+     Numbered mesh . . . . . . . . . . . . . . .(numbers) =      0
+      == 0     do not number the mesh               
+      == 1     number the mesh                      
+
+
+ C o n t r o l
+ =============
+
+     Seismograms recording type . . . . . . .(seismotype) =      6
+     Angle for first line of receivers. . . . .(anglerec) =   0.00
+
+
+ C o n t r o l
+ =============
+
+     Read external initial field. . . . . .(initialfield) =      F
+     Add Bielak conditions (add_Bielak_conditions_bottom) =      F
+     Add Bielak conditions .(add_Bielak_conditions_right) =      F
+     Add Bielak conditions . .(add_Bielak_conditions_top) =      F
+     Add Bielak conditions. .(add_Bielak_conditions_left) =      F
+     Attenuation in solid . . .(ATTENUATION_VISCOELASTIC) =      F
+     Attenuation in fluid . . (ATTENUATION_VISCOACOUSTIC) =      F
+     Save grid in ASCII file or not . (output_grid_ASCII) =      F
+     Save a file with total energy or not.(OUTPUT_ENERGY) =      F
+
+
+ C o n t r o l
+ =============
+
+     Vector display type . . . . . . . . .(imagetype_postscript) =      1
+     Percentage of cut for vector plots. . . . . . . .(cutsnaps) =   1.00
+     Subsampling of velocity model display. (subsamp_postscript) =      1
+
+
+ I t e r a t i o n s 
+ ===================
+
+     Number of time iterations . . . . .(NSTEP) =    1000
+     Time step increment. . . . . . . . . .(DT) =   4.000000E-08
+     Total simulation duration . . . . . (ttot) =   4.000000E-05
+ 
+ GPU_MODE Active.
+ GPU number of devices per node: min =           1
+                                 max =           1
+ 
+
+
+     Source Type. . . . . . . . . . . . . . = Collocated Force
+     X-position (meters). . . . . . . . . . =    1.7000000000E-02
+     Y-position (meters). . . . . . . . . . =    0.0000000000E+00
+     Fundamental frequency (Hz) . . . . . . =    3.0000000000E+05
+     Time delay (s) . . . . . . . . . . . . =    0.0000000000E+00
+     Multiplying factor . . . . . . . . . . =    1.0000000000E+03
+     Angle from vertical direction (deg). . =    0.0000000000E+00
+
+     Onset time. . . . . . =  -4.000000000000000E-006
+     Fundamental period. . =   3.333333333333333E-006
+     Fundamental frequency =    300000.000000000     
+     The onset time is ok
+
+     -- Spectral Elements --
+
+
+     Number of spectral elements . . . . . . . . .  (nspec) =   3600
+     Number of control nodes per element . . . . . (ngnod) =      4
+     Number of points in X-direction . . . . . . . (NGLLX) =      5
+     Number of points in Y-direction . . . . . . . (NGLLZ) =      5
+     Number of points per element. . . . . . (NGLLX*NGLLZ) =     25
+     Number of points for display . . . . . . (pointsdisp) =      6
+     Number of element material sets . . . . . . . (numat) =      1
+     Number of acoustic forcing elements (nelem_acforcing) =      0
+     Number of acoustic free surf (nelem_acoustic_surface) =    240
+
+
+ M a t e r i a l   s e t s :   2 D  (p o r o) e l a s t i c i t y
+ ======================================================
+
+     Number of material sets . . . . . . (numat) =     1
+
+
+     -------------------------------
+     -- Acoustic (fluid) material --
+     -------------------------------
+     Material set number. . . . . . . . (jmat) =     1
+     P-wave velocity. . . . . . . . . . . (cp) = 1.47970000E+03
+     Mass density. . . . . . . . . . (density) = 1.00000000E+03
+     Bulk modulus Kappa . . . . . . . .(kappa) = 2.18951209E+09
+     QKappa_attenuation. . . . . . . .(QKappa) = 1.00000000E+01
+     Qmu_attenuation. . . . . . . . . . .(Qmu) = 1.00000000E+01
+ 
+ 
+ Number of free surface elements:          240
+ 
+ Setting up mesh
+ 
+ Generating global mesh numbering (fast version)...
+ 
+ Mesh numbering:
+   Total number of elements:         3600
+ 
+   Total number of acoustic elements           =         3600
+   Total number of elastic/visco/poro elements =            0
+ 
+ Approximate total number of grid points in the mesh
+ (with a few duplicates coming from MPI buffers):        58081
+ 
+ Approximate number of acoustic degrees of freedom in the mesh:        58081
+ Approximate number of elastic degrees of freedom in the mesh:            0
+   (there are 2 degrees of freedom per point for elastic elements)
+ 
+ Approximate total number of degrees of freedom in the mesh
+ (sum of the two values above):        58081
+ 
+  (for simplicity viscoelastic or poroelastic elements, if any,
+   are counted as elastic in the above three estimates;
+   in reality they have more degrees of freedom)
+ 
+ Mesh dimensions:
+   Xmin,Xmax of the whole mesh =  -4.200000000000001E-002
+  4.200000000000001E-002
+   Zmin,Zmax of the whole mesh =  -4.200000000000001E-002
+  4.200000000000001E-002
+ 
+ Domains:
+   total number of acoustic elements        =         3600
+   total number of elastic elements         =            0
+   total number of poroelastic elements     =            0
+ 
+ Setting up MPI communication arrays
+ 
+   maximum number of MPI interfaces (for a single slice) =            0
+ 
+   This is a single process simulation, no need for MPI communication
+ 
+   number of outer elements  =            0
+   number of inner elements  =         3600
+ 
+   percentage of outer elements   0.0000000E+00 %
+   percentage of inner elements    100.0000     %
+ 
+   number of global nodes in outer elements  =            0
+   number of global nodes in inner elements  =        58081
+ 
+   determining communication phases:
+   acoustic domains:
+   total number of outer/inner elements =            0        3600
+   total percentage of outer elements   0.0000000E+00 %
+   total percentage of inner elements    100.0000     %
+ 
+ All mesh setup done successfully
+ 
+ sources:
+ 
+ *******************************
+  locating force source
+ *******************************
+ 
+ 
+ Force source:
+             original x:   1.7000001E-02
+             original z:   0.0000000E+00
+ Closest estimate found:   0.0000000E+00  m away
+  in rank            0
+  in element         1783
+  in acoustic domain
+  at xi,gamma coordinates =  -0.714285714285712        1.00000000000000     
+ 
+ 
+ end of force source detection
+ 
+ 
+ receivers:
+ 
+ Total number of receivers =          180
+ 
+ 
+ ********************
+  locating receivers
+ ********************
+ 
+ reading receiver information from the ./DATA/STATIONS file
+ 
+ 
+ Station #            1     AA      S000000                         
+             original x:  -2.9669091E-04
+             original z:   1.6997410E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2550
+  in rank            0
+  at xi,gamma coordinates =   0.576155843665973      -0.717984546201923     
+ Distance from source:   2.4250515E-02  m
+ 
+ 
+ Station #            2     AA      S000001                         
+             original x:  -5.9329142E-04
+             original z:   1.6989645E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2550
+  in rank            0
+  at xi,gamma coordinates =   0.152440794367837      -0.729079915250528     
+ Distance from source:   2.4457553E-02  m
+ 
+ 
+ Station #            3     AA      S000002                         
+             original x:  -8.8971126E-04
+             original z:   1.6976703E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2550
+  in rank            0
+  at xi,gamma coordinates =  -0.271016080185774      -0.747568441674635     
+ Distance from source:   2.4662729E-02  m
+ 
+ 
+ Station #            4     AA      S000003                         
+             original x:  -1.1858600E-03
+             original z:   1.6958589E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2550
+  in rank            0
+  at xi,gamma coordinates =  -0.694085790928751      -0.773444493689981     
+ Distance from source:   2.4866026E-02  m
+ 
+ 
+ Station #            5     AA      S000004                         
+             original x:  -1.4816476E-03
+             original z:   1.6935309E-02
+ Closest estimate found:   2.1684043E-19  m away
+  in element         2549
+  in rank            0
+  at xi,gamma coordinates =   0.883360533271166      -0.806700189200462     
+ Distance from source:   2.5067430E-02  m
+ 
+ 
+ Station #            6     AA      S000005                         
+             original x:  -1.7769838E-03
+             original z:   1.6906872E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2549
+  in rank            0
+  at xi,gamma coordinates =   0.461451606356992      -0.847325398199072     
+ Distance from source:   2.5266925E-02  m
+ 
+ 
+ Station #            7     AA      S000006                         
+             original x:  -2.0717788E-03
+             original z:   1.6873285E-02
+ Closest estimate found:   4.3368087E-19  m away
+  in element         2549
+  in rank            0
+  at xi,gamma coordinates =   4.031594587499084E-002 -0.895307745853607     
+ Distance from source:   2.5464494E-02  m
+ 
+ 
+ Station #            8     AA      S000007                         
+             original x:  -2.3659428E-03
+             original z:   1.6834557E-02
+ Closest estimate found:   3.4694470E-18  m away
+  in element         2549
+  in rank            0
+  at xi,gamma coordinates =  -0.379918166173018      -0.950632616276144     
+ Distance from source:   2.5660126E-02  m
+ 
+ 
+ Station #            9     AA      S000008                         
+             original x:  -2.6593858E-03
+             original z:   1.6790701E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2489
+  in rank            0
+  at xi,gamma coordinates =  -0.799122722405610       0.986716843024780     
+ Distance from source:   2.5853803E-02  m
+ 
+ 
+ Station #           10     AA      S000009                         
+             original x:  -2.9520190E-03
+             original z:   1.6741732E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2488
+  in rank            0
+  at xi,gamma coordinates =   0.782829970945973       0.916759716010769     
+ Distance from source:   2.6045511E-02  m
+ 
+ 
+ Station #           11     AA      S000010                         
+             original x:  -3.2437530E-03
+             original z:   1.6687661E-02
+ Closest estimate found:   4.3368087E-19  m away
+  in element         2488
+  in rank            0
+  at xi,gamma coordinates =   0.366067255141049       0.839517312300412     
+ Distance from source:   2.6235236E-02  m
+ 
+ 
+ Station #           12     AA      S000011                         
+             original x:  -3.5344989E-03
+             original z:   1.6628509E-02
+ Closest estimate found:   4.3368087E-19  m away
+  in element         2488
+  in rank            0
+  at xi,gamma coordinates =  -4.928391985987537E-002  0.755013160678141     
+ Distance from source:   2.6422963E-02  m
+ 
+ 
+ Station #           13     AA      S000012                         
+             original x:  -3.8241679E-03
+             original z:   1.6564291E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2488
+  in rank            0
+  at xi,gamma coordinates =  -0.463097034065299       0.663273001927146     
+ Distance from source:   2.6608678E-02  m
+ 
+ 
+ Station #           14     AA      S000013                         
+             original x:  -4.1126721E-03
+             original z:   1.6495027E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2488
+  in rank            0
+  at xi,gamma coordinates =  -0.875246035991937       0.564324780988489     
+ Distance from source:   2.6792366E-02  m
+ 
+ 
+ Station #           15     AA      S000014                         
+             original x:  -4.3999236E-03
+             original z:   1.6420739E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2487
+  in rank            0
+  at xi,gamma coordinates =   0.714394618938775       0.458198638448807     
+ Distance from source:   2.6974013E-02  m
+ 
+ 
+ Station #           16     AA      S000015                         
+             original x:  -4.6858350E-03
+             original z:   1.6341450E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2487
+  in rank            0
+  at xi,gamma coordinates =   0.305949930158588       0.344926901359179     
+ Distance from source:   2.7153607E-02  m
+ 
+ 
+ Station #           17     AA      S000016                         
+             original x:  -4.9703191E-03
+             original z:   1.6257182E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2487
+  in rank            0
+  at xi,gamma coordinates =  -0.100455686123610       0.224544073388007     
+ Distance from source:   2.7331132E-02  m
+ 
+ 
+ Station #           18     AA      S000017                         
+             original x:  -5.2532889E-03
+             original z:   1.6167961E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2487
+  in rank            0
+  at xi,gamma coordinates =  -0.504698434820152       9.708682431087495E-002
+ Distance from source:   2.7506579E-02  m
+ 
+ 
+ Station #           19     AA      S000018                         
+             original x:  -5.5346587E-03
+             original z:   1.6073816E-02
+ Closest estimate found:   3.5762240E-18  m away
+  in element         2487
+  in rank            0
+  at xi,gamma coordinates =  -0.906655179673806      -3.740602115944541E-002
+ Distance from source:   2.7679928E-02  m
+ 
+ 
+ Station #           20     AA      S000019                         
+             original x:  -5.8143423E-03
+             original z:   1.5974775E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2486
+  in rank            0
+  at xi,gamma coordinates =   0.693796519233761      -0.178893495199364     
+ Distance from source:   2.7851170E-02  m
+ 
+ 
+ Station #           21     AA      S000020                         
+             original x:  -6.0922550E-03
+             original z:   1.5870867E-02
+ Closest estimate found:   3.4694470E-18  m away
+  in element         2486
+  in rank            0
+  at xi,gamma coordinates =   0.296778368185565      -0.327332499353668     
+ Distance from source:   2.8020291E-02  m
+ 
+ 
+ Station #           22     AA      S000021                         
+             original x:  -6.3683121E-03
+             original z:   1.5762126E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2486
+  in rank            0
+  at xi,gamma coordinates =  -9.758869724357860E-002 -0.482677817663732     
+ Distance from source:   2.8187277E-02  m
+ 
+ 
+ Station #           23     AA      S000022                         
+             original x:  -6.6424292E-03
+             original z:   1.5648583E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2486
+  in rank            0
+  at xi,gamma coordinates =  -0.489184549025222      -0.644882130440736     
+ Distance from source:   2.8352117E-02  m
+ 
+ 
+ Station #           24     AA      S000023                         
+             original x:  -6.9145230E-03
+             original z:   1.5530272E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2486
+  in rank            0
+  at xi,gamma coordinates =  -0.877889903269435      -0.813896028679690     
+ Distance from source:   2.8514799E-02  m
+ 
+ 
+ Station #           25     AA      S000024                         
+             original x:  -7.1845106E-03
+             original z:   1.5407233E-02
+ Closest estimate found:   1.9394798E-18  m away
+  in element         2485
+  in rank            0
+  at xi,gamma coordinates =   0.736413643440155      -0.989668029109931     
+ Distance from source:   2.8675308E-02  m
+ 
+ 
+ Station #           26     AA      S000025                         
+             original x:  -7.4523096E-03
+             original z:   1.5279499E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2425
+  in rank            0
+  at xi,gamma coordinates =   0.353843577979550       0.827855410122628     
+ Distance from source:   2.8833635E-02  m
+ 
+ 
+ Station #           27     AA      S000026                         
+             original x:  -7.7178385E-03
+             original z:   1.5147110E-02
+ Closest estimate found:   1.9394798E-18  m away
+  in element         2425
+  in rank            0
+  at xi,gamma coordinates =  -2.548356510327608E-002  0.638729873146080     
+ Distance from source:   2.8989766E-02  m
+ 
+ 
+ Station #           28     AA      S000027                         
+             original x:  -7.9810163E-03
+             original z:   1.5010109E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2425
+  in rank            0
+  at xi,gamma coordinates =  -0.401452239085917       0.443012969431085     
+ Distance from source:   2.9143687E-02  m
+ 
+ 
+ Station #           29     AA      S000028                         
+             original x:  -8.2417633E-03
+             original z:   1.4868535E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2425
+  in rank            0
+  at xi,gamma coordinates =  -0.773947920268180       0.240764316242466     
+ Distance from source:   2.9295392E-02  m
+ 
+ 
+ Station #           30     AA      S000029                         
+             original x:  -8.5000005E-03
+             original z:   1.4722432E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2424
+  in rank            0
+  at xi,gamma coordinates =   0.857142857142865       3.204552047922702E-002
+ Distance from source:   2.9444864E-02  m
+ 
+ 
+ Station #           31     AA      S000030                         
+             original x:  -8.7556476E-03
+             original z:   1.4571844E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2424
+  in rank            0
+  at xi,gamma coordinates =   0.491932466470120      -0.183079840091553     
+ Distance from source:   2.9592093E-02  m
+ 
+ 
+ Station #           32     AA      S000031                         
+             original x:  -9.0086274E-03
+             original z:   1.4416818E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2424
+  in rank            0
+  at xi,gamma coordinates =   0.130532154336456      -0.404546236201079     
+ Distance from source:   2.9737070E-02  m
+ 
+ 
+ Station #           33     AA      S000032                         
+             original x:  -9.2588635E-03
+             original z:   1.4257399E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2424
+  in rank            0
+  at xi,gamma coordinates =  -0.226947993222081      -0.632286207039698     
+ Distance from source:   2.9879782E-02  m
+ 
+ 
+ Station #           34     AA      S000033                         
+             original x:  -9.5062796E-03
+             original z:   1.4093638E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2424
+  in rank            0
+  at xi,gamma coordinates =  -0.580399084289563      -0.866230380806129     
+ Distance from source:   3.0020218E-02  m
+ 
+ 
+ Station #           35     AA      S000034                         
+             original x:  -9.7507993E-03
+             original z:   1.3925585E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2364
+  in rank            0
+  at xi,gamma coordinates =  -0.929713454239684       0.893692504161234     
+ Distance from source:   3.0158369E-02  m
+ 
+ 
+ Station #           36     AA      S000035                         
+             original x:  -9.9923490E-03
+             original z:   1.3753289E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =   0.725215301468512       0.647555577677299     
+ Distance from source:   3.0294221E-02  m
+ 
+ 
+ Station #           37     AA      S000036                         
+             original x:  -1.0230855E-02
+             original z:   1.3576804E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =   0.384492294878831       0.395433815434254     
+ Distance from source:   3.0427769E-02  m
+ 
+ 
+ Station #           38     AA      S000037                         
+             original x:  -1.0466245E-02
+             original z:   1.3396183E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =   4.822131351973014E-002  0.137404016163245     
+ Distance from source:   3.0558998E-02  m
+ 
+ 
+ Station #           39     AA      S000038                         
+             original x:  -1.0698447E-02
+             original z:   1.3211481E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =  -0.283495211210334      -0.126455221759279     
+ Distance from source:   3.0687900E-02  m
+ 
+ 
+ Station #           40     AA      S000039                         
+             original x:  -1.0927389E-02
+             original z:   1.3022755E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =  -0.610556235244521      -0.396063524253396     
+ Distance from source:   3.0814465E-02  m
+ 
+ 
+ Station #           41     AA      S000040                         
+             original x:  -1.1153003E-02
+             original z:   1.2830063E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2363
+  in rank            0
+  at xi,gamma coordinates =  -0.932862132626607      -0.671338766018396     
+ Distance from source:   3.0938683E-02  m
+ 
+ 
+ Station #           42     AA      S000041                         
+             original x:  -1.1375220E-02
+             original z:   1.2633462E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2362
+  in rank            0
+  at xi,gamma coordinates =   0.749685274142014      -0.952197095549000     
+ Distance from source:   3.1060545E-02  m
+ 
+ 
+ Station #           43     AA      S000042                         
+             original x:  -1.1593972E-02
+             original z:   1.2433013E-02
+ Closest estimate found:   2.4532694E-18  m away
+  in element         2302
+  in rank            0
+  at xi,gamma coordinates =   0.437182684196467       0.761447039322707     
+ Distance from source:   3.1180043E-02  m
+ 
+ 
+ Station #           44     AA      S000043                         
+             original x:  -1.1809193E-02
+             original z:   1.2228777E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2302
+  in rank            0
+  at xi,gamma coordinates =   0.129725288852927       0.469680865367244     
+ Distance from source:   3.1297166E-02  m
+ 
+ 
+ Station #           45     AA      S000044                         
+             original x:  -1.2020815E-02
+             original z:   1.2020815E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2302
+  in rank            0
+  at xi,gamma coordinates =  -0.172593257387580       0.172593257387584     
+ Distance from source:   3.1411905E-02  m
+ 
+ 
+ Station #           46     AA      S000045                         
+             original x:  -1.2228777E-02
+             original z:   1.1809193E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2302
+  in rank            0
+  at xi,gamma coordinates =  -0.469680865367241      -0.129725288852924     
+ Distance from source:   3.1524252E-02  m
+ 
+ 
+ Station #           47     AA      S000046                         
+             original x:  -1.2433013E-02
+             original z:   1.1593972E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2302
+  in rank            0
+  at xi,gamma coordinates =  -0.761447039322708      -0.437182684196463     
+ Distance from source:   3.1634197E-02  m
+ 
+ 
+ Station #           48     AA      S000047                         
+             original x:  -1.2633462E-02
+             original z:   1.1375220E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2301
+  in rank            0
+  at xi,gamma coordinates =   0.952197095549001      -0.749685274142012     
+ Distance from source:   3.1741735E-02  m
+ 
+ 
+ Station #           49     AA      S000048                         
+             original x:  -1.2830063E-02
+             original z:   1.1153003E-02
+ Closest estimate found:   3.8789597E-18  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =   0.671338766018394       0.932862132626611     
+ Distance from source:   3.1846855E-02  m
+ 
+ 
+ Station #           50     AA      S000049                         
+             original x:  -1.3022755E-02
+             original z:   1.0927389E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =   0.396063524253393       0.610556235244530     
+ Distance from source:   3.1949550E-02  m
+ 
+ 
+ Station #           51     AA      S000050                         
+             original x:  -1.3211481E-02
+             original z:   1.0698447E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =   0.126455221759279       0.283495211210340     
+ Distance from source:   3.2049812E-02  m
+ 
+ 
+ Station #           52     AA      S000051                         
+             original x:  -1.3396183E-02
+             original z:   1.0466245E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =  -0.137404016163250      -4.822131351972779E-002
+ Distance from source:   3.2147631E-02  m
+ 
+ 
+ Station #           53     AA      S000052                         
+             original x:  -1.3576804E-02
+             original z:   1.0230855E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =  -0.395433815434257      -0.384492294878828     
+ Distance from source:   3.2243006E-02  m
+ 
+ 
+ Station #           54     AA      S000053                         
+             original x:  -1.3753289E-02
+             original z:   9.9923490E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2241
+  in rank            0
+  at xi,gamma coordinates =  -0.647555577677297      -0.725215301468510     
+ Distance from source:   3.2335922E-02  m
+ 
+ 
+ Station #           55     AA      S000054                         
+             original x:  -1.3925585E-02
+             original z:   9.7507993E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2181
+  in rank            0
+  at xi,gamma coordinates =  -0.893692504161235       0.929713454239686     
+ Distance from source:   3.2426376E-02  m
+ 
+ 
+ Station #           56     AA      S000055                         
+             original x:  -1.4093638E-02
+             original z:   9.5062796E-03
+ Closest estimate found:   2.4532694E-18  m away
+  in element         2180
+  in rank            0
+  at xi,gamma coordinates =   0.866230380806127       0.580399084289561     
+ Distance from source:   3.2514364E-02  m
+ 
+ 
+ Station #           57     AA      S000056                         
+             original x:  -1.4257399E-02
+             original z:   9.2588635E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2180
+  in rank            0
+  at xi,gamma coordinates =   0.632286207039698       0.226947993222087     
+ Distance from source:   3.2599870E-02  m
+ 
+ 
+ Station #           58     AA      S000057                         
+             original x:  -1.4416818E-02
+             original z:   9.0086274E-03
+ Closest estimate found:   2.4532694E-18  m away
+  in element         2180
+  in rank            0
+  at xi,gamma coordinates =   0.404546236201079      -0.130532154336450     
+ Distance from source:   3.2682899E-02  m
+ 
+ 
+ Station #           59     AA      S000058                         
+             original x:  -1.4571844E-02
+             original z:   8.7556476E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2180
+  in rank            0
+  at xi,gamma coordinates =   0.183079840091555      -0.491932466470113     
+ Distance from source:   3.2763436E-02  m
+ 
+ 
+ Station #           60     AA      S000059                         
+             original x:  -1.4722432E-02
+             original z:   8.5000005E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2180
+  in rank            0
+  at xi,gamma coordinates =  -3.204552047922490E-002 -0.857142857142851     
+ Distance from source:   3.2841478E-02  m
+ 
+ 
+ Station #           61     AA      S000060                         
+             original x:  -1.4868535E-02
+             original z:   8.2417633E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2120
+  in rank            0
+  at xi,gamma coordinates =  -0.240764316242471       0.773947920268191     
+ Distance from source:   3.2917019E-02  m
+ 
+ 
+ Station #           62     AA      S000061                         
+             original x:  -1.5010109E-02
+             original z:   7.9810163E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2120
+  in rank            0
+  at xi,gamma coordinates =  -0.443012969431080       0.401452239085922     
+ Distance from source:   3.2990053E-02  m
+ 
+ 
+ Station #           63     AA      S000062                         
+             original x:  -1.5147110E-02
+             original z:   7.7178385E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2120
+  in rank            0
+  at xi,gamma coordinates =  -0.638729873146073       2.548356510328002E-002
+ Distance from source:   3.3060577E-02  m
+ 
+ 
+ Station #           64     AA      S000063                         
+             original x:  -1.5279499E-02
+             original z:   7.4523096E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2120
+  in rank            0
+  at xi,gamma coordinates =  -0.827855410122628      -0.353843577979553     
+ Distance from source:   3.3128582E-02  m
+ 
+ 
+ Station #           65     AA      S000064                         
+             original x:  -1.5407233E-02
+             original z:   7.1845106E-03
+ Closest estimate found:   3.5762240E-18  m away
+  in element         2119
+  in rank            0
+  at xi,gamma coordinates =   0.989668029109934      -0.736413643440162     
+ Distance from source:   3.3194065E-02  m
+ 
+ 
+ Station #           66     AA      S000065                         
+             original x:  -1.5530272E-02
+             original z:   6.9145230E-03
+ Closest estimate found:   1.9394798E-18  m away
+  in element         2059
+  in rank            0
+  at xi,gamma coordinates =   0.813896028679692       0.877889903269427     
+ Distance from source:   3.3257019E-02  m
+ 
+ 
+ Station #           67     AA      S000066                         
+             original x:  -1.5648583E-02
+             original z:   6.6424292E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2059
+  in rank            0
+  at xi,gamma coordinates =   0.644882130440736       0.489184549025214     
+ Distance from source:   3.3317439E-02  m
+ 
+ 
+ Station #           68     AA      S000067                         
+             original x:  -1.5762126E-02
+             original z:   6.3683121E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2059
+  in rank            0
+  at xi,gamma coordinates =   0.482677817663732       9.758869724357321E-002
+ Distance from source:   3.3375323E-02  m
+ 
+ 
+ Station #           69     AA      S000068                         
+             original x:  -1.5870867E-02
+             original z:   6.0922550E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         2059
+  in rank            0
+  at xi,gamma coordinates =   0.327332499353673      -0.296778368185563     
+ Distance from source:   3.3430666E-02  m
+ 
+ 
+ Station #           70     AA      S000069                         
+             original x:  -1.5974775E-02
+             original z:   5.8143423E-03
+ Closest estimate found:   3.5762240E-18  m away
+  in element         2059
+  in rank            0
+  at xi,gamma coordinates =   0.178893495199374      -0.693796519233757     
+ Distance from source:   3.3483464E-02  m
+ 
+ 
+ Station #           71     AA      S000070                         
+             original x:  -1.6073816E-02
+             original z:   5.5346587E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1999
+  in rank            0
+  at xi,gamma coordinates =   3.740602115945000E-002  0.906655179673807     
+ Distance from source:   3.3533711E-02  m
+ 
+ 
+ Station #           72     AA      S000071                         
+             original x:  -1.6167961E-02
+             original z:   5.2532889E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1999
+  in rank            0
+  at xi,gamma coordinates =  -9.708682431087440E-002  0.504698434820152     
+ Distance from source:   3.3581402E-02  m
+ 
+ 
+ Station #           73     AA      S000072                         
+             original x:  -1.6257182E-02
+             original z:   4.9703191E-03
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1999
+  in rank            0
+  at xi,gamma coordinates =  -0.224544073388002       0.100455686123605     
+ Distance from source:   3.3626538E-02  m
+ 
+ 
+ Station #           74     AA      S000073                         
+             original x:  -1.6341450E-02
+             original z:   4.6858350E-03
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1999
+  in rank            0
+  at xi,gamma coordinates =  -0.344926901359175      -0.305949930158594     
+ Distance from source:   3.3669114E-02  m
+ 
+ 
+ Station #           75     AA      S000074                         
+             original x:  -1.6420739E-02
+             original z:   4.3999236E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1999
+  in rank            0
+  at xi,gamma coordinates =  -0.458198638448803      -0.714394618938785     
+ Distance from source:   3.3709124E-02  m
+ 
+ 
+ Station #           76     AA      S000075                         
+             original x:  -1.6495027E-02
+             original z:   4.1126721E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1939
+  in rank            0
+  at xi,gamma coordinates =  -0.564324780988485       0.875246035991925     
+ Distance from source:   3.3746570E-02  m
+ 
+ 
+ Station #           77     AA      S000076                         
+             original x:  -1.6564291E-02
+             original z:   3.8241679E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1939
+  in rank            0
+  at xi,gamma coordinates =  -0.663273001927141       0.463097034065287     
+ Distance from source:   3.3781443E-02  m
+ 
+ 
+ Station #           78     AA      S000077                         
+             original x:  -1.6628509E-02
+             original z:   3.5344989E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1939
+  in rank            0
+  at xi,gamma coordinates =  -0.755013160678136       4.928391985986893E-002
+ Distance from source:   3.3813745E-02  m
+ 
+ 
+ Station #           79     AA      S000078                         
+             original x:  -1.6687661E-02
+             original z:   3.2437530E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1939
+  in rank            0
+  at xi,gamma coordinates =  -0.839517312300407      -0.366067255141050     
+ Distance from source:   3.3843473E-02  m
+ 
+ 
+ Station #           80     AA      S000079                         
+             original x:  -1.6741732E-02
+             original z:   2.9520190E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1939
+  in rank            0
+  at xi,gamma coordinates =  -0.916759716010764      -0.782829970945975     
+ Distance from source:   3.3870619E-02  m
+ 
+ 
+ Station #           81     AA      S000080                         
+             original x:  -1.6790701E-02
+             original z:   2.6593858E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1879
+  in rank            0
+  at xi,gamma coordinates =  -0.986716843024773       0.799122722405609     
+ Distance from source:   3.3895191E-02  m
+ 
+ 
+ Station #           82     AA      S000081                         
+             original x:  -1.6834557E-02
+             original z:   2.3659428E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1878
+  in rank            0
+  at xi,gamma coordinates =   0.950632616276149       0.379918166173018     
+ Distance from source:   3.3917177E-02  m
+ 
+ 
+ Station #           83     AA      S000082                         
+             original x:  -1.6873285E-02
+             original z:   2.0717788E-03
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1878
+  in rank            0
+  at xi,gamma coordinates =   0.895307745853611      -4.031594587499369E-002
+ Distance from source:   3.3936583E-02  m
+ 
+ 
+ Station #           84     AA      S000083                         
+             original x:  -1.6906872E-02
+             original z:   1.7769838E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1878
+  in rank            0
+  at xi,gamma coordinates =   0.847325398199077      -0.461451606356994     
+ Distance from source:   3.3953406E-02  m
+ 
+ 
+ Station #           85     AA      S000084                         
+             original x:  -1.6935309E-02
+             original z:   1.4816476E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1878
+  in rank            0
+  at xi,gamma coordinates =   0.806700189200465      -0.883360533271167     
+ Distance from source:   3.3967640E-02  m
+ 
+ 
+ Station #           86     AA      S000085                         
+             original x:  -1.6958589E-02
+             original z:   1.1858600E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1818
+  in rank            0
+  at xi,gamma coordinates =   0.773444493689986       0.694085790928751     
+ Distance from source:   3.3979289E-02  m
+ 
+ 
+ Station #           87     AA      S000086                         
+             original x:  -1.6976703E-02
+             original z:   8.8971126E-04
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1818
+  in rank            0
+  at xi,gamma coordinates =   0.747568441674640       0.271016080185780     
+ Distance from source:   3.3988349E-02  m
+ 
+ 
+ Station #           88     AA      S000087                         
+             original x:  -1.6989645E-02
+             original z:   5.9329142E-04
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1818
+  in rank            0
+  at xi,gamma coordinates =   0.729079915250533      -0.152440794367835     
+ Distance from source:   3.3994820E-02  m
+ 
+ 
+ Station #           89     AA      S000088                         
+             original x:  -1.6997410E-02
+             original z:   2.9669091E-04
+ Closest estimate found:   3.4698705E-18  m away
+  in element         1818
+  in rank            0
+  at xi,gamma coordinates =   0.717984546201933      -0.576155843665970     
+ Distance from source:   3.3998705E-02  m
+ 
+ 
+ Station #           90     AA      S000089                         
+             original x:  -1.7000001E-02
+             original z:   3.5000001E-18
+ Closest estimate found:   2.7974725E-21  m away
+  in element         1818
+  in rank            0
+  at xi,gamma coordinates =   0.714285714285720      -0.999999999999995     
+ Distance from source:   3.4000002E-02  m
+ 
+ 
+ Station #           91     AA      S000090                         
+             original x:  -1.6997410E-02
+             original z:  -2.9669091E-04
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1758
+  in rank            0
+  at xi,gamma coordinates =   0.717984546201928       0.576155843665973     
+ Distance from source:   3.3998705E-02  m
+ 
+ 
+ Station #           92     AA      S000091                         
+             original x:  -1.6989645E-02
+             original z:  -5.9329142E-04
+ Closest estimate found:   3.4711406E-18  m away
+  in element         1758
+  in rank            0
+  at xi,gamma coordinates =   0.729079915250533       0.152440794367832     
+ Distance from source:   3.3994820E-02  m
+ 
+ 
+ Station #           93     AA      S000092                         
+             original x:  -1.6976703E-02
+             original z:  -8.8971126E-04
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1758
+  in rank            0
+  at xi,gamma coordinates =   0.747568441674640      -0.271016080185775     
+ Distance from source:   3.3988349E-02  m
+ 
+ 
+ Station #           94     AA      S000093                         
+             original x:  -1.6958589E-02
+             original z:  -1.1858600E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1758
+  in rank            0
+  at xi,gamma coordinates =   0.773444493689986      -0.694085790928763     
+ Distance from source:   3.3979289E-02  m
+ 
+ 
+ Station #           95     AA      S000094                         
+             original x:  -1.6935309E-02
+             original z:  -1.4816476E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1698
+  in rank            0
+  at xi,gamma coordinates =   0.806700189200467       0.883360533271156     
+ Distance from source:   3.3967640E-02  m
+ 
+ 
+ Station #           96     AA      S000095                         
+             original x:  -1.6906872E-02
+             original z:  -1.7769838E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1698
+  in rank            0
+  at xi,gamma coordinates =   0.847325398199077       0.461451606356983     
+ Distance from source:   3.3953406E-02  m
+ 
+ 
+ Station #           97     AA      S000096                         
+             original x:  -1.6873285E-02
+             original z:  -2.0717788E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1698
+  in rank            0
+  at xi,gamma coordinates =   0.895307745853606       4.031594587498982E-002
+ Distance from source:   3.3936583E-02  m
+ 
+ 
+ Station #           98     AA      S000097                         
+             original x:  -1.6834557E-02
+             original z:  -2.3659428E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1698
+  in rank            0
+  at xi,gamma coordinates =   0.950632616276149      -0.379918166173020     
+ Distance from source:   3.3917177E-02  m
+ 
+ 
+ Station #           99     AA      S000098                         
+             original x:  -1.6790701E-02
+             original z:  -2.6593858E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1699
+  in rank            0
+  at xi,gamma coordinates =  -0.986716843024775      -0.799122722405608     
+ Distance from source:   3.3895191E-02  m
+ 
+ 
+ Station #          100     AA      S000099                         
+             original x:  -1.6741732E-02
+             original z:  -2.9520190E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1639
+  in rank            0
+  at xi,gamma coordinates =  -0.916759716010763       0.782829970945976     
+ Distance from source:   3.3870619E-02  m
+ 
+ 
+ Station #          101     AA      S000100                         
+             original x:  -1.6687661E-02
+             original z:  -3.2437530E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1639
+  in rank            0
+  at xi,gamma coordinates =  -0.839517312300406       0.366067255141051     
+ Distance from source:   3.3843473E-02  m
+ 
+ 
+ Station #          102     AA      S000101                         
+             original x:  -1.6628509E-02
+             original z:  -3.5344989E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1639
+  in rank            0
+  at xi,gamma coordinates =  -0.755013160678136      -4.928391985987088E-002
+ Distance from source:   3.3813745E-02  m
+ 
+ 
+ Station #          103     AA      S000102                         
+             original x:  -1.6564291E-02
+             original z:  -3.8241679E-03
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1639
+  in rank            0
+  at xi,gamma coordinates =  -0.663273001927141      -0.463097034065298     
+ Distance from source:   3.3781443E-02  m
+ 
+ 
+ Station #          104     AA      S000103                         
+             original x:  -1.6495027E-02
+             original z:  -4.1126721E-03
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1639
+  in rank            0
+  at xi,gamma coordinates =  -0.564324780988485      -0.875246035991934     
+ Distance from source:   3.3746570E-02  m
+ 
+ 
+ Station #          105     AA      S000104                         
+             original x:  -1.6420739E-02
+             original z:  -4.3999236E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1579
+  in rank            0
+  at xi,gamma coordinates =  -0.458198638448803       0.714394618938781     
+ Distance from source:   3.3709124E-02  m
+ 
+ 
+ Station #          106     AA      S000105                         
+             original x:  -1.6341450E-02
+             original z:  -4.6858350E-03
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1579
+  in rank            0
+  at xi,gamma coordinates =  -0.344926901359174       0.305949930158593     
+ Distance from source:   3.3669114E-02  m
+ 
+ 
+ Station #          107     AA      S000106                         
+             original x:  -1.6257182E-02
+             original z:  -4.9703191E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1579
+  in rank            0
+  at xi,gamma coordinates =  -0.224544073388002      -0.100455686123609     
+ Distance from source:   3.3626538E-02  m
+ 
+ 
+ Station #          108     AA      S000107                         
+             original x:  -1.6167961E-02
+             original z:  -5.2532889E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1579
+  in rank            0
+  at xi,gamma coordinates =  -9.708682431086983E-002 -0.504698434820155     
+ Distance from source:   3.3581402E-02  m
+ 
+ 
+ Station #          109     AA      S000108                         
+             original x:  -1.6073816E-02
+             original z:  -5.5346587E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1579
+  in rank            0
+  at xi,gamma coordinates =   3.740602115944705E-002 -0.906655179673807     
+ Distance from source:   3.3533711E-02  m
+ 
+ 
+ Station #          110     AA      S000109                         
+             original x:  -1.5974775E-02
+             original z:  -5.8143423E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1519
+  in rank            0
+  at xi,gamma coordinates =   0.178893495199369       0.693796519233762     
+ Distance from source:   3.3483464E-02  m
+ 
+ 
+ Station #          111     AA      S000110                         
+             original x:  -1.5870867E-02
+             original z:  -6.0922550E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1519
+  in rank            0
+  at xi,gamma coordinates =   0.327332499353673       0.296778368185559     
+ Distance from source:   3.3430666E-02  m
+ 
+ 
+ Station #          112     AA      S000111                         
+             original x:  -1.5762126E-02
+             original z:  -6.3683121E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1519
+  in rank            0
+  at xi,gamma coordinates =   0.482677817663732      -9.758869724358002E-002
+ Distance from source:   3.3375323E-02  m
+ 
+ 
+ Station #          113     AA      S000112                         
+             original x:  -1.5648583E-02
+             original z:  -6.6424292E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1519
+  in rank            0
+  at xi,gamma coordinates =   0.644882130440736      -0.489184549025229     
+ Distance from source:   3.3317439E-02  m
+ 
+ 
+ Station #          114     AA      S000113                         
+             original x:  -1.5530272E-02
+             original z:  -6.9145230E-03
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1519
+  in rank            0
+  at xi,gamma coordinates =   0.813896028679694      -0.877889903269438     
+ Distance from source:   3.3257019E-02  m
+ 
+ 
+ Station #          115     AA      S000114                         
+             original x:  -1.5407233E-02
+             original z:  -7.1845106E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1459
+  in rank            0
+  at xi,gamma coordinates =   0.989668029109927       0.736413643440152     
+ Distance from source:   3.3194065E-02  m
+ 
+ 
+ Station #          116     AA      S000115                         
+             original x:  -1.5279499E-02
+             original z:  -7.4523096E-03
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1460
+  in rank            0
+  at xi,gamma coordinates =  -0.827855410122623       0.353843577979540     
+ Distance from source:   3.3128582E-02  m
+ 
+ 
+ Station #          117     AA      S000116                         
+             original x:  -1.5147110E-02
+             original z:  -7.7178385E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1460
+  in rank            0
+  at xi,gamma coordinates =  -0.638729873146080      -2.548356510328482E-002
+ Distance from source:   3.3060577E-02  m
+ 
+ 
+ Station #          118     AA      S000117                         
+             original x:  -1.5010109E-02
+             original z:  -7.9810163E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1460
+  in rank            0
+  at xi,gamma coordinates =  -0.443012969431083      -0.401452239085926     
+ Distance from source:   3.2990053E-02  m
+ 
+ 
+ Station #          119     AA      S000118                         
+             original x:  -1.4868535E-02
+             original z:  -8.2417633E-03
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1460
+  in rank            0
+  at xi,gamma coordinates =  -0.240764316242473      -0.773947920268185     
+ Distance from source:   3.2917019E-02  m
+ 
+ 
+ Station #          120     AA      S000119                         
+             original x:  -1.4722432E-02
+             original z:  -8.5000005E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1400
+  in rank            0
+  at xi,gamma coordinates =  -3.204552047922703E-002  0.857142857142858     
+ Distance from source:   3.2841478E-02  m
+ 
+ 
+ Station #          121     AA      S000120                         
+             original x:  -1.4571844E-02
+             original z:  -8.7556476E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1400
+  in rank            0
+  at xi,gamma coordinates =   0.183079840091555       0.491932466470105     
+ Distance from source:   3.2763436E-02  m
+ 
+ 
+ Station #          122     AA      S000121                         
+             original x:  -1.4416818E-02
+             original z:  -9.0086274E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1400
+  in rank            0
+  at xi,gamma coordinates =   0.404546236201079       0.130532154336453     
+ Distance from source:   3.2682899E-02  m
+ 
+ 
+ Station #          123     AA      S000122                         
+             original x:  -1.4257399E-02
+             original z:  -9.2588635E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1400
+  in rank            0
+  at xi,gamma coordinates =   0.632286207039698      -0.226947993222083     
+ Distance from source:   3.2599870E-02  m
+ 
+ 
+ Station #          124     AA      S000123                         
+             original x:  -1.4093638E-02
+             original z:  -9.5062796E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1400
+  in rank            0
+  at xi,gamma coordinates =   0.866230380806127      -0.580399084289556     
+ Distance from source:   3.2514364E-02  m
+ 
+ 
+ Station #          125     AA      S000124                         
+             original x:  -1.3925585E-02
+             original z:  -9.7507993E-03
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1401
+  in rank            0
+  at xi,gamma coordinates =  -0.893692504161230      -0.929713454239686     
+ Distance from source:   3.2426376E-02  m
+ 
+ 
+ Station #          126     AA      S000125                         
+             original x:  -1.3753289E-02
+             original z:  -9.9923490E-03
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =  -0.647555577677299       0.725215301468514     
+ Distance from source:   3.2335922E-02  m
+ 
+ 
+ Station #          127     AA      S000126                         
+             original x:  -1.3576804E-02
+             original z:  -1.0230855E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =  -0.395433815434254       0.384492294878825     
+ Distance from source:   3.2243006E-02  m
+ 
+ 
+ Station #          128     AA      S000127                         
+             original x:  -1.3396183E-02
+             original z:  -1.0466245E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =  -0.137404016163250       4.822131351973009E-002
+ Distance from source:   3.2147631E-02  m
+ 
+ 
+ Station #          129     AA      S000128                         
+             original x:  -1.3211481E-02
+             original z:  -1.0698447E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =   0.126455221759277      -0.283495211210332     
+ Distance from source:   3.2049812E-02  m
+ 
+ 
+ Station #          130     AA      S000129                         
+             original x:  -1.3022755E-02
+             original z:  -1.0927389E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =   0.396063524253393      -0.610556235244523     
+ Distance from source:   3.1949550E-02  m
+ 
+ 
+ Station #          131     AA      S000130                         
+             original x:  -1.2830063E-02
+             original z:  -1.1153003E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1341
+  in rank            0
+  at xi,gamma coordinates =   0.671338766018395      -0.932862132626606     
+ Distance from source:   3.1846855E-02  m
+ 
+ 
+ Station #          132     AA      S000131                         
+             original x:  -1.2633462E-02
+             original z:  -1.1375220E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1281
+  in rank            0
+  at xi,gamma coordinates =   0.952197095549001       0.749685274142014     
+ Distance from source:   3.1741735E-02  m
+ 
+ 
+ Station #          133     AA      S000132                         
+             original x:  -1.2433013E-02
+             original z:  -1.1593972E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1282
+  in rank            0
+  at xi,gamma coordinates =  -0.761447039322710       0.437182684196467     
+ Distance from source:   3.1634197E-02  m
+ 
+ 
+ Station #          134     AA      S000133                         
+             original x:  -1.2228777E-02
+             original z:  -1.1809193E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1282
+  in rank            0
+  at xi,gamma coordinates =  -0.469680865367238       0.129725288852922     
+ Distance from source:   3.1524252E-02  m
+ 
+ 
+ Station #          135     AA      S000134                         
+             original x:  -1.2020815E-02
+             original z:  -1.2020815E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1282
+  in rank            0
+  at xi,gamma coordinates =  -0.172593257387582      -0.172593257387578     
+ Distance from source:   3.1411905E-02  m
+ 
+ 
+ Station #          136     AA      S000135                         
+             original x:  -1.1809193E-02
+             original z:  -1.2228777E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1282
+  in rank            0
+  at xi,gamma coordinates =   0.129725288852927      -0.469680865367243     
+ Distance from source:   3.1297166E-02  m
+ 
+ 
+ Station #          137     AA      S000136                         
+             original x:  -1.1593972E-02
+             original z:  -1.2433013E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1282
+  in rank            0
+  at xi,gamma coordinates =   0.437182684196465      -0.761447039322710     
+ Distance from source:   3.1180043E-02  m
+ 
+ 
+ Station #          138     AA      S000137                         
+             original x:  -1.1375220E-02
+             original z:  -1.2633462E-02
+ Closest estimate found:   2.4532694E-18  m away
+  in element         1222
+  in rank            0
+  at xi,gamma coordinates =   0.749685274142012       0.952197095549004     
+ Distance from source:   3.1060545E-02  m
+ 
+ 
+ Station #          139     AA      S000138                         
+             original x:  -1.1153003E-02
+             original z:  -1.2830063E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =  -0.932862132626604       0.671338766018391     
+ Distance from source:   3.0938683E-02  m
+ 
+ 
+ Station #          140     AA      S000139                         
+             original x:  -1.0927389E-02
+             original z:  -1.3022755E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =  -0.610556235244531       0.396063524253394     
+ Distance from source:   3.0814465E-02  m
+ 
+ 
+ Station #          141     AA      S000140                         
+             original x:  -1.0698447E-02
+             original z:  -1.3211481E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =  -0.283495211210334       0.126455221759281     
+ Distance from source:   3.0687900E-02  m
+ 
+ 
+ Station #          142     AA      S000141                         
+             original x:  -1.0466245E-02
+             original z:  -1.3396183E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =   4.822131351972767E-002 -0.137404016163242     
+ Distance from source:   3.0558998E-02  m
+ 
+ 
+ Station #          143     AA      S000142                         
+             original x:  -1.0230855E-02
+             original z:  -1.3576804E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =   0.384492294878834      -0.395433815434251     
+ Distance from source:   3.0427769E-02  m
+ 
+ 
+ Station #          144     AA      S000143                         
+             original x:  -9.9923490E-03
+             original z:  -1.3753289E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1223
+  in rank            0
+  at xi,gamma coordinates =   0.725215301468512      -0.647555577677297     
+ Distance from source:   3.0294221E-02  m
+ 
+ 
+ Station #          145     AA      S000144                         
+             original x:  -9.7507993E-03
+             original z:  -1.3925585E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1224
+  in rank            0
+  at xi,gamma coordinates =  -0.929713454239684      -0.893692504161226     
+ Distance from source:   3.0158369E-02  m
+ 
+ 
+ Station #          146     AA      S000145                         
+             original x:  -9.5062796E-03
+             original z:  -1.4093638E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1164
+  in rank            0
+  at xi,gamma coordinates =  -0.580399084289563       0.866230380806134     
+ Distance from source:   3.0020218E-02  m
+ 
+ 
+ Station #          147     AA      S000146                         
+             original x:  -9.2588635E-03
+             original z:  -1.4257399E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1164
+  in rank            0
+  at xi,gamma coordinates =  -0.226947993222088       0.632286207039705     
+ Distance from source:   2.9879782E-02  m
+ 
+ 
+ Station #          148     AA      S000147                         
+             original x:  -9.0086274E-03
+             original z:  -1.4416818E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1164
+  in rank            0
+  at xi,gamma coordinates =   0.130532154336456       0.404546236201091     
+ Distance from source:   2.9737070E-02  m
+ 
+ 
+ Station #          149     AA      S000148                         
+             original x:  -8.7556476E-03
+             original z:  -1.4571844E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1164
+  in rank            0
+  at xi,gamma coordinates =   0.491932466470114       0.183079840091568     
+ Distance from source:   2.9592093E-02  m
+ 
+ 
+ Station #          150     AA      S000149                         
+             original x:  -8.5000005E-03
+             original z:  -1.4722432E-02
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1164
+  in rank            0
+  at xi,gamma coordinates =   0.857142857142865      -3.204552047922463E-002
+ Distance from source:   2.9444864E-02  m
+ 
+ 
+ Station #          151     AA      S000150                         
+             original x:  -8.2417633E-03
+             original z:  -1.4868535E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1165
+  in rank            0
+  at xi,gamma coordinates =  -0.773947920268182      -0.240764316242464     
+ Distance from source:   2.9295392E-02  m
+ 
+ 
+ Station #          152     AA      S000151                         
+             original x:  -7.9810163E-03
+             original z:  -1.5010109E-02
+ Closest estimate found:   2.4532694E-18  m away
+  in element         1165
+  in rank            0
+  at xi,gamma coordinates =  -0.401452239085912      -0.443012969431078     
+ Distance from source:   2.9143687E-02  m
+ 
+ 
+ Station #          153     AA      S000152                         
+             original x:  -7.7178385E-03
+             original z:  -1.5147110E-02
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1165
+  in rank            0
+  at xi,gamma coordinates =  -2.548356510327733E-002 -0.638729873146068     
+ Distance from source:   2.8989766E-02  m
+ 
+ 
+ Station #          154     AA      S000153                         
+             original x:  -7.4523096E-03
+             original z:  -1.5279499E-02
+ Closest estimate found:   1.7347235E-18  m away
+  in element         1165
+  in rank            0
+  at xi,gamma coordinates =   0.353843577979552      -0.827855410122631     
+ Distance from source:   2.8833635E-02  m
+ 
+ 
+ Station #          155     AA      S000154                         
+             original x:  -7.1845106E-03
+             original z:  -1.5407233E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1105
+  in rank            0
+  at xi,gamma coordinates =   0.736413643440154       0.989668029109924     
+ Distance from source:   2.8675308E-02  m
+ 
+ 
+ Station #          156     AA      S000155                         
+             original x:  -6.9145230E-03
+             original z:  -1.5530272E-02
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1106
+  in rank            0
+  at xi,gamma coordinates =  -0.877889903269441       0.813896028679698     
+ Distance from source:   2.8514799E-02  m
+ 
+ 
+ Station #          157     AA      S000156                         
+             original x:  -6.6424292E-03
+             original z:  -1.5648583E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1106
+  in rank            0
+  at xi,gamma coordinates =  -0.489184549025222       0.644882130440736     
+ Distance from source:   2.8352117E-02  m
+ 
+ 
+ Station #          158     AA      S000157                         
+             original x:  -6.3683121E-03
+             original z:  -1.5762126E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1106
+  in rank            0
+  at xi,gamma coordinates =  -9.758869724358354E-002  0.482677817663731     
+ Distance from source:   2.8187277E-02  m
+ 
+ 
+ Station #          159     AA      S000158                         
+             original x:  -6.0922550E-03
+             original z:  -1.5870867E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1106
+  in rank            0
+  at xi,gamma coordinates =   0.296778368185566       0.327332499353677     
+ Distance from source:   2.8020291E-02  m
+ 
+ 
+ Station #          160     AA      S000159                         
+             original x:  -5.8143423E-03
+             original z:  -1.5974775E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1106
+  in rank            0
+  at xi,gamma coordinates =   0.693796519233756       0.178893495199365     
+ Distance from source:   2.7851170E-02  m
+ 
+ 
+ Station #          161     AA      S000160                         
+             original x:  -5.5346587E-03
+             original z:  -1.6073816E-02
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1107
+  in rank            0
+  at xi,gamma coordinates =  -0.906655179673803       3.740602115944065E-002
+ Distance from source:   2.7679928E-02  m
+ 
+ 
+ Station #          162     AA      S000161                         
+             original x:  -5.2532889E-03
+             original z:  -1.6167961E-02
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1107
+  in rank            0
+  at xi,gamma coordinates =  -0.504698434820154      -9.708682431087506E-002
+ Distance from source:   2.7506579E-02  m
+ 
+ 
+ Station #          163     AA      S000162                         
+             original x:  -4.9703191E-03
+             original z:  -1.6257182E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1107
+  in rank            0
+  at xi,gamma coordinates =  -0.100455686123606      -0.224544073388013     
+ Distance from source:   2.7331132E-02  m
+ 
+ 
+ Station #          164     AA      S000163                         
+             original x:  -4.6858350E-03
+             original z:  -1.6341450E-02
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1107
+  in rank            0
+  at xi,gamma coordinates =   0.305949930158586      -0.344926901359168     
+ Distance from source:   2.7153607E-02  m
+ 
+ 
+ Station #          165     AA      S000164                         
+             original x:  -4.3999236E-03
+             original z:  -1.6420739E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1107
+  in rank            0
+  at xi,gamma coordinates =   0.714394618938770      -0.458198638448807     
+ Distance from source:   2.6974013E-02  m
+ 
+ 
+ Station #          166     AA      S000165                         
+             original x:  -4.1126721E-03
+             original z:  -1.6495027E-02
+ Closest estimate found:   8.6736174E-19  m away
+  in element         1108
+  in rank            0
+  at xi,gamma coordinates =  -0.875246035991938      -0.564324780988490     
+ Distance from source:   2.6792366E-02  m
+ 
+ 
+ Station #          167     AA      S000166                         
+             original x:  -3.8241679E-03
+             original z:  -1.6564291E-02
+ Closest estimate found:   3.4694470E-18  m away
+  in element         1108
+  in rank            0
+  at xi,gamma coordinates =  -0.463097034065304      -0.663273001927141     
+ Distance from source:   2.6608678E-02  m
+ 
+ 
+ Station #          168     AA      S000167                         
+             original x:  -3.5344989E-03
+             original z:  -1.6628509E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1108
+  in rank            0
+  at xi,gamma coordinates =  -4.928391985987474E-002 -0.755013160678141     
+ Distance from source:   2.6422963E-02  m
+ 
+ 
+ Station #          169     AA      S000168                         
+             original x:  -3.2437530E-03
+             original z:  -1.6687661E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1108
+  in rank            0
+  at xi,gamma coordinates =   0.366067255141046      -0.839517312300413     
+ Distance from source:   2.6235236E-02  m
+ 
+ 
+ Station #          170     AA      S000169                         
+             original x:  -2.9520190E-03
+             original z:  -1.6741732E-02
+ Closest estimate found:   4.3368087E-19  m away
+  in element         1108
+  in rank            0
+  at xi,gamma coordinates =   0.782829970945974      -0.916759716010775     
+ Distance from source:   2.6045511E-02  m
+ 
+ 
+ Station #          171     AA      S000170                         
+             original x:  -2.6593858E-03
+             original z:  -1.6790701E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1109
+  in rank            0
+  at xi,gamma coordinates =  -0.799122722405613      -0.986716843024782     
+ Distance from source:   2.5853803E-02  m
+ 
+ 
+ Station #          172     AA      S000171                         
+             original x:  -2.3659428E-03
+             original z:  -1.6834557E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1049
+  in rank            0
+  at xi,gamma coordinates =  -0.379918166173016       0.950632616276144     
+ Distance from source:   2.5660126E-02  m
+ 
+ 
+ Station #          173     AA      S000172                         
+             original x:  -2.0717788E-03
+             original z:  -1.6873285E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1049
+  in rank            0
+  at xi,gamma coordinates =   4.031594587499002E-002  0.895307745853601     
+ Distance from source:   2.5464494E-02  m
+ 
+ 
+ Station #          174     AA      S000173                         
+             original x:  -1.7769838E-03
+             original z:  -1.6906872E-02
+ Closest estimate found:   2.1684043E-19  m away
+  in element         1049
+  in rank            0
+  at xi,gamma coordinates =   0.461451606356985       0.847325398199077     
+ Distance from source:   2.5266925E-02  m
+ 
+ 
+ Station #          175     AA      S000174                         
+             original x:  -1.4816476E-03
+             original z:  -1.6935309E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1049
+  in rank            0
+  at xi,gamma coordinates =   0.883360533271165       0.806700189200467     
+ Distance from source:   2.5067430E-02  m
+ 
+ 
+ Station #          176     AA      S000175                         
+             original x:  -1.1858600E-03
+             original z:  -1.6958589E-02
+ Closest estimate found:   2.1684043E-19  m away
+  in element         1050
+  in rank            0
+  at xi,gamma coordinates =  -0.694085790928756       0.773444493689980     
+ Distance from source:   2.4866026E-02  m
+ 
+ 
+ Station #          177     AA      S000176                         
+             original x:  -8.8971126E-04
+             original z:  -1.6976703E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1050
+  in rank            0
+  at xi,gamma coordinates =  -0.271016080185773       0.747568441674640     
+ Distance from source:   2.4662729E-02  m
+ 
+ 
+ Station #          178     AA      S000177                         
+             original x:  -5.9329142E-04
+             original z:  -1.6989645E-02
+ Closest estimate found:   1.0842022E-19  m away
+  in element         1050
+  in rank            0
+  at xi,gamma coordinates =   0.152440794367833       0.729079915250522     
+ Distance from source:   2.4457553E-02  m
+ 
+ 
+ Station #          179     AA      S000178                         
+             original x:  -2.9669091E-04
+             original z:  -1.6997410E-02
+ Closest estimate found:   0.0000000E+00  m away
+  in element         1050
+  in rank            0
+  at xi,gamma coordinates =   0.576155843665975       0.717984546201918     
+ Distance from source:   2.4250515E-02  m
+ 
+ 
+ Station #          180     AA      S000179                         
+             original x:  -2.1000000E-18
+             original z:  -1.7000001E-02
+ Closest estimate found:   1.6784835E-21  m away
+  in element         1050
+  in rank            0
+  at xi,gamma coordinates =   0.999999999999997       0.714285714285712     
+ Distance from source:   2.4041630E-02  m
+ 
+ 
+ end of receiver detection
+ 
+ found a total of          180  receivers, this is okay
+ 
+ 
+ Preparing array allocations
+   arrays for acoustic domains
+   wavefield initialization
+   done initialization
+ 
+ Preparing mass matrices
+   initializing mass matrices
+   inverting mass matrices
+ 
+ Preparing image coloring
+ 
+ Checking mesh and stability
+ 
+ ********
+ Model: P (or PI) velocity min,max =    1479.70000000000     
+   1479.70000000000     
+ Model: S velocity min,max         =   0.000000000000000E+000
+  0.000000000000000E+000
+ Model: density min,max            =    1000.00000000000     
+   1000.00000000000     
+ ********
+ 
+ 
+ *********************************************
+ *** Verification of simulation parameters ***
+ *********************************************
+ 
+ *** Max grid size =   1.400000000000012E-003
+ *** Min grid size =   1.399999999999985E-003
+ *** Max/min ratio =    1.00000000000002     
+ 
+ *** Minimum GLL point distance  =   2.417424305044133E-004
+ *** Average GLL point distance  =   3.499999999999961E-004
+ 
+ *** Minimum period resolved     =   1.182672163276350E-006
+ *** Maximum frequency resolved  =    845542.857142850      Hz
+ 
+ *** Maximum suggested time step                 =   8.168629806866706E-008
+ *** Maximum suggested (Ricker) source frequency =    338217.142857140     
+ 
+ *** for DT :   4.000000000000000E-008
+ *** Max CFL stability condition of the time scheme based on P wave velocity (mu
+ st be below about 0.50 or so) =   0.244839103654662     
+ 
+ ----
+ Number of points per wavelength:
+ ----
+   Source            1
+   maximum dominant source frequency =    750000.000000000      Hz
+ 
+   Nb pts / lambdaP_fmax min =    5.636952    
+   Nb pts / lambdaP_fmax max =    5.636952    
+ 
+   purely fluid regions
+ 
+ -----------------------------------------
+ 
+ histogram of min number of points per P wavelength in fluid regions:
+ 
+ there are         3600  elements out of         3600  in fluid regions
+   (i.e.,    100.0000     % of the total)
+ 
+ (too small = poor resolution of calculations -
+  too big = wasting memory and CPU time)
+ (threshold value is around 4.5 points per S wavelength
+  in elastic regions and 5.5 per P wavelength in fluid regions):
+ 
+   5.580583      -    5.586220               0    0.0000000E+00  %
+   5.586220      -    5.591857               0    0.0000000E+00  %
+   5.591857      -    5.597494               0    0.0000000E+00  %
+   5.597494      -    5.603131               0    0.0000000E+00  %
+   5.603131      -    5.608768               0    0.0000000E+00  %
+   5.608768      -    5.614405               0    0.0000000E+00  %
+   5.614405      -    5.620041               0    0.0000000E+00  %
+   5.620041      -    5.625679               0    0.0000000E+00  %
+   5.625679      -    5.631315               0    0.0000000E+00  %
+   5.631315      -    5.636952            2368     65.77778      %
+   5.636952      -    5.642590            1232     34.22222      %
+   5.642590      -    5.648226               0    0.0000000E+00  %
+   5.648226      -    5.653863               0    0.0000000E+00  %
+   5.653863      -    5.659500               0    0.0000000E+00  %
+   5.659500      -    5.665137               0    0.0000000E+00  %
+   5.665137      -    5.670774               0    0.0000000E+00  %
+   5.670774      -    5.676411               0    0.0000000E+00  %
+   5.676411      -    5.682048               0    0.0000000E+00  %
+   5.682048      -    5.687685               0    0.0000000E+00  %
+   5.687685      -    5.693322               0    0.0000000E+00  %
+ 
+ total percentage =    100.000000000000       %
+ 
+ 
+ total number of elements in fluid and solid regions =         3600
+ 
+ 
+ Preparing source time function
+   saving the source time function in a text file...
+ 
+ Preparing material arrays
+ 
+ Preparing image coloring
+   allocating color image arrays
+   locating all the pixels of color images
+   total number of image pixels =        59536
+   done locating all the pixels of color images
+   coloring image background based on vp
+ 
+ Preparing GPU Fields and Constants on Device.
+   initializing arrays for GPU:
+   number of MPI interfaces                        =            0
+   number of acoustic elements at free surface     =          240
+   number of sources                               =            1
+   number of sources in this process slice         =            1
+   number of local receivers in this process slice =          180
+   initialization done successfully
+ 
+ GPU usage: free  =   16005.88      MB          98 %
+            used  =   275.0000      MB           2 %
+            total =   16280.88      MB         100 %
+ 
+ 
+ done, preparation successful
+ 
+Time =  0.255 seconds.
+
+ =========================================
+ =  T i m e  e v o l u t i o n  l o o p  =
+ =========================================
+
+ 
+ Starting time iteration loop ...
+ 
+ 
+ Creating color image of size          246  x          258  for time step 
+           5
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =   0.000000000000000E+000
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         100
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    327326.218750000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         200
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    144386.734375000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         300
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    87648.4375000000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         400
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    68759.7031250000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         500
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    59222.8007812500     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         600
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    102877.914062500     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         700
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    94004.7812500000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         800
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    85071.6875000000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+         900
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    91516.8828125000     
+ Color image created
+ 
+ Creating color image of size          246  x          258  for time step 
+        1000
+ drawing scalar image of the forward wavefield pressure...
+ Color image maximum amplitude =    79880.9062500000     
+ Color image created
+ 
+ Total duration of the time loop in seconds =   8.4019989E-02  s
+ Total number of time steps =         1000
+ Average duration of a time step of the time loop =   8.4019986E-05  s
+ Total number of spectral elements in the mesh =         3600
+     of which         3600  are regular elements
+     and            0  are PML elements.
+ Average duration of the calculation per spectral element =   2.3338886E-08  s
+ 
+ 
+ Total duration of the timeloop in seconds, measured using 
+ date and time of the system :   9.8999977E-02  s
+
+
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ Program SPECFEM2D: 
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ Test of SPECFEM2D with curved interfaces
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------
+ D a t e : 27 - 05 - 2019                                 T i m e  : 16:55:36
+ -------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------

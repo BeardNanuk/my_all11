@@ -24,16 +24,24 @@ elif [ "$flag_shape" -eq 2 ];then
         #gfortran cree_masque_ring.f90 -o cree_masque_try_exe
         ./cree_masque_try_exe
         #./plotvp mask/
-        ./Printgllmap mask vp
+        ./printgllmap mask vp
+#        ./printgllmap mask Qkappa
         xdg-open vp.png
         echo '22'
-else
+elif [ "$flag_shape" -eq 3 ];then
         #ifort cree_masque_ring.f90 -o cree_masque_try_exe
         gfortran cree_vp_circles.f90 -o cree_vp_circles_exe
         ./cree_vp_circles_exe
-        ./Printgllmap model_create vp
+        ./printgllmap model_create vp
         xdg-open vp.png
         echo '32'
+else
+        #ifort cree_masque_ring.f90 -o cree_masque_try_exe
+        gfortran cree_Qkappa_circles.f90 -o cree_Qkappa_circles_exe
+        ./cree_Qkappa_circles_exe
+        ./printgllmap model_create Qkappa
+        xdg-open Qkappa.png
+        echo '42'
 fi
 
 #gfortran cree_masque_ring.f90 -o cree_masque_try_exe

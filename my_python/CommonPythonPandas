@@ -1300,10 +1300,8 @@ type(npfrom_matfile2)
 
 
 ## 
-""" This is how you to multiple """" 
+ This is how you to multiple  
 ## 
-
-
 
 
 
@@ -1334,6 +1332,17 @@ for f in copyfilelist:
   8 flag_empty = (os.stat('scratch/solver/000000/first_specfem_run.log').st_size     ==0)
   9 
  10 print flag_empty
+
+
+
+### print all properties of a Python Class  
+
+an = Animal()
+attrs = vars(an)
+# {'kids': 0, 'name': 'Dog', 'color': 'Spotted', 'age': 10, 'legs': 2, 'smell': 'Alot'}
+# now dump this in some way or another
+print ', '.join("%s: %s" % item for item in attrs.items())
+
 
 
 
@@ -1410,7 +1419,9 @@ except OSError as e:
     image = mnist.train.images[num].reshape([28,28])
 
 
-
+#### check currently loaded functions 
+from inspect import getsource
+getsource(rd.readebsu)
 
 
 
@@ -1532,3 +1543,4 @@ ts3.index = pd.to_datetime(ts3.index)
 ################################################################### package management #####
 
 conda install -c conda-forge python-pptx
+

@@ -102,12 +102,95 @@ proc000000_NSPEC_ibool.bin  proc000000_vp.bin      proc000000_z.bin
 #####
 
 
+###################### scratch output introduction 
+(obspy) [jiazeh@tigergpu evalfunc]$ find ./ -type d -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g' 
+|____
+|____model
+|____residuals
 
+unknown 
 
+(obspy) [jiazeh@tigergpu evalgrad]$ find ./ -type d -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+|____
+|____gradient -   proc000000_vp_kernel.bin 
+|____gradient_nomask -   proc000000_vp_kernel.bin 
+|____traces
+| |____adj
+| | |____000003
+| | |____000014
+| | |____000018
+| | |____000008
+| | |____000022
+| | |____000012
+| | |____000002
+| | |____000016
+| | |____000006
+| | |____000020
+| | |____000010
+| | |____000000
+| | |____000004
+| | |____000019
+| | |____000013
+| | |____000017
+| | |____000007
+| | |____000021
+| | |____000011
+| | |____000001
+| | |____000015
+| | |____000005
+| | |____000009
+| |____syn
+| | |____000003
+| | |____000014
+| | |____000018
+| | |____000008
+| | |____000022
+| | |____000012
+| | |____000002
+| | |____000016
+| | |____000006
+| | |____000020
+| | |____000010
+| | |____000000
+| | |____000004
+| | |____000019
+| | |____000013
+| | |____000017
+| | |____000007
+| | |____000021
+| | |____000011
+| | |____000001
+| | |____000015
+| | |____000005
+| | |____000009
+|____model - proc000000_Qkappa.bin  proc000000_vp.bin  proc000000_x.bin proc000000_rho.bin     proc000000_vs.bin  proc000000_z.bin
+|____kernels
+| |____000003
+| |____000014
+| |____000018
+| |____000008
+| |____000022
+| |____000012
+| |____000002
+| |____000016
+| |____000006
+| |____000020
+| |____000010
+| |____000000
+| |____000004
+| |____000019
+| |____000013
+| |____000017
+| |____000007
+| |____000021
+| |____000011
+| |____000001
+| |____000015
+| |____000005
+| |____sum - proc000000_vp_kernel.bin (this will be used to calculate the gradient in LBFGS, the gradient was a bit different than the summed kernels) 
+| |____000009
+|____residuals
 
-
-
- 
 
 
 # make a folder for mask (in ~/inversion_test/)
@@ -822,6 +905,61 @@ vi /home/jiazeh/seisflows/seisflows/plugins/adjoint.py
 ### see if source and receiver numbers are correct
 
 
+##### when line search failed 3 - travel time 
+plugins/adjoint.py
+69 def Traveltime(syn, obs, nt, dt):
+return - wadj seems to be correct 
+
+##### when line search failed 4 - double difference 
+
+
+######################## official documentation from me ############################# 
+######### 1. for CPU version 
+
+############# 1.1.1 fwi and seismotype 6, using (syn-obs)
+############# 1.1.2 fwi and seismotype 4, using (syn-obs)
+
+############# 1.2.1 travel time and seismotype 6, using 'return wadj' 
+############# 1.2.2 travel time and seismotype 4, using 'return wadj'	 
+ 69 def Traveltime(syn, obs, nt, dt):
+ 70     # cross correlation traveltime
+ 71     # (Tromp et al 2005, eq 45)
+ 72     wadj = _np.zeros(nt)
+ 73     # JH: time derivative dt_si
+ 74     wadj[1:-1] = (syn[2:] - syn[0:-2])/(2.*dt)
+ 75     # JH: weighting factor 
+ 76     wadj *= 1./(sum(wadj*wadj)*dt)
+ 77     # JH: travel time difference 
+ 78     wadj *= misfit.Traveltime(syn,obs,nt,dt)
+ 79     return wadj
+
+############# 1.3.1 double_difference and seismotype 6, using 'return wadj' 
+############# 1.3.1 double_difference and seismotype 4, using 'return wadj' 
+
+######### 2 for GPU version 
+############# 2.1.1 fwi and seismotype 6, using - (syn-obs)
+############# 2.1.2 fwi and seismotype 4, using  (syn-obs)
+
+############# 2.2.1 travel time and seismotype 6, using 'return wadj' 
+############# 2.2.2 travel time and seismotype 4, using 'return wadj' 
+
+############# 2.3.1 double_difference and seismotype 4, using 'return wadj' 
+############# 2.3.1 double_difference and seismotype 6, using 'return wadj' - not working 
+
+
+
+######### 3 for GPU version with -sft, -adjsource 
+############# 3.1.1 fwi and seismotype 6, using  (syn-obs)
+############# 3.1.2 fwi and seismotype 4, using  - (syn-obs)
+
+############# 3.2.1 travel time and seismotype 6, using 'return wadj' 
+############# 3.2.1 travel time and seismotype 4, not working 
+
+
+############# 3.3.1 double_difference and seismotype 4, not working  
+############# 3.3.1 double_difference and seismotype 6, return waj   
+
+
 ##### the no-output errors with GPU - 
 ÿ (obspy) [jiazeh@tigergpu inversion_test_gpu]$ cat output.optim
 696       ITER     STEPLEN      MISFIT
@@ -1056,6 +1194,7 @@ seisflows.tools.err.ParameterError: MODEL_INIT is not defined.
 
 ##### when using the real data, model_init needs to be turned on, MODEL can lead to model_init
  
+
 
 
 

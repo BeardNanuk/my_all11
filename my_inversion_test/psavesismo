@@ -7,58 +7,51 @@ import argparse
 from obspy import read
 import matplotlib.pyplot as plt
 
-from seisflows.tools.graphics import plot_section
+from seisflows.tools.graphics import plot_vector, plot_section
+
+import numpy as np
+
+# added on Fri May 24 11:48:04 EDT 2019
+from my_sfs.ze_seisflows import parse_args 
+
+import prusct.io.read_data as rd
+from my_sfs.ze_plot_section import plot_section_steps
 
 
-def parse_args():
-    # Parse input arguments
-    parser = argparse.ArgumentParser(description='Plot seismic section from SU data file.')
-
-    # file and format flags
-    parser.add_argument('file',
-                        help='SU filename')
-
-    parser.add_argument('-save',default='sismo.png',
-                        help='SU filename')
-
-    parser.add_argument('-cm', '--cmap', default='seismic',
-                        help='Matplotlib colormap scheme.')
-
-    parser.add_argument('-c', '--clip', type=float,
-                        default='0',
-                        help='Clip amplitudes [0-100]')
-
-    parser.add_argument('-t', '--title', type=str,
-                        default='',
-                        help='Plot title.')
-
-    parser.add_argument('-xint', '--x_interval', type=float,
-                        default='1.0',
-                        help='Offset axis tick spacing [km].')
-
-    parser.add_argument('-yint', '--y_interval', type=float,
-                        default='1.0',
-                        help='Time axis tick spacing [s].')
-
-    return parser.parse_args()
 
 
 if __name__ == "__main__":
 
     args = parse_args()
-
+    execfile('zfuncfolder/zconstants.py')
     if args.clip < 0:
         args.clip = 0
     elif args.clip > 100:
         args.clip = 100
-
-    stream = read(args.file, format='SU', byteorder='<')
+    # register parameters
+    #parameters = loadpy(args.parameter_file)
+    #sys.modules['seisflows_parameters'] = Dict(parameters)
+    #PAR = sys.modules['seisflows_parameters']
+    print('PAR.NT', PAR.NT)
     
-    plot_section(stream,
-                 cmap=args.cmap,
-                 clip=(100-args.clip),
-                 title=args.title,
-                 x_interval=args.x_interval,
-                 y_interval=args.y_interval)
+    idir = args.file
+    #idir = "/DATA/obs/000000/Up_file_single.su" 
+    #idir = "./scratch/solver/000000/traces/adj/Up_file_single.su.adj" 
+    data2dnp=rd.readebsu(idir=idir,t_total = PAR.NT,NREC=PAR.NREC)
+    #data2dnp=rd.readebsu(idir=idir,t_total = t_total,NREC=NREC)
+    clip=100
+    
+    plot_section_steps(data=data2dnp, clip=clip, y_star = 0, y_end=PAR.NT, title=' seismo', y_interval=yintsyn, fig_filename='sismo.png',flag_savepng='1')
+
+    #stream = read(args.file, format='SU', byteorder='<')
+    #plot_section(stream,
+    #             cmap=args.cmap,
+    #             clip=(100-args.clip),
+    #             title=args.title,
+    #             x_interval=args.x_interval,
+    #             y_interval=args.y_interval)
     #plt.show()
     plt.savefig(args.save)
+
+
+

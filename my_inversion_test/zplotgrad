@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#./Printgllmap ./scratch/evalgrad/gradient_nomask/ last
+#./printgllmap ./scratch/evalgrad/gradient_nomask/ last
 #./Printgllmap ./scratch/evalgrad/model last
-./Printgllmap ./scratch/evalgrad/gradient last
+./printgllmap ./scratch/evalgrad/gradient last
+#./printgllmap ./scratch/evalgrad/kernels/000000/ last
+#./printgllmap ./scratch/evalgrad/kernels/sum/ last
 

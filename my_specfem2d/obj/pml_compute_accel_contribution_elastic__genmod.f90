@@ -1,0 +1,18 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Sun May 26 20:44:11 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
+        MODULE PML_COMPUTE_ACCEL_CONTRIBUTION_ELASTIC__genmod
+          INTERFACE 
+            SUBROUTINE PML_COMPUTE_ACCEL_CONTRIBUTION_ELASTIC(ISPEC,    &
+     &NGLOB,DUMMY_LOC,DISPL_ELASTIC_OLD,VELOC_ELASTIC,ACCEL_ELASTIC_PML,&
+     &R_XIPLUS1)
+              INTEGER(KIND=4), INTENT(IN) :: NGLOB
+              INTEGER(KIND=4), INTENT(IN) :: ISPEC
+              REAL(KIND=4), INTENT(IN) :: DUMMY_LOC(2,5,5)
+              REAL(KIND=4), INTENT(IN) :: DISPL_ELASTIC_OLD(2,NGLOB)
+              REAL(KIND=4), INTENT(IN) :: VELOC_ELASTIC(2,NGLOB)
+              REAL(KIND=4), INTENT(OUT) :: ACCEL_ELASTIC_PML(2,5,5)
+              REAL(KIND=4), INTENT(IN) :: R_XIPLUS1(5,5)
+            END SUBROUTINE PML_COMPUTE_ACCEL_CONTRIBUTION_ELASTIC
+          END INTERFACE 
+        END MODULE PML_COMPUTE_ACCEL_CONTRIBUTION_ELASTIC__genmod

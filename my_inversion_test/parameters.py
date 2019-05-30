@@ -1,24 +1,25 @@
-WORKFLOW='inversion'    # inversion, migration,test_forward
-SOLVER='specfem2d_new'      # specfem2d, specfem3d
-SYSTEM='multicore'   # serial, pbs, slurm
+WORKFLOW='inversion_sm'    # inversion_sm, inversion_lg, migration,test_forward2
+SOLVER='specfem2d_new_ze'      # specfem2d, specfem3d
+SYSTEM='tiger_sm_gpu'   # serial, pbs, slurm,tiger_sm_gpu,tiger_lg_gpu_ze
 OPTIMIZE='LBFGS'         # base, newton
-PREPROCESS='base'       # base
-POSTPROCESS='base'      # base
+PREPROCESS='base'       # base,double_difference
+POSTPROCESS='base'      # base, base_lg
 #SCHEME='NLCG'
-#MPIEXEC='srun --wait=0 --ntasks=1 --nodes=1 '  
+MPIEXEC='srun --wait=0 --ntasks=1 --nodes=1 '  
 
-MISFIT='Waveform' 
+MISFIT='Waveform'     # TraveltimeInexact  
 MATERIALS='Acoustic'
 DENSITY='Constant'
-ATTENUATION='yes'	
+ATTENUATION='no'	
 
 # WORKFLOW
 BEGIN=1                # first iteration
-END= 200
+END=30
 NREC=180
-NSRC=4               # number of sources
+NSRC=120           # number of sources
 SAVEGRADIENT=1        # save gradient how often
 SAVETRACES=1
+SAVELAST=1
 
 # PREPROCESSING
 FORMAT='su'   # data file format
@@ -50,13 +51,17 @@ STEPTHRESH=0.1          # step length safeguard
 STEPINIT=0.05
 
 
-NT=1300         # number of time steps
+NT=800         # number of time steps
 DT=0.00000004         # time step
 F0=300000
 
 # SYSTEM
-NTASK=4             # must satisfy 1 <= NTASK <= NSRC
-NPROC=1                # processors per task
-NTASKMAX=4	
-#NGPU=4
-#WALLTIME= 120 # walltime
+NTASK=8            # must satisfy 1 <= NTASK <= NSRC
+NPROC=1              # processors per task
+nodes=1              # number of nodes - added by jh
+NNODES_PERTASK=1     # number of nodes needed by each task in slurm_lg
+NTASKMAX=8         # set equals to NTASK for slurm_lg
+NODESIZE=1           # number of TASKS on each node - but seems to be ok to equal to NPROC
+NGPU=4               # for slurm_lg_gpu_ze -  seems to be ok to equal to NPROC, so = 1 
+TASKTIME=62
+WALLTIME=58 # walltime

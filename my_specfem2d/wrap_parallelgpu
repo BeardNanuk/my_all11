@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sbatch zpa_sp2dt.sh
+
+#. zcluster_copy
+
+
+
+
+

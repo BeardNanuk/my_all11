@@ -1,17 +1,17 @@
-#DATA = '/scratch/gpfs/etienneb/2D_inversion_80_elem/Donnees'
-#DATA = '/home/jiazeh/inversion_test/DATA'
+#DATA = '/scratch/gpfs/jiazeh/itt/DATA/'
 
-MODEL_INIT = '/home/jiazeh/inversion_test/model_init'
+MODEL_INIT = '/scratch/gpfs/jiazeh/itt/model_init'
 
-#MODEL = '/home/jiazeh/inversion_test/model_true'
-MODEL_TRUE = '/home/jiazeh/inversion_test/model_true'
+MODEL_TRUE = '/scratch/gpfs/jiazeh/itt/model_true'
 
-MASK ='/home/jiazeh/inversion_test/mask'
+#MODEL  = '/scratch/gpfs/jiazeh/inversion_test_sm/model_true'
+
+MASK ='/scratch/gpfs/jiazeh/itt/mask'
 
 PRECOND = ''
 
-SPECFEM_DATA = '/home/jiazeh/inversion_test/specfem_data'
+SPECFEM_DATA = '/scratch/gpfs/jiazeh/itt/specfem_data'
 
-SPECFEM_BIN = '/home/jiazeh/specfem2d/bin'
+SPECFEM_BIN = '/scratch/gpfs/jiazeh/sp2dt2/bin'
 
 

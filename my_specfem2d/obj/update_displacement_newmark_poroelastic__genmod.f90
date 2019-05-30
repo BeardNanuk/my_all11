@@ -1,0 +1,30 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Sun May 26 20:44:09 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
+        MODULE UPDATE_DISPLACEMENT_NEWMARK_POROELASTIC__genmod
+          INTERFACE 
+            SUBROUTINE UPDATE_DISPLACEMENT_NEWMARK_POROELASTIC(DELTAT,  &
+     &DELTATOVER2,DELTATSQUAREOVER2,ACCELS_POROELASTIC,                 &
+     &VELOCS_POROELASTIC,DISPLS_POROELASTIC,ACCELW_POROELASTIC,         &
+     &VELOCW_POROELASTIC,DISPLW_POROELASTIC)
+              USE SPECFEM_PAR, ONLY :                                   &
+     &          NGLOB_POROELASTIC,                                      &
+     &          PML_BOUNDARY_CONDITIONS
+              REAL(KIND=8), INTENT(IN) :: DELTAT
+              REAL(KIND=8), INTENT(IN) :: DELTATOVER2
+              REAL(KIND=8), INTENT(IN) :: DELTATSQUAREOVER2
+              REAL(KIND=4), INTENT(INOUT) :: ACCELS_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+              REAL(KIND=4), INTENT(INOUT) :: VELOCS_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+              REAL(KIND=4), INTENT(INOUT) :: DISPLS_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+              REAL(KIND=4), INTENT(INOUT) :: ACCELW_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+              REAL(KIND=4), INTENT(INOUT) :: VELOCW_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+              REAL(KIND=4), INTENT(INOUT) :: DISPLW_POROELASTIC(2,      &
+     &NGLOB_POROELASTIC)
+            END SUBROUTINE UPDATE_DISPLACEMENT_NEWMARK_POROELASTIC
+          END INTERFACE 
+        END MODULE UPDATE_DISPLACEMENT_NEWMARK_POROELASTIC__genmod

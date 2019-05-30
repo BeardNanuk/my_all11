@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "switch to the path and folder to my data_collecting_folder"
+
+final_dir=$HOME/Desktop/d
+
+cd $final_dir

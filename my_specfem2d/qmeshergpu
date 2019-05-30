@@ -1,0 +1,109 @@
+ 
+ **********************************************
+ *** Specfem 2-D Mesher - MPI version       ***
+ **********************************************
+ 
+ Running Git version of the code corresponding to 
+ commit 19a7785ee0f59aa95c161f322db3420e4888375b
+ dating From Date:   Fri Jun 22 17:18:12 2018 +0200
+ 
+ Reading the parameter file...
+ 
+ Title of the simulation: Test of SPECFEM2D with curved interfaces
+ 
+ 
+ Receiver lines:
+   Nb of line sets =            1
+ 
+   using existing STATIONS file 
+   file name is ./DATA/STATIONS
+   found          180  receivers
+ 
+ Materials:
+   Nb of solid, fluid or porous materials =            1
+ 
+ --------
+ Material #           1  isotropic
+ rho,cp,cs   =    1000.00000000000        1479.70000000000     
+  0.000000000000000E+000
+ Qkappa, Qmu =    10.0000000000000        10.0000000000000     
+ Material is fluid
+ --------
+ 
+ Mesh from internal meshing:
+ 
+ Reading interface data from file: ./DATA/./interfaces.dat                      
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                         
+ Reading            2  points for interface            1
+ Reading            2  points for interface            2
+ 
+ Total number of layers in z direction =            1
+ There are           60  spectral elements along Z in layer            1
+ 
+ Total number of spectral elements along X =           60
+ Total number of spectral elements along Z =           60
+ 
+ Regions:
+   Nb of regions in the mesh =            1
+ 
+ ------
+ Region            1
+ IX from            1  to           60
+ IZ from            1  to           60
+ Material #            1  isotropic
+ Material is fluid
+ vp     =    1479.700    
+ vs     =   0.0000000E+00
+ rho    =    1000.000    
+ Poisson's ratio =   0.5000000    
+ QKappa =    10.00000    
+ Qmu    =    10.00000    
+ ------
+ Total number of spectral elements         =         3600
+ 
+ 
+ Parameter file successfully read 
+ 
+ The mesh contains         3600  elements
+ 
+ Control elements have            4  nodes
+ 
+ Source           1
+   Position xs, zs =   1.700000000000000E-002  0.000000000000000E+000
+ 
+   Source type (1=force, 2=moment tensor, 3=Rayleigh wave, 4=plane incident P, 5
+ =plane incident S):            1
+   Force source:
+   Angle of the source (deg) =   0.000000000000000E+000
+   Multiplying factor  =    1000.00000000000     
+ 
+   Time function type (1=Ricker, 2=First derivative, 3=Gaussian, 4=Dirac, 5=Heav
+ iside, 8=Read from file, 9=burst):           8
+   External source time function file:
+   Source read from file:
+ /scratch/gpfs/jiazeh/csp2d_base/DATA/sources/stf_3pks_30_delayed300k
+ 
+ Reading interface data from file: ./DATA/./interfaces.dat
+ 
+ Mesh dimensions: 
+   Min and max value of X in the grid =  -4.200000000000000E-002
+  4.200000000000000E-002
+   Min and max value of Z in the grid =  -4.200000000000001E-002
+  4.200000000000001E-002
+ 
+ nedges_coupled (acoustic/elastic)     =            0
+ nedges_coupled (acoustic/poroelastic) =            0
+ nedges_coupled (poroelastic/elastic)  =            0
+ 
+ slice            0  has number of spectral elements =        3600
+ 
+ Position (x,z) of the source =   1.700000000000000E-002  0.000000000000000E+000
+ 
+ 
+ This will be a serial simulation
+ 

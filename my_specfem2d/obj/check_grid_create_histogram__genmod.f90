@@ -1,0 +1,17 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Sun May 26 20:44:03 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
+        MODULE CHECK_GRID_CREATE_HISTOGRAM__genmod
+          INTERFACE 
+            SUBROUTINE CHECK_GRID_CREATE_HISTOGRAM(ANY_FLUID_HISTO_GLOB,&
+     &LAMBDAPMIN_IN_FLUID_HISTO,LAMBDAPMAX_IN_FLUID_HISTO,              &
+     &LAMBDASMIN_HISTO,LAMBDASMAX_HISTO,F0MAX)
+              LOGICAL(KIND=4), INTENT(IN) :: ANY_FLUID_HISTO_GLOB
+              REAL(KIND=8), INTENT(IN) :: LAMBDAPMIN_IN_FLUID_HISTO
+              REAL(KIND=8), INTENT(IN) :: LAMBDAPMAX_IN_FLUID_HISTO
+              REAL(KIND=8), INTENT(IN) :: LAMBDASMIN_HISTO
+              REAL(KIND=8), INTENT(IN) :: LAMBDASMAX_HISTO
+              REAL(KIND=8), INTENT(IN) :: F0MAX
+            END SUBROUTINE CHECK_GRID_CREATE_HISTOGRAM
+          END INTERFACE 
+        END MODULE CHECK_GRID_CREATE_HISTOGRAM__genmod

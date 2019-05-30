@@ -1,0 +1,32 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Sun May 26 20:44:11 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
+        MODULE PML_COMPUTE_MEMORY_VARIABLES_VISCOELASTIC__genmod
+          INTERFACE 
+            SUBROUTINE PML_COMPUTE_MEMORY_VARIABLES_VISCOELASTIC(ISPEC, &
+     &NGLOB,DISPL_ELASTIC_OLD,DUX_DXL,DUX_DZL,DUZ_DXL,DUZ_DZL,          &
+     &KAPPA_PML_DUX_DXL,KAPPA_PML_DUZ_DZL,MU_PML_DUX_DXL,MU_PML_DUZ_DZL,&
+     &MU_PML_DUX_DZL,MU_PML_DUZ_DXL,KAPPA_DUX_DXL,KAPPA_DUZ_DZL,        &
+     &MU_DUX_DXL,MU_DUZ_DZL,MU_DUX_DZL,MU_DUZ_DXL)
+              INTEGER(KIND=4), INTENT(IN) :: NGLOB
+              INTEGER(KIND=4), INTENT(IN) :: ISPEC
+              REAL(KIND=4), INTENT(IN) :: DISPL_ELASTIC_OLD(2,NGLOB)
+              REAL(KIND=4), INTENT(IN) :: DUX_DXL(5,5)
+              REAL(KIND=4), INTENT(IN) :: DUX_DZL(5,5)
+              REAL(KIND=4), INTENT(IN) :: DUZ_DXL(5,5)
+              REAL(KIND=4), INTENT(IN) :: DUZ_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: KAPPA_PML_DUX_DXL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: KAPPA_PML_DUZ_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_PML_DUX_DXL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_PML_DUZ_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_PML_DUX_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_PML_DUZ_DXL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: KAPPA_DUX_DXL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: KAPPA_DUZ_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_DUX_DXL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_DUZ_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_DUX_DZL(5,5)
+              REAL(KIND=4), INTENT(OUT) :: MU_DUZ_DXL(5,5)
+            END SUBROUTINE PML_COMPUTE_MEMORY_VARIABLES_VISCOELASTIC
+          END INTERFACE 
+        END MODULE PML_COMPUTE_MEMORY_VARIABLES_VISCOELASTIC__genmod

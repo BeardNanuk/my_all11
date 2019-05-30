@@ -18,12 +18,12 @@ program cree_mask_ring
   LOGICAL :: mf_range1,mf_range2,mf_range3
   real, dimension(:,:,:), allocatable :: x_store,z_store,vp_store
   character(len=200) :: filename
-  nspec=300*300/1
+  nspec=60*60/1
   tol = 0.3
   amax=0.04
   size_layer = tol*amax
   NGLL=5
-  NPROC=8
+  NPROC=1
 
 
   do iproc=1,NPROC
@@ -81,9 +81,9 @@ program cree_mask_ring
 x_center = 0 
 y_center = 0 
 ! array radius - change to transition center
-radius_circle = 0.08
+radius_circle = 0.015
 ! spatial period (window width)
-T_space = 0.05
+T_space = 0.001
 ! to adjust such that at radius = radius_circle, the total phase is 2*pi
 mypi = 3.1415926535
 phy = 2*mypi*(1-radius_circle/T_space)

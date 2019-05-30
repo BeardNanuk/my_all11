@@ -12,22 +12,19 @@ PAR = sys.modules['seisflows_parameters']
 nproc=PAR.NPROC
 print nproc
 
-#dirname = sys.argv[1]
-#par = sys.argv[2]
-#K = sys.argv[3]
-#get coordinate vector
 x=np.array([])
 z=np.array([])
 for i in range(nproc):
   if (par == 'last'):
      x_temp, z_temp = getcoords('./model_init',i)
   else:
-     x_temp, z_temp = getcoords(dirname,i)
+     x_temp, z_temp = getcoords('./model_init',i)
+     #x_temp, z_temp = getcoords(dirname,i)
   x=np.append(x,x_temp)
   z=np.append(z,z_temp)
 
-print('xshape = ', x.shape)
-print('zshape = ', z.shape)
+###print('xshape = ', x.shape)
+###print('zshape = ', z.shape)
 #get parameter to image vector
 v=np.array([])
 for i in range(nproc):
@@ -47,12 +44,15 @@ x_undersamp = x[::undersamp_fact]
 z_undersamp = z[::undersamp_fact]
 
 
-minval = min(w_undersamp)
-maxval = max(w_undersamp)
-maxabs = max(abs(w_undersamp))
-temp='jh ='
-print temp, maxval-minval
-print msg % (filename, minval, maxval)
+max_abs_value = np.max(abs(w))
+print('max value= ', max_abs_value)
+
+#minval = min(w_undersamp)
+#maxval = max(w_undersamp)
+#maxabs = max(abs(w_undersamp))
+#temp='jh ='
+#print temp, maxval-minval
+#print msg % (filename, minval, maxval)
 f, p = meshplot(x_undersamp, z_undersamp, w_undersamp)
 plt.xticks( color = 'k', size = 18)
 plt.yticks( color = 'k', size = 18)
@@ -65,8 +65,8 @@ ax.yaxis.set_major_locator(ticker.MultipleLocator(multi_locator_spc))
 ax.set_xlim((-half_x-0.00001,half_x+0.00001))
 ax.set_ylim((-half_z-0.00001,half_z+0.00001))
 #print('z[-1]',z[-1])
-print('x[0],x[10],x[-10],x[-1]',x[0],x[10],x[-10],x[-1])
-print('z[0],z[10],z[-10],z[-1]',z[0],z[10],z[-10],z[-1])
+#####print('x[0],x[10],x[-10],x[-1]',x[0],x[10],x[-10],x[-1])
+#####print('z[0],z[10],z[-10],z[-1]',z[0],z[10],z[-10],z[-1])
 #ax.set_xlim((-0.1001,0.1001))
 p.set_cmap(plt.cm.RdYlBu)
 #    p.cmap.set_over('k')

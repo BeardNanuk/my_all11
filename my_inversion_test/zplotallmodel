@@ -10,11 +10,11 @@
 ## revisd on Sat Nov 24 14:47:16 UTC 2018
 ## get rid of '.' in front of /output
 
-. ./zpara_headers
+. ./zfuncfolder/zpara_headers
 
 filename2=$1   # 'vp','vs','*'(for *, see what has been excluded for plotting in zplotbin)
 
-echo 'dododo'
+echo '****************** start: plot models from all iterations*****************************'
 echo 'jobs_perchuck' $jobs_perchuck
 
 xz_dirname=$(printf "model_init")
@@ -40,3 +40,6 @@ for i in `seq 0 $Nloop`;do
         done
 wait
 done
+
+
+echo '****************** end: plot models from all iterations*****************************'

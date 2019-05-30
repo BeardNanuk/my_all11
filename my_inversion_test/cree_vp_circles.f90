@@ -20,12 +20,12 @@ program cree_vp_circles
   LOGICAL :: mf_range,mf_range2,mf_range_big
   real, dimension(:,:,:), allocatable :: x_store,z_store,vp_store
   character(len=200) :: filename
-  nspec=300*300/1
+  nspec=60*60/1
   tol = 0.3
   amax=0.04
   size_layer = tol*amax
   NGLL=5
-  NPROC=8
+  NPROC=1
 
 
   do iproc=1,NPROC
@@ -81,16 +81,16 @@ program cree_vp_circles
   !enddo
 
 x_center = 0 
-y_center = 0.025
+y_center = 0.006
 x_center2 = 0
-y_center2 = -0.025
+y_center2 = -0.006
 x_center_big = 0
 y_center_big = 0 
 
 ! array radius - change to transition center
-radius_circle = 0.010
-radius_circle2 = 0.010
-radius_circle_big = 0.047
+radius_circle = 0.002
+radius_circle2 = 0.002
+radius_circle_big = 0.010
 
 
 
@@ -121,9 +121,9 @@ do ispec=1,nspec
            if (mf_range) then
                vp_store(i,j,ispec) = 1479.7
            else if (mf_range2) then 
-               vp_store(i,j,ispec) = 1520.0
+               vp_store(i,j,ispec) = 1482.0
            else 
-               vp_store(i,j,ispec) = 1500.0
+               vp_store(i,j,ispec) = 1480.7
            end if
        else 
            vp_store(i,j,ispec) = 1479.7

@@ -7,7 +7,7 @@
 # revised on Fri Dec  7 12:26:13 EST 2018 
 # ylab.title(par + ' iter num' +K, size=26)
 
-execfile('zplotgll_libload.py')
+execfile('./zfuncfolder/zplotgll_libload.py')
 
 if __name__ == '__main__':
     """ Plots data on 2-D unstructured mesh
@@ -28,4 +28,4 @@ if __name__ == '__main__':
 
     execfile('zplotgll_common_parts.py')
     pylab.title(par + ' iter num' +K, size=26)
-    plt.savefig( 'output/' + par + '_' + K +'.png')
+    plt.savefig( 'obf/' + par + '_' + K +'.png')

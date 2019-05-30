@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+ls scratch/solver/000*/traces/obs

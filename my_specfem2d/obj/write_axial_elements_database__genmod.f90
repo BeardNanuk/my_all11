@@ -1,0 +1,19 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Sun May 26 20:44:11 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
+        MODULE WRITE_AXIAL_ELEMENTS_DATABASE__genmod
+          INTERFACE 
+            SUBROUTINE WRITE_AXIAL_ELEMENTS_DATABASE(IIN_DATABASE,      &
+     &NELEM_ON_THE_AXIS,ISPEC_OF_AXIAL_ELEMENTS,NELEM_ON_THE_AXIS_LOC,  &
+     &IPROC,NUM_PHASE,REMOVE_MIN_TO_START_AT_ZERO)
+              INTEGER(KIND=4), INTENT(IN) :: NELEM_ON_THE_AXIS
+              INTEGER(KIND=4), INTENT(IN) :: IIN_DATABASE
+              INTEGER(KIND=4) :: ISPEC_OF_AXIAL_ELEMENTS(               &
+     &NELEM_ON_THE_AXIS)
+              INTEGER(KIND=4), INTENT(INOUT) :: NELEM_ON_THE_AXIS_LOC
+              INTEGER(KIND=4), INTENT(IN) :: IPROC
+              INTEGER(KIND=4), INTENT(IN) :: NUM_PHASE
+              INTEGER(KIND=4), INTENT(IN) :: REMOVE_MIN_TO_START_AT_ZERO
+            END SUBROUTINE WRITE_AXIAL_ELEMENTS_DATABASE
+          END INTERFACE 
+        END MODULE WRITE_AXIAL_ELEMENTS_DATABASE__genmod

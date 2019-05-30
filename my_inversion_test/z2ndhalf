@@ -5,7 +5,11 @@
 # created on Sat Nov 24 17:59:23 EST 2018
 # created by Jiaze He 
 
+# revised on Mon Dec 24 20:29:46 UTC 2018
+# includes parallelized zplot_signals_main_paral.py
 
+
+echo ' ########### start: the entire post processing #########################'
         Xint=1.0
         Yint=1000.0
         Clip_percent=100
@@ -14,30 +18,32 @@
 
 #cp DATA/Uexp.txt OUTPUT_FILES/Uexp.txt
 
-./zbash_try 
+#./zbash_try 
+
+rm -r obf/output/*
+rm obf/* 
+#if os.path.exists('obf/output'):
+#   shutil.rmtree('obf/output')
+#os.makedirs('obf/output')
 
 
+
+./plot_cost_function.sh &
 echo 'number of time steps is '$NSTEP 
 echo 'bk path is '$foldname_for_results_saving
-./zplotallmodel vp > zplotallvp_log.txt
-./printgllmap model_true/ vp
-./zplotallmodel Qkappa > zplotallQkappa_log.txt
-./printgllmap model_true/ Qkappa 
-echo "plotting png has been completed"
+./printgllmap model_init/ vp; mv vp.png obf/vp_0000.png &
+./zplotallmodel vp > zplotallvp_log.txt &
+./printgllmap model_true/ vp; mv vp.png obf/vp_true.png
+#./zplotallmodel Qkappa > zplotallQkappa_log.txt
+#./printgllmap model_true/ Qkappa 
+#echo "plotting png has been completed"
 
 #python zconvert_su_to_mat
 #python zsavesismo
 
 #./zcopy_files
-python zplot_signals_main.py
+#python zplot_signals_main_paral.py
+#mv output/traces output/traces_0000
 python zauto_results
-
-
-
-
-
-
-
-
 
 

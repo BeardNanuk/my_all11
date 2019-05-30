@@ -5,11 +5,12 @@
 #created on Thu Nov  1 18:31:56 UTC 2018 
 #created by Jiaze HE  
 
-. ./zpara_headers
+. ./zfuncfolder/zpara_headers
 
 
 #!!!!!!!!!!!! be really careful about the destination 
-final_dir="$HOME/Desktop/d/att_csic"
+final_dir="/scratch/gpfs/jiazeh/Desktop/d/sys_node_core"
+#final_dir="$HOME/Desktop/d/sys_node_core"
 
 final_foldername=$(printf "${final_dir}/${foldername}")
 #final_foldername=$(printf "${final_dir}/f0_${intf0}")
@@ -34,21 +35,24 @@ dfolder='bk_small'
 
 cp -rf *.png $dfolder
 cp output.log output.optim $dfolder
+#cp -rf dd_ze/ $dfolder
 temp_full="$dfolder/specfem_data"
 mkdir -p $temp_full && eval cp -r specfem_data/[PaiS]* $temp_full
-temp_full="$dfolder/output"
-mkdir -p $temp_full && eval cp -r output/v* $temp_full && eval cp -r output/z* $temp_full
-eval cp -r output/traces $temp_full
-#eval cp -r output/traces*/*.png $temp_full
-temp_full="$dfolder/model_init"
-mkdir -p $temp_full && eval cp -r model_init/[p]* $temp_full
-temp_full="$dfolder/model_true"
-mkdir -p $temp_full && eval cp -r model_true/[p]* $temp_full
-temp_full="$dfolder/mask"
-mkdir -p $temp_full && eval cp -r mask/[p]* $temp_full
-temp_full="$dfolder/DATA"
-mkdir -p $temp_full && eval cp -r DATA/[0]* $temp_full
-cp z* c* p* output.optim $dfolder
+#temp_full="$dfolder/output"
+#mkdir -p $temp_full && eval cp -r output/v* $temp_full && eval cp -fr output/z* $temp_full
+#eval cp -r output/traces $temp_full
+##eval cp -r output/traces*/*.png $temp_full
+#temp_full="$dfolder/model_init"
+#mkdir -p $temp_full && eval cp -r model_init/[p]* $temp_full
+#temp_full="$dfolder/model_true"
+#mkdir -p $temp_full && eval cp -r model_true/[p]* $temp_full
+#temp_full="$dfolder/mask"
+#mkdir -p $temp_full && eval cp -r mask/[p]* $temp_full
+#temp_full="$dfolder/DATA"
+#mkdir -p $temp_full && eval cp -r DATA/[0]* $temp_full
+temp_full="$dfolder"
+mkdir -p $temp_full && eval cp -r obf $temp_full
+cp z* c* p* $dfolder
 
 
 #vi $final_dir/zreadme.txt && 

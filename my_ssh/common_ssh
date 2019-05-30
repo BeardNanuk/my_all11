@@ -94,7 +94,13 @@ module load cudatoolkit/9.2
 
 module list
 
-NPROC=4
+NPROC=rc/specfem2D/enforce_fields.f90(442): error #5508: Declaration of routine 'COSH_CMPLX' conflicts with a previous declaration
+ function cosh_cmplx(x)
+----------^
+compilation aborted for src/specfem2D/enforce_fields.f90 (code 1)
+make: *** [obj/enforce_fields.spec.o] Error 1
+make: *** Waiting for unfinished jobs....
+
 #rm outputmesher
 rm OUTPUT_FILES/*
 # creates and decomposes mesh
@@ -150,6 +156,34 @@ date
 '
 X11 connection rejected because of wrong authentication.
 display: unable to open X server  `localhost:64.0' @ error/display.c/DisplayImageCommand/431.
+
+
+
+
+################################## complile errors for cpu 
+
+### cosh_cmplx() -- 
+src/specfem2D/enforce_fields.f90(442): error #5508: Declaration of routine 'COSH_CMPLX' conflicts with a previous declaration
+ function cosh_cmplx(x)
+----------^
+compilation aborted for src/specfem2D/enforce_fields.f90 (code 1)
+make: *** [obj/enforce_fields.spec.o] Error 1
+make: *** Waiting for unfinished jobs....
+
+## cause 
+OUTPUT_FILES is not empty 
+## solution 1
+ 1006  rm -r OUTPUT_FILES/
+ 1007  ls
+ 1008  make clean; 
+ 1009  module list
+ 1010  ./configure FC=ifort --with-mpi
+ 1011  make -j 
+ 1012  ls bin/
+ 1013  make xcombine_sem 
+ 1014  history 
+## solution 2
+if above not working, just continue to type in "make -j "
 
 
 ####################### now gpu ################################ 

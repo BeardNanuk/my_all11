@@ -6,8 +6,8 @@
 ### created on Thu Dec  6 18:17:23 UTC 2018
 ### created by Jiaze He 
 
-### revised on Wed Dec 12 15:38:36 UTC 2018
-### many iterations now included
+### revised on Mon Dec 24 20:29:46 UTC 2018 
+### parallized using Process 
 
 #### figure gereration in parallel
 if __name__ == '__main__':
@@ -68,29 +68,36 @@ if __name__ == '__main__':
     t_total_obs = np.arange(D_T,NSTEP*D_T+D_T,D_T)*1e6
     sig_plot_para.t_total_obs=t_total_obs
 
-    #iter_matrix = [1];
-    iter_matrix = [1,2,3,4,5,6,7,8,9]
+    iter_matrix = [0,1];
+    #iter_matrix = [0,1,2,3,4]
+    #iter_matrix = [0,1,2,3,4,5,6,7]
+    #iter_matrix = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,18]
     sig_plot_para.iter_matrix=iter_matrix 
+    #iter_matrix2 = np.concatenate(([0], iter_matrix), axis=0)
+    #sig_plot_para.iter_matrix2=iter_matrix2 
     source_matrix = [0]
-    sig_plot_para.sig_plot_para=sig_plot_para
-    rec_matrix = [0,3,9,12,15]
+    sig_plot_para.source_matrix=source_matrix
+    rec_matrix = [0,10,20,40]
     sig_plot_para.rec_matrix=rec_matrix
 
-    save_sig_plot_para_pickledump_fn = 'output/sig_plot_para_pickle'
+    save_sig_plot_para_pickledump_fn = 'obf/sig_plot_para_pickle'
     pickle.dump(sig_plot_para,open(save_sig_plot_para_pickledump_fn,'wb'))
     t1 = time.time()
 
-    processes = [1]
-    for iter_num in iter_matrix:
-	for source_num in source_matrix:   
-#	    zplot_signals_one_iter_one_source(iter_num,source_num, rec_matrix,save_sig_plot_para_pickledump_fn)
-	    process = Process(target=zplot_signals_one_iter_one_source, args=(iter_num,source_num, rec_matrix,save_sig_plot_para_pickledump_fn)) 	
-	    processes.append(process)
-	    # Processes are spawned by creating a Process object and 
-	    process.start()
-
-    for process in processes[1:]: 
-	process.join()
+#    processes = []
+#    for iter_num in iter_matrix:
+#	for source_num in source_matrix:   
+##	    zplot_signals_one_iter_one_source(iter_num,source_num, rec_matrix,save_sig_plot_para_pickledump_fn)
+#	    process = Process(target=zplot_signals_one_iter_one_source, args=(iter_num,source_num, rec_matrix,save_sig_plot_para_pickledump_fn)) 	
+#	    processes.append(process)
+#	    # Processes are spawned by creating a Process object and 
+#	    process.start()
+#
+#    for process in processes[1:]: 
+#	process.join()
+    ## added on Fri May 24 15:37:17 EDT 2019
+    execfile('zplot_seismo_main.py')
+    execfile('zfuncfolder/zmulti_signal_comp_main.py')
 
     print("Multiprocessing complete")
     t2 = time.time()
