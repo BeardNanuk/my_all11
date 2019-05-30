@@ -1,13 +1,13 @@
 #!/bin/bash
 
 ## copy all my code to my_all then update github 
-
+rm -rf my_* 
 cp -rf ../my_* . 
 
 wait
 
 git add .
-git commit -m "14th commit"
+git commit -m "15th commit"
 #git push -u github master
 git push origin master
 
