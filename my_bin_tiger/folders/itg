@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "switch to the path and folder to inversion_test_gpu"
+
+cd /scratch/gpfs/jiazeh/itg/
+#cd $HOME/inversion_test_gpu/
+
+
+

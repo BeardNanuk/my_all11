@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "copy all files in jiazeh@paris:/home/jiazeh/temp to the current folder"
+
+eval scp -r jiazeh@paris:/home/jiazeh/temp/* . 
+#scp -r ./* jiazeh@paris:/home/jiazeh/temp

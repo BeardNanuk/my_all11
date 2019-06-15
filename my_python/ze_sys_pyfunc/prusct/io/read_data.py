@@ -57,6 +57,34 @@ def readebsu(idir='', t_total=0,NREC=0):
 #
 #    return stream
 
+def readstreamsu(path, filename,t_total=0,NREC=0,dt=0):
+    """ Reads Seismic Unix files
+
+      Hardwired ''
+    """
+    import obspy
+    import numpy as np
+    from obspy.core import Stream, Stats, Trace
+    #stream = obspy.read(path +'/'+ filename, 
+    #               format='SU',
+    #               byteorder='<')
+
+    with open(path +'/'+ filename, 'rb') as file:
+      SU_data = np.fromfile(file,dtype=np.float32)
+
+    NSTEP = (len(SU_data)-NREC*60) / NREC
+
+    stream = Stream()
+
+    for irec in range(NREC):
+        stats = Stats()
+        data = SU_data[60 + (60+NSTEP)*irec : (60+NSTEP)*(irec+1)]
+        stats.sampling_rate = 1./dt
+        #stats.npts = PAR.NT
+
+        stream.append(Trace(data=data, header=stats))
+
+    return stream
 
 
 def readmat(idir='',variable_name_in_mat='fan_beam_scan_full'):
@@ -94,9 +122,12 @@ def mat_to_su(obs_file=0,i=0,t_total_obs=0,t_totalNew_obs=0):
     ## dirs contain i/o files
     #obspath=os.getcwd() + '/obf/input/' + obs_file + obs_format
 
-    INPUT_path_folder =os.getcwd() + '/obf/input/obs_ts400/'
-    OUTPUT_path_folder =os.getcwd() + '/obf/output/obs_ts400_su_delay_adjust/'
+    #INPUT_path_folder =os.getcwd() + '/obf/input/obsFan_ts400_mat/'
+    #OUTPUT_path_folder =os.getcwd() + '/obf/output/obsFan_ts400_su/'
     
+    INPUT_path_folder =os.getcwd() + '/obf/input/emFan_ts0_mat/'
+    OUTPUT_path_folder =os.getcwd() + '/obf/output/emFan_ts0_su/'
+
     i2= (i-1) 
     save_su_fn = '%06d/' % i2 
     
@@ -105,32 +136,122 @@ def mat_to_su(obs_file=0,i=0,t_total_obs=0,t_totalNew_obs=0):
     ofolder = OUTPUT_path_folder + save_su_fn
     ofile= ofolder + 'Up_file_single.su'
     
-    stream_interp_delay(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
-    #stream_interp(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
+    #stream_interp_delay(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
+    stream_interp(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
+    #stream_no_interp(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
+
+
+
+def stream_no_interp(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0):
+
+    import prusct.io.read_data as rd
+    import prusct.io.write_data as wd
+
+    ### flip the sign as needed
+    data_obs = rd.readmat(idir=idir)
+    #print('shape of data_obs:',(data_obs).shape)
+    print('max of data_obs:',(data_obs).max())
+    print('ofile: ', ofile) 
+    #from scipy import interpolate
+
+    data1 = readstreamsu('obf/input/','Up_file_single_3360.su',t_total=t_total_obs,NREC=176,dt=5e-4)
+
+    for trace_num in range(0,176,1):
+        trace_obs = data_obs[:,trace_num]
+        data1[trace_num].data[:] = trace_obs
+        data1[trace_num].stats.sampling_rate = 1/5e-4
+
+    import shutil
+    import os
+
+    #print('max of data1[12].data[:].max():',data1[12].data[:].max())
+    if os.path.exists(ofolder):
+        shutil.rmtree(ofolder)
+
+    os.makedirs(ofolder)
+
+    wd.writestreamsu(data1,ofolder,'Up_file_single.su')
+    #data1.write(ofile,format='SU')
+    #data1.write(ofile)
 
 
 
 def stream_interp(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0):
 
     import prusct.io.read_data as rd
+    import prusct.io.write_data as wd
 
     ### flip the sign as needed
-    data_obs=-rd.readmat(idir=idir)
+    data_obs=rd.readmat(idir=idir)
     print('shape of data_obs:',(data_obs).shape)
     from scipy import interpolate
 
 
-    from seisflows.plugins import adjoint, misfit, readers, writers
-    import prusct.io.read_data as rd
+    #from seisflows.plugins import adjoint, misfit, readers, writers
+    #import prusct.io.read_data as rd
 
-    reader = getattr(readers,'su')
-    writer = getattr(writers,'su')
+    #reader = getattr(readers,'su')
+    #writer = getattr(writers,'su')
 
 
-    data1 = reader('obf/input/','Up_scsic_r14_gpu_mtrue1578stf8_seis6_f03500000.su')
+    #data1 = reader('obf/input/','Up_scsic_r14_gpu_mtrue1578stf8_seis6_f03500000.su')
+    data1 = readstreamsu('obf/input/','Up_file_single_filter3syn.su',t_total=t_total_obs,NREC=176,dt=5e-4)
 
     for trace_num in range(0,176,1):
         trace_obs = data_obs[:,trace_num]
+        #print('about to utraceprepare')
+        #print('trace_obs.shape', trace_obs.shape)
+        #print('t_total_obs.shape', t_total_obs.shape)
+        #print('t_totalNew_obs.shape', t_totalNew_obs.shape)
+        #print('shape of data1[trace_num].data[:].shape:',data1[trace_num].data[:].shape)
+        #print('utrace -shape: ', utraceprepare(trace_obs, t_total_obs, t_totalNew_obs).shape)
+        data1[trace_num].data[:] = utraceprepare(trace_obs, t_total_obs, t_totalNew_obs)
+        data1[trace_num].stats.sampling_rate = 1/4e-4
+
+    import shutil
+    import os
+    
+    if os.path.exists(ofolder):
+        shutil.rmtree(ofolder)
+
+    os.makedirs(ofolder)
+
+    wd.writestreamsu(data1,ofolder,'Up_file_single.su')
+    #data1.write(ofile,format='SU')
+
+def stream_interp_delay(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0,steps_num=-3412):
+
+    import prusct.io.read_data as rd
+    import prusct.io.write_data as wd
+
+    ### flip the sign as needed
+    data_obs=rd.readmat(idir=idir)
+    print('shape of data_obs:',(data_obs).shape)
+    print('steps_num ', steps_num)
+    if steps_num < 0:
+        ## padd zeros to the front
+        zerosarray = np.zeros((abs(steps_num),176))
+        data_Re_obs =  np.concatenate((zerosarray, data_obs[0:-1-abs(steps_num)+1,:]), axis=0)
+
+    elif steps_num > 0:
+        zerosarray = np.zeros((abs(steps_num),176))
+        data_Re_obs =  np.concatenate((data_obs[abs(steps_num):-1,:],zerosarray), axis=0)
+    print('data_Re_obs', data_Re_obs.shape)
+
+    from scipy import interpolate
+
+    #from seisflows.plugins import adjoint, misfit, readers, writers
+    #import prusct.io.read_data as rd
+
+    #reader = getattr(readers,'su')
+    #writer = getattr(writers,'su')
+
+    #data1 = reader('obf/input/','Up_file_single_filter3syn.su')
+    data1 = readstreamsu('obf/input/','Up_file_single_filter3syn.su',t_total=t_total_obs,NREC=176,dt=5e-4)
+
+    for trace_num in range(0,176,1):
+        #trace_obs = data_obs[:,trace_num]
+        trace_obs = data_Re_obs[:,trace_num]
         #print('about to utraceprepare')
         #print('trace_obs.shape', trace_obs.shape)
         #print('t_total_obs.shape', t_total_obs.shape)
@@ -146,59 +267,8 @@ def stream_interp(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0):
 
     os.makedirs(ofolder)
 
-    data1.write(ofile,format='SU')
-
-def stream_interp_delay(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0,steps_num=-3412):
-
-    import prusct.io.read_data as rd
-
-    ### flip the sign as needed
-    data_obs=rd.readmat(idir=idir)
-    #if steps_num < 0:
-    #    ## padd zeros to the front
-    #    zerosarray = np.zeros((abs(steps_num),176))
-    #    data_Re_obs =  np.concatenate((zerosarray, data_obs[0:-1-abs(steps_num)+1,:]), axis=0)
-
-    #elif steps_num > 0:
-    #    zerosarray = np.zeros((abs(steps_num),176))
-    #    data_Re_obs =  np.concatenate((data_obs[abs(steps_num):-1,:],zerosarray), axis=0)
-    #print('data_Re_obs', data_Re_obs.shape)
-    #print('t_total_obs', t_total_obs.shape)
-
-    from numpy.linalg import norm
-
-
-    from scipy import interpolate
-
-
-    from seisflows.plugins import adjoint, misfit, readers, writers
-    import prusct.io.read_data as rd
-
-    reader = getattr(readers,'su')
-    writer = getattr(writers,'su')
-
-
-    data1 = reader('obf/input/','Up_scsic_r14_gpu_mtrue1578stf8_seis6_f03500000.su')
-
-    for trace_num in range(0,176,1):
-        trace_obs = data_obs[:,trace_num]
-        #trace_obs = data_Re_obs[:,trace_num]
-        interped_trace = utraceprepare(trace_obs, t_total_obs, t_totalNew_obs)
-        zerosarray=np.zeros(abs(steps_num),)
-        interped_trace_delay =  np.concatenate((zerosarray,interped_trace[0:-1-abs(steps_num)+1,]), axis=0)
-        interped_trace_delay_norm = interped_trace_delay/norm(interped_trace_delay)
-        data1[trace_num].data[:] = interped_trace_delay_norm 
-        data1[trace_num].stats.sampling_rate = 1/4e-4
-
-    import shutil
-    import os
-    
-    if os.path.exists(ofolder):
-        shutil.rmtree(ofolder)
-
-    os.makedirs(ofolder)
-
-    data1.write(ofile,format='SU')
+    #data1.write(ofile,format='SU')
+    wd.writestreamsu(data1,ofolder,'Up_file_single.su')
 
     
  

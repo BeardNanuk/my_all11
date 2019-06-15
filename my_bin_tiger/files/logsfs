@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "open my developmental log for seisflows"
+
+filename=/scratch/gpfs/jiazeh/seisflows/logsfs/logsfs
+#filename=$HOME/seisflows/logsfs/logsfs
+date >> $filename 
+
+vi $filename
+

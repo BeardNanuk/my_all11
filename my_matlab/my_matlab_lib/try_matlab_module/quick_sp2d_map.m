@@ -26,7 +26,7 @@ co_matrix =[
 27 30 30 35  5
 ];
 
-factor= 5;
+factor= 6;
 co_matrix_new=[co_matrix(:,1:4)*factor,co_matrix(:,5)]
 
 
@@ -35,11 +35,11 @@ end_loop =11;
 figure;
 % spy(z);hold on;
 for i = 1:end_loop
-lx=co_matrix(i,1);ux=co_matrix(i,2);ly=co_matrix(i,3);uy=co_matrix(i,4);
+lx=co_matrix_new(i,1);ux=co_matrix_new(i,2);ly=co_matrix_new(i,3);uy=co_matrix_new(i,4);
 costr='k-';plot_c;
 end
 % p1=quick_square(lx,ux,ly,uy);
 % plot(p1(:,1),p1(:,2),'r-');
-xlim([1,n]);
-ylim([1,n]);
+xlim([1,n*factor]);
+ylim([1,n*factor]);
 

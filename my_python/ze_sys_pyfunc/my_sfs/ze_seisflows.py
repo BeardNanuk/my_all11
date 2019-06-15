@@ -49,6 +49,39 @@ def load_su2np(INPUT_path,signal_type,source_num):
     numpy_data = np.asarray(data)
     return numpy_data
 
+def parse_args():
+    # Parse input arguments
+    parser = argparse.ArgumentParser(description='Plot seismic section from SU data file.')
+
+    # file and format flags
+    parser.add_argument('file',
+                        help='SU filename')
+
+    parser.add_argument('-save',default='sismo.png',
+                        help='SU filename')
+
+    parser.add_argument('-cm', '--cmap', default='seismic',
+                        help='Matplotlib colormap scheme.')
+
+    parser.add_argument('-c', '--clip', type=float,
+                        default='0',
+                        help='Clip amplitudes [0-100]')
+
+    parser.add_argument('-t', '--title', type=str,
+                        default='',
+                        help='Plot title.')
+
+    parser.add_argument('-xint', '--x_interval', type=float,
+                        default='1.0',
+                        help='Offset axis tick spacing [km].')
+
+    parser.add_argument('-yint', '--y_interval', type=float,
+                        default='1.0',
+                        help='Time axis tick spacing [s].')
+
+    return parser.parse_args()
+
+
 
 def zplot_signals_one_src_all_rec(iter_num,source_num, rec_matrix, obs_data,OUTPUT_FILES_path,INPUT_path,save_sig_plot_para_pickledump_fn):
     global processes

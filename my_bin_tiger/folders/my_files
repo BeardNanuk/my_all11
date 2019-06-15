@@ -2,7 +2,8 @@
 
 echo "switch to the path and folder to my files"
 
-final_dir=$HOME/Desktop/my_files
+final_dir=/scratch/gpfs/jiazeh/Desktop/my_files
+#final_dir=$HOME/Desktop/my_files
 
 cd $final_dir
 

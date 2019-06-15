@@ -8,13 +8,15 @@ stations.matrix_s_num = matrix_s_num;
 stations.folder_for_para = folder_for_para;
 switch flag_station_shape
 
-    case {2,3} 
+    case {2,3,4} 
     stations.r = r;
     stations.x_center = rec_x_center;
     stations.y_center = rec_y_center;
     stations.NRec = NRec;
     stations.delta_degree = 2*pi/NRec;
-
+    src.N = length(matrix_s_num);
+    stations.src_deltat_degree= 2*pi/src.N
+    
     case 31 
     % r is the length of the linear array 
     stations.r = r;
@@ -26,11 +28,12 @@ switch flag_station_shape
 
     
     case 11
-    stations.RecPos =mystation.RecPos;    
-    
+%     stations.RecPos =mystation.RecPos;    
+    stations.RecPos =mystation.RecPos(1:176,:);
     
 end
     
 % end
 Rectemp = create_STATIONS(stations);
 %%%%%%%%%%% STATIONS creation %%%%%%%%%%%%%%%%%%%%%
+

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "switch to the path and folder to specfem2D_sm"
+
+cd /scratch/gpfs/jiazeh/specfem2d_sm
+#cd $HOME/specfem2d_sm
+
+
+

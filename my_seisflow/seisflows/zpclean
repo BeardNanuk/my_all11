@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH --job-name=job_array_%a
+#SBATCH --output=output/job_%a.out
+#SBATCH --error=output/job_%a.err
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH --array=0-3
+#SBATCH -t 00:00:20
+
+# created on Fri Mar 29 16:36:51 EDT 2019
+# created by Jiaze He 
+
+### quickly clean the backup slurmtop folders
+
+
+
+rm -r [c]* & 
+rm -r [d]*  
+
+#rm -r [01234f]* & 
+#rm -r [56789e]* & 
+#rm -r [abcdef]*  
+
+
+
+
+
+

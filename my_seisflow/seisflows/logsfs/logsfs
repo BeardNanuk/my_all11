@@ -1,0 +1,244 @@
+Tue Dec  4 14:39:17 EST 2018
+created /scratch/gpfs/jiazeh/seisflows/logsfs/logsfs
+/scratch/gpfs/jiazeh/seisflows/seisflows/tools/graphics.py
+add colorbar to def plot_section(stream, ax=None, cmap='seismic', clip=100, title='', x_interval=1.0, y_interval=1.0):
+
+Fri Dec 14 15:44:24 EST 2018
+/home/jiazeh/seisflows/seisflows/solver/specfem2d_new.py
+104         if PAR.SAVETRACES:
+105          #  if self.taskid == 0:  ## this was not added, JH on Fri Dec 14 20:44:58 UTC     2018
+106            self.export_traces(PATH.OUTPUT+'/'+'traces/obs')
+
+
+/home/jiazeh/seisflows/seisflows/solver/specfem2d_new.py
+
+439     def export_traces(self, path, prefix='traces/obs'):
+440        # if self.taskid == 0:  ## added by JH to only save traces in event 0 on Fri Dec     14 20:44:58 UTC 2018
+441         unix.mkdir(join(path))
+442 
+443         src = join(self.cwd, prefix)
+444         dst = join(path, self.source_name)
+445         unix.cp(src, dst)
+
+Fri Dec 14 19:48:26 EST 2018
+add base.py 
+(obspy) [jiazeh@tigercpu postprocess]$ ls
+bk  __init__.py  __init__.pyc
+(obspy) [jiazeh@tigercpu postprocess]$ cp4temp 
+mv all files from /home/jiazeh/temp to the current dir
+(obspy) [jiazeh@tigercpu postprocess]$ ls
+base.py  bk  __init__.py  __init__.pyc
+
+Fri Dec 14 20:15:21 EST 2018
+Mon Dec 24 15:07:42 EST 2018
+/scratch/gpfs/jiazeh/Desktop/my_files/my_python/ze_sys_pyfunc/my_sfs
+add above 
+(obspy) [jiazeh@tigercpu my_sfs]$ ls
+__init__.py  __init__.pyc  ze_seisflows.py  ze_seisflows.pyc
+
+Mon Dec 24 15:10:59 EST 2018
+add slurm_sm_ze.py to tiger_sm.py
+Sun Jan  6 10:58:21 EST 2019
+/scratch/gpfs/jiazeh/seisflows/seisflows/system/slurm_sm_ze.py
+114                 + '--ntasks-per-node=%d ' % PAR.NTASK
+
+Fri Jan 11 19:48:16 EST 2019
+(obspy) [jiazeh@tigergpu system]$ vi tiger_sm_gpu.py
+ 63                 + '--ntasks-per-node=40 '
+Fri Jan 11 19:48:37 EST 2019
+Mon Jan 21 15:31:39 EST 2019
+Sat Mar  2 21:45:54 EST 2019
+ 94         setpar('SAVE_FORWARD', '.true.') # changed to .true, to generate syn     for backup in traces - 20190302 JH
+/home/jiazeh/seisflows/seisflows/solver/specfem2d_new.py
+Sat Mar  2 21:53:07 EST 2019
+Sat Mar  9 21:42:47 EST 2019
+
+115     def generate_data2(self, **model_kwargs):
+116         """ Generates data
+117         """
+118         self.generate_mesh(**model_kwargs)
+119         print(self.cwd)
+120         unix.cd(self.cwd)
+121         setpar('SIMULATION_TYPE', '1')
+122         setpar('SAVE_FORWARD', '.false.')
+123 
+124         call_solver(system.mpiexec(), 'bin/xmeshfem2D',output='mesh2.log')
+125         call_solver(system.mpiexec(), 'bin/xspecfem2D',output='specfem_run2.    log')
+126         ###commented out by JH on Sat Mar  9 21:01:39 EST 2019
+127         #while (os.stat('first_specfem_run.log').st_size==0):
+128         #    unix.rm('first_specfem_run.log')
+129         #    call_solver(system.mpiexec(), 'bin/xspecfem2D',output='first_sp    ecfem_run.log')
+130         #else: 
+131         #    print('first_specfem_run checked JH')
+132 
+133         if PAR.FORMAT in ['SU', 'su']:
+134             src = glob('OUTPUT_FILES/*.su')
+135             dst = 'traces/syn'
+136             unix.mv(src, dst)
+137 
+138         if PAR.SAVETRACES:
+139             self.export_traces(PATH.OUTPUT+'/'+'traces/syn')
+
+to test if 115     def generate_data2(self, **model_kwargs):
+116         """ Generates data
+117         """
+118         self.generate_mesh(**model_kwargs)
+119         print(self.cwd)
+120         unix.cd(self.cwd)
+121         setpar('SIMULATION_TYPE', '1')
+122         setpar('SAVE_FORWARD', '.false.')
+123 
+124         call_solver(system.mpiexec(), 'bin/xmeshfem2D',output='mesh2.log')
+125         call_solver(system.mpiexec(), 'bin/xspecfem2D',output='specfem_run2.    log')
+126         ###commented out by JH on Sat Mar  9 21:01:39 EST 2019
+127         #while (os.stat('first_specfem_run.log').st_size==0):
+128         #    unix.rm('first_specfem_run.log')
+129         #    call_solver(system.mpiexec(), 'bin/xspecfem2D',output='first_sp    ecfem_run.log')
+130         #else: 
+131         #    print('first_specfem_run checked JH')
+132 
+133         if PAR.FORMAT in ['SU', 'su']:
+134             src = glob('OUTPUT_FILES/*.su')
+135             dst = 'traces/syn'
+136             unix.mv(src, dst)
+137 
+138         if PAR.SAVETRACES:
+139             self.export_traces(PATH.OUTPUT+'/'+'traces/syn')
+
+to test of syn from scratch can be copied to output/traces/syn
+Sat Mar  9 21:59:02 EST 2019
+159         self.generate_mesh(
+160             model_path=PATH.MODEL_INIT,
+161             model_name='model_init',
+162             model_type='gll')
+163         self.generate_data2(
+164             model_path=PATH.MODEL_INIT,
+165             model_name='model_init',
+166             model_type='gll')
+
+Sun Mar 10 12:04:22 EDT 2019
+114 ### generate data before inversion, oriented to model_init so far
+115     def generate_data2(self, **model_kwargs):
+138         if PAR.SAVETRACES:
+139             self.export_traces(PATH.OUTPUT+'/'+'traces/syn', prefix='traces/syn')
+
+
+Tue Mar 26 14:48:53 EDT 2019
+139                    + '--nodes=%d ' % PAR.NNODES_PERTASK # added by JH on Tue Mar 26 14:48:53 EDT 2019
+system/slurm_lg_ze.py 
+-ntask is commented out
+
+Wed Apr 10 19:42:52 EDT 2019
+Wed Apr 10 19:55:24 EDT 2019
+hosts='all' - get rid of that in test_forward2
+Wed Apr 10 19:58:59 EDT 2019
+Fri Apr 12 18:52:43 EDT 2019
+try again - with 4 sources, ready for double differences 
+1262 (obspy) [jiazeh@tigergpu seisflows]$ vi system/slurm_lg_gpu_ze.py 
+1263 142                    + '--mem-per-cpu=%d ' %40000
+Mon Apr 22 13:22:02 EDT 2019
+
+Starting iteration 6
+Generating synthetics
+Computing gradient
+Traceback (most recent call last):
+  File "/var/spool/slurmd/job2771807/slurm_script", line 24, in <module>
+    workflow.main()
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/workflow/inversion2.py", line 122, in main
+    self.evaluate_gradient()
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/workflow/inversion2.py", line 224, in evaluate_gradient
+    self.write_gradient(path=PATH.GRAD, suffix='new')
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/workflow/inversion2.py", line 278, in write_gradient
+    postprocess.write_gradient(path)
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/postprocess/base_ze.py", line 58, in write_gradient
+    parameters=solver.parameters)
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/system/slurm_lg_gpu_ze.py", line 202, in run_single
+    isdone, jobs = self.job_array_status(classname, method, jobs)
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/system/slurm_lg_gpu_ze.py", line 229, in job_array_status
+    state = self.job_status(job)
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/system/slurm_lg_gpu_ze.py", line 263, in job_status
+    if line.split()[0]==job:
+IndexError: list index out of range
+(obspy) [jiazeh@tigergpu try_it]$ 
+
+Mon Apr 29 10:58:13 EDT 2019
+updated with code from EB 
+in /scratch/gpfs/jiazeh/seisflows/seisflows/plugins/from_etienne/readers.py
+
+def su(path, filename):
+    """ Reads Seismic Unix files
+
+      Hardwired ''
+    """
+    import obspy
+    import numpy as np
+    from obspy.core import Stream, Stats, Trace
+    #stream = obspy.read(path +'/'+ filename, 
+    #               format='SU',
+    #               byteorder='<')
+
+    with open(path +'/'+ filename, 'rb') as file:
+      SU_data = np.fromfile(file,dtype=np.float32)
+
+    NSTEP = (len(SU_data)-PAR.NREC*60) / PAR.NREC
+
+    stream = Stream()
+
+    for irec in range(PAR.NREC):
+        stats = Stats()
+        data = SU_data[60 + (60+NSTEP)*irec : (60+NSTEP)*(irec+1)]
+        stats.sampling_rate = 1./PAR.DT
+        #stats.npts = PAR.NT
+
+        stream.append(Trace(data=data, header=stats))
+
+    return stream
+
+in 
+/scratch/gpfs/jiazeh/seisflows/seisflows/plugins/writers.py
+ 9 ## by EB on 20190428
+ 10 def su(d, path, filename):
+ 11     for t in d:
+ 12         # work around obspy data type conversion
+ 13         t.data = t.data.astype(np.float32)
+ 14 
+ 15 #    if d[0].stats.delta > max_delta:
+ 16 #        for t in d:
+ 17 #            t.stats.delta = dummy_delta
+ 18 
+ 19     # write data to file
+ 20 #    d.write(path+'/'+filename, format='SU')
+ 21 
+ 22 
+ 23     with open(path +'/'+ filename, 'wb') as file:
+ 24       for t in d:
+ 25         a = np.zeros(len(t.data)+60,dtype=np.float32)
+ 26         a[60:] = t.data
+ 27         a.tofile(file)
+
+
+
+
+Tue Apr 30 10:51:48 EDT 2019
+(obspy) [jiazeh@tigergpu solver]$ vi specfem2d_new_ze.py
+192         #call_solver(system.mpiexec(), 'bin/xspecfem2D',output='solver.log')
+
+
+
+ 53         ### commented out by jh on Thu May  9 22:56:55 EDT 2019 
+ 54         #if PAR.FORMAT != 'su':
+ 55         #    raise Exception()
+
+  File "/scratch/gpfs/jiazeh/seisflows/seisflows/solver/specfem2d_new_ze.py", line 55, in check
+    raise Exception()
+Exception
+
+ 
+Tue May 14 17:21:17 EDT 2019
+Tue May 14 17:21:35 EDT 2019
+solver/base2.py [+]      
+ 12 from seisflows.tools import msg, unix
+(remove_unix2)
+Fri May 24 09:11:29 EDT 2019
+add getcoords, meshplot, getnames to /scratch/gpfs/jiazeh/Desktop/my_files/my_python/ze_sys_pyfunc/my_sfs/ze_plot_section.py
+add def parse_args(): to 

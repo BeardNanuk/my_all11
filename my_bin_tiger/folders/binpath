@@ -3,7 +3,8 @@
 echo "switch to the path and folder to my common bin"
 
 
-final_dir=$HOME/Desktop/my_files/my_bin
+final_dir=/scratch/gpfs/jiazeh/Desktop/my_files/my_bin
+#final_dir=$HOME/Desktop/my_files/my_bin
 
 cd $final_dir
 

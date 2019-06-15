@@ -52,7 +52,8 @@ elseif flag_assign_value == 2
     deltaL = transducer_length/(transducer_number-1);
     source_center_x = mystation.xea;
     source_center_y = mystation.yea;
-    
+    source_type = 1; % added on 20181119
+    time_function_type = 1;
     %%%%%%%%%%%%%%%%%%%%%%% parameters related to receivers %%%%%%%%%%
     r = 0.008;
     rec_x_center = 0.0004 * 5-0.00001;

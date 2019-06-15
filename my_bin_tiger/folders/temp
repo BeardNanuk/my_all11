@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "switch to the path and folder to $HOME/temp"
+
+final_dir="/scratch/gpfs/jiazeh/temp"
+#final_dir="$HOME/temp"
+
+eval cd $final_dir
+
+
+#cd /home/jiazeh/Desktop/my_files/my_bin

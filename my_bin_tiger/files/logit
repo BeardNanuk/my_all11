@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "open my developmental log for inversion_test"
+
+filename=/scratch/gpfs/jiazeh/Desktop/d/logall/logit
+#filename=$HOME/data_bk/inversion_test_data/logit/logit
+
+
+
+date >> $filename 
+
+vi $filename
+

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "open a image of forward wavefield"
+echo "open a image of forward wavefield in the current folder"
 
-xdg-open $HOME/specfem2d/OUTPUT_FILES/forward_image0000100.jpg 
+xdg-open ./OUTPUT_FILES/forward_image0000100.jpg 
 #cd /home/jiazeh/specfem2d

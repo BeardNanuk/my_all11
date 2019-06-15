@@ -7,7 +7,7 @@ for i_num = 1:length(src.matrix_s_num)
 
 s_num = src.matrix_s_num(i_num);    
 
-source_filename = sprintf('SOURCE_%06d',i_num-1);
+source_filename = sprintf('SOURCE_%06d',s_num-1);
 parafullpath=strcat(src.folder_for_para,source_filename)
 fileID = fopen(parafullpath,'w');
 
@@ -48,16 +48,35 @@ tempx=src.source_center_x;
 tempy=src.source_center_y; 
 
     case 21
-%     for i = 1:round(src.NRec)
         i = i_num;
-        %RecPos(i,1) = src.x_center + src.r*sin(src.delta_degree*i); 
-        %RecPos(i,2) = src.y_center -src.r + src.r*(1-cos(src.delta_degree*i));
-        %RecAngles(i,1) = src.delta_degree*i;
-        %RecAngles_degree(i,1) = pi*src.delta_degree*i;
-        tempx= src.x_center + src.r*sin(src.delta_degree*i); 
-        tempy= src.y_center -src.r + src.r*(1-cos(src.delta_degree*i));
-%     end
-        %src.name_of_source_file = 
+        tempx= src.x_center + src.r*cos(src.delta_degree*(i-1)); 
+        tempy= src.y_center + src.r*sin(src.delta_degree*(i-1));
+        
+    case 31
+        Bottom_x(iact_each,1)=src.source_center_x - 0.5*src.transducer_length ...
+        + src.delta_length*(iact_each-1); 
+        Bottom_y(iact_each,1)=src.source_center_y - 0.5*src.transducer_length; 
+        tempx=Bottom_x(iact_each,1);
+        tempy=Bottom_y(iact_each,1);
+    case 32
+        Bottom_x(iact_each,1)=src.source_center_x + 0.5*src.transducer_length; 
+        Bottom_y(iact_each,1)=src.source_center_y - 0.5*src.transducer_length ...
+        + src.delta_length*(iact_each-1); 
+        tempx=Bottom_x(iact_each,1);
+        tempy=Bottom_y(iact_each,1);
+    case 33
+        Bottom_x(iact_each,1)=src.source_center_x + 0.5*src.transducer_length ...
+        - src.delta_length*(iact_each-1); 
+        Bottom_y(iact_each,1)=src.source_center_y + 0.5*src.transducer_length; 
+        tempx=Bottom_x(iact_each,1);
+        tempy=Bottom_y(iact_each,1);
+    case 34
+        Bottom_x(iact_each,1)=src.source_center_x - 0.5*src.transducer_length; 
+        Bottom_y(iact_each,1)=src.source_center_y + 0.5*src.transducer_length ...
+        - src.delta_length*(iact_each-1); 
+        tempx=Bottom_x(iact_each,1);
+        tempy=Bottom_y(iact_each,1);
+        
 end
 
 fprintf(fileID,'source_surf = .false. \n');
@@ -66,9 +85,13 @@ xs_str = sprintf('xs = %6.5f \n', tempx);
 fprintf(fileID,xs_str);
 zs_str = sprintf('zs = %6.5f \n',tempy);
 fprintf(fileID,zs_str);
-fprintf(fileID,'source_type = 1 \n');
-fprintf(fileID,'time_function_type = 1 \n');
+fprintf(fileID,'source_type = %d \n', src.source_type);
+fprintf(fileID,'time_function_type = %d \n',src.time_function_type);
+if src.flag_src_diff_stfs ~= 1
 name_of_source_file_str = sprintf('name_of_source_file          =  %s \n',src.name_of_source_file);
+else
+name_of_source_file_str = sprintf('name_of_source_file          =  %s%04d \n',src.name_of_source_folder,iact_each);
+end
 fprintf(fileID,name_of_source_file_str);
 fprintf(fileID,'burst_band_width = 200.415 \n');
 fprintf(fileID,'f0 = %6.3f \n',src.f0);

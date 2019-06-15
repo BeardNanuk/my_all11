@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "switch to the path and folder to itsmc"
+
+cd /scratch/gpfs/jiazeh/itsmc/
+#cd $HOME/inversion_test_sm/
+
+
+

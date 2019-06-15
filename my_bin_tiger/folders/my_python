@@ -2,7 +2,8 @@
 
 echo "switch to the path and folder to my common python"
 
-final_dir=$HOME/Desktop/my_files/my_python	
+final_dir=/scratch/gpfs/jiazeh/Desktop/my_files/my_python	
+#final_dir=$HOME/Desktop/my_files/my_python	
 
 cd $final_dir
 

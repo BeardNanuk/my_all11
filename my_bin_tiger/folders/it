@@ -2,7 +2,8 @@
 
 echo "switch to the path and folder to inversion_test"
 
-cd $HOME/inversion_test/
+cd /scratch/gpfs/jiazeh/it/
+#cd $HOME/inversion_test/
 
 
 

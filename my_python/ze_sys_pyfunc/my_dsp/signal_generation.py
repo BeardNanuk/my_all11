@@ -22,6 +22,18 @@ def ricker(delay_steps_removal=0,f=300000, length=0, dt=4e-8,NtNew=5800):
     w_less_delay = np.append(y[delay_steps_removal:NtNew],a, axis=0)
     return t, w_less_delay 
 
+def rickerad(delay_steps_removal=0,delay_steps_ricker=0, amp_att=1,f=300000, length=0, dt=4e-8,NtNew=5800):
+
+    t = np.arange(-length/2, (length-dt)/2, dt)
+    #print('amp_att:',amp_att)
+    y = - amp_att*(1.0 - 2.0*(np.pi**2)*(f**2)*(t**2)) * np.exp(-(np.pi**2)*(f**2)*(t**2))
+    adelay= np.zeros(np.abs(delay_steps_ricker))
+    y=np.append(adelay,y,axis=0)
+    a = np.zeros(np.abs(delay_steps_removal-delay_steps_ricker))
+    w_less_delay = np.append(y[delay_steps_removal-delay_steps_ricker:NtNew],a, axis=0)
+    return t, w_less_delay
+
+
 def toneburst(peaks,delay_steps=0,f=300000,dtNew=1e-8,NtNew=5800):
     B=2*f/m.sqrt(3)/peaks
     fmax=f+B

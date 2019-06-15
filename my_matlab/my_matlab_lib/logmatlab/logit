@@ -1,0 +1,32 @@
+Fri Nov  2 23:21:36 UTC 2018
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module/source_stations_generation_main.m
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module/circular_array_inversion/par_para.m
+    source_type = 1; 
+    time_function_type = 8;
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module/source_generation.m
+    src.source_type = source_type;
+    src.time_function_type = time_function_type;
+    src.name_of_source_file = '/home/jiazeh/inversion_test/specfem_data/stf_ricker_small_delayed';
+
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/array_gen_sp2d/create_SOURCE.m
+
+Mon Nov  5 20:14:50 UTC 2018
+/home/jiazeh/Desktop/alljh/dfiles/2D_CSIC_UCM_USCT/water_only/tom_050815_agua/plot_one.m
+add detrend
+
+Mon Nov 19 20:25:25 UTC 2018
+corrected the csic array locations 
+Mon Nov 19 20:25:59 UTC 2018
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module/csic_1beam_v2_corrected
+Wed Nov 28 14:06:31 UTC 2018
+Wed Nov 28 14:07:15 UTC 2018
+/home/jiazeh/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module/stations_generation.m
+source_filename = sprintf('STATIONS_%06d',s_num-1);
+parafullpath=strcat(src.folder_for_para,source_filename)
+formatSpec = 'S%06d AA %20.19f %20.19f %2.1f %2.1f\n';
+
+Wed Nov 28 14:08:15 UTC 2018
+
+Thu Nov 29 19:25:22 UTC 2018
+/home/jiazeh/Desktop/alljh/dfiles/2D_CSIC_UCM_USCT/water_only/tom_050815_agua/plot_all_main.m
+add iterations over 23 fan beams of all the 8th single source

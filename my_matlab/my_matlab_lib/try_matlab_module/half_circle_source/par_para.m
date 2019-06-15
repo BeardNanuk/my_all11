@@ -37,13 +37,13 @@ elseif flag_assign_value == 2
     NRec = 450;
 
     %%%%%%%%%%%%%% parameters related to media and transducers %%%%%%%
-    tank_half = 0.02;
+    tank_half = 0.10;
     transducer_number = 1001; 
     transducer_length=0.004;
     deltaL = transducer_length/(transducer_number-1);
     source_center_x = 0.0004*5 - 0.00001;
     %%%%%%%%%%%%%%%%%%%%%%% parameters related to receivers %%%%%%%%%%
-    r = 0.008;
+    r = 0.08;
     rec_x_center = 0.0004 * 5-0.00001;
     rec_y_center = 0.02;
     
