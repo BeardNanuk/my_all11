@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "open my developmental log for inversion_test"
+
+#filename=$HOME/data_bk/inversion_test_data/logit/logit
+filename=$HOME/Desktop/alljh/pfiles/my_matlab_lib/logmatlab/logmat
+date >> $filename 
+
+vi $filename
+

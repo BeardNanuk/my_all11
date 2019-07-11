@@ -7,7 +7,7 @@ cp -rf ../my_* .
 wait
 
 git add .
-git commit -m "16th commit: Matlab for istf"
+git commit -m "17th commit: Matlab 2D array"
 #git push -u github master
 git push origin master
 

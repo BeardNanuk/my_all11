@@ -63,6 +63,472 @@ do iproc=1,NPROC
 (obspy) [jiazeh@paris DATA]$ cp proc000000_z.bin /home/jiazeh/inversion_test/mask
 (obspy) [jiazeh@paris DATA]$ cp proc000000_vp.bin /home/jiazeh/inversion_test/mask
 
+################################# framework summary ############### Sat Jun 29 18:21:36 EDT 2019
+
+####### initialization   
+sfrun 
+ 24 if __name__ == "__main__":
+ 25     ### workflow submission script
+ 26     args = getargs()
+ 27 
+ 28     # register parameters
+ 29     parameters = loadpy(args.parameter_file)
+ 30     sys.modules['seisflows_parameters'] = Dict(parameters)
+ 31 
+ 32     # register paths
+ 33     paths = tilde_expand(loadpy(args.path_file))
+ 34     sys.modules['seisflows_paths'] = Dict(paths)
+ 35 
+ 36     unix.mkdir(args.workdir)
+ 37     unix.cd(args.workdir)
+ 38 
+ 39     config()
+ 40 
+ 41     # submit workflow
+ 42     workflow = sys.modules['seisflows_workflow']
+ 43     system = sys.modules['seisflows_system']
+ 44     system.submit(workflow)
+
+######
+/home/jiazeh/seisflows/seisflows/config.py
+ 22 names = []
+ 23 names += ['system']
+ 24 names += ['preprocess']
+ 25 names += ['solver']
+ 26 names += ['postprocess']
+ 27 names += ['optimize']
+ 28 names += ['workflow']
+ 29 
+ 30 
+ 31 def config():
+ 32     """ Instantiates SeisFlows objects and makes them globally accessible by
+ 33       registering them in sys.modules
+ 34    """
+ 35     # parameters and paths must already be loaded
+ 36     # (normally this is done by sfsubmit)
+ 37     assert 'seisflows_parameters' in sys.modules
+ 38     assert 'seisflows_paths' in sys.modules
+ 39 
+ 40     # check if objects already exist on disk
+ 41     if exists(_output()):
+ 42         print msg.WarningOverwrite
+ 43         sys.exit()
+ 44 
+ 45     # instantiate and register objects
+ 46     for name in names:
+ 47         sys.modules['seisflows_'+name] = custom_import(name)()
+ 48 
+ 49     # error checking
+ 50     for name in names:
+ 51         sys.modules['seisflows_'+name].check()
+ 52 
+ 53     if not hasattr(sys.modules['seisflows_parameters'], 'workflow'.upper()):
+ 54         print msg.MissingParameter_Worfklow
+ 55         sys.exit(-1)
+ 56 
+ 57     if not hasattr(sys.modules['seisflows_parameters'], 'system'.upper()):
+ 58         print msg.MissingParameter_System
+ 59         sys.exit(-1)
+
+#####
+/home/jiazeh/seisflows/seisflows/config.py
+139 def custom_import(*args):
+140     """ Imports SeisFlows module and extracts class of same name. For example,
+141 
+142             custom_import('workflow', 'inversion') 
+143 
+144         imports 'seisflows.workflow.inversion' and, from this module, extracts
+145         class 'inversion'.
+146     """
+147     # parse input arguments
+148     if len(args) == 0:
+149         raise Exception(msg.ImportError1)
+150     if args[0] not in names:
+151         raise Exception(msg.ImportError2)
+152     if len(args) == 1:
+153         args += (_try(args[0]),)
+154     if not args[1]:
+155         return Null
+156 
+157     # generate package list
+158     packages = ['seisflows']
+159 
+160     # does module exist?
+161     _exists = False
+162     for package in packages:
+163         full_dotted_name = package+'.'+args[0]+'.'+args[1]
+164         print(full_dotted_name)
+$ seisflows.system.serial
+165         if module_exists(full_dotted_name):
+166             _exists = True
+167             break
+168     if not _exists:
+169         raise Exception(msg.ImportError3 %
+170             (args[0], args[1], args[0].upper()))
+171 
+172     # import module
+173     module = import_module(full_dotted_name)
+174 
+175     # extract class
+176     if hasattr(module, args[1]):
+177         return getattr(module, args[1])
+178     else:
+179         raise Exception(msg.ImportError4 %
+180             (args[0], args[1], args[1]))
+
+#####
+config.py
+ 88 class Dict(object):
+ 89     """ Dictionary-like object for holding parameters or paths
+ 90     """
+ 91     def __iter__(self):
+ 92         return iter(sorted(self.__dict__.keys()))
+ 93 
+ 94     def __getattr__(self, key):
+ 95         return self.__dict__[key]
+ 96 
+ 97     def __getitem__(self, key):
+ 98         return self.__dict__[key]
+ 99 
+100     def __setattr__(self, key, val):
+101         if key in self.__dict__:
+102             raise TypeError("Once defined, parameters cannot be changed.")
+103         self.__dict__[key] = val
+104 
+105     def __delattr__(self, key):
+106         if key in self.__dict__:
+107             raise TypeError("Once defined, parameters cannot be deleted.")
+108         raise KeyError
+109 
+110     def update(self, newdict):
+111         super(Dict, self).__setattr__('__dict__', newdict)
+112 
+113     def __init__(self, newdict):
+114         self.update(newdict)
+115 
+
+# /home/jiazeh/seisflows/seisflows/system/serial.py
+ 71     def submit(self, workflow):
+ 72         """ Submits job
+ 73         """
+ 74         # create scratch directories
+ 75         unix.mkdir(PATH.SCRATCH)
+ 76         unix.mkdir(PATH.SYSTEM)
+ 77 
+ 78         # create output directories
+ 79         unix.mkdir(PATH.OUTPUT)
+ 80 
+ 81         self.checkpoint()
+ 82 
+ 83         # execute workflow
+ 84         workflow.main()
+
+####### the main seisflows inversion process is here ##############  
+110     def main(self):
+111         """ Carries out seismic inversion
+112         """
+113         optimize.iter = PAR.BEGIN
+114         self.setup()
+115         print ''
+116 
+117         while optimize.iter <= PAR.END:
+118             print "Starting iteration", optimize.iter
+119             self.initialize()
+120 
+121             print "Computing gradient"
+122             self.evaluate_gradient()
+123 
+124             print "Computing search direction"
+125             self.compute_direction()
+126 
+127             print "Computing step length"
+128             self.line_search()
+129 
+130             self.finalize()
+131             self.clean()
+132 
+133             optimize.iter += 1
+134             print ''
+
+###### 
+/home/jiazeh/seisflows/seisflows/workflow/inversion_sm.py
+155     def initialize(self):
+156         """ Prepares for next model update iteration
+157         """
+158         self.write_model(path=PATH.GRAD, suffix='new')
+159 
+160         print 'Generating synthetics'
+161         system.run('solver', 'eval_func',
+162                    path=PATH.GRAD)
+163 
+164         self.write_misfit(path=PATH.GRAD, suffix='new')
+
+#####  
+/home/jiazeh/seisflows/seisflows/solver/base2.py
+202     def eval_func(self, path='', export_traces=False):
+203         """ Evaluates misfit function by carrying out forward simulation and
+204             comparing observations and synthetics
+205 
+206           INPUT
+207             PATH - the directory from which model is imported
+208             EXPORT_TRACES - save or discard traces?
+209         """
+210         unix.cd(self.cwd)
+211         self.import_model(path)
+212         self.forward()
+213         preprocess.prepare_eval_grad(self.cwd)
+214         self.export_residuals(path)
+215 
+
+####
+/home/jiazeh/seisflows/seisflows/solver/specfem2d_new_ze_debug.py
+195     def forward(self, path='traces/syn'):
+196         """ Calls SPECFEM2D forward solver
+197         """
+198         setpar('SIMULATION_TYPE', '1')
+199         setpar('SAVE_FORWARD', '.true.')
+200         call_solver(system.mpiexec(), 'bin/xmeshfem2D',output='meshi.log')
+201         #print('forward passed')
+202         # the following lines can be commented out when testing the gradients
+203         call_solver(system.mpiexec(), 'bin/xspecfem2D',output='solver.log')
+204 
+205         if PAR.FORMAT in ['SU', 'su']:
+206             filenames = glob('OUTPUT_FILES/*.su')
+207             unix.mv(filenames, path)
+
+#### 
+/home/jiazeh/seisflows/seisflows/preprocess/base.py
+ 81     def prepare_eval_grad(self, path='.'):
+ 82         """
+ 83          Prepares solver for gradient evaluation by writing residuals and
+ 84          adjoint traces
+ 85 
+ 86          :input path: directory containing observed and synthetic seismic data
+ 87         """
+ 88         solver = sys.modules['seisflows_solver']
+ 89 
+ 90         for filename in solver.data_filenames:
+ 91             obs = self.reader(path+'/'+'traces/obs', filename)
+ 92             syn = self.reader(path+'/'+'traces/syn', filename)
+ 93 
+ 94             # process observations ## useful only there are flags for filter/mute/normalize 
+ 95             obs = self.apply_filter(obs)
+ 96             obs = self.apply_mute(obs)
+ 97             obs = self.apply_normalize(obs)
+ 98 
+ 99             # process synthetics
+100             syn = self.apply_filter(syn)
+101             syn = self.apply_mute(syn)
+102             syn = self.apply_normalize(syn)
+103 
+104             if PAR.MISFIT:
+105                 self.write_residuals(path, syn, obs)
+106 
+107             self.write_adjoint_traces(path+'/'+'traces/adj', syn, obs, filename)
+
+
+### 
+preprocess/base.py
+343     @property
+344     def data_filenames(self):
+345         if PAR.CHANNELS:
+346             if PAR.FORMAT in ['SU', 'su']:
+347                filenames = []
+348                for channel in PAR.CHANNELS:
+349                    filenames += ['Up_file_single_%s.su' % channel]
+350                    #filenames += ['U%s_file_single_p.su' % channel]
+351                    #filenames += ['U%s_file_single_x.su' % channel]
+352                    #filenames += ['U%s_file_single.su' % channel]
+353                return filenames
+354 
+355         else:
+356             unix.cd(self.cwd)
+357             unix.cd('traces/obs')
+358 
+359             if PAR.FORMAT in ['SU', 'su']:
+360                 return glob('U?_file_single.su')
+
+
+
+####
+/home/jiazeh/seisflows/seisflows/preprocess/base.py
+110     def write_residuals(self, path, syn, obs):
+111         """
+112         Computes residuals
+113 
+114         :input path: location "adjoint traces" will be written
+115         :input syn: obspy Stream object containing synthetic data
+116         :input obs: obspy Stream object containing observed data
+117         """
+118         nt, dt, _ = self.get_time_scheme(syn)
+119         nn, _ = self.get_network_size(syn)
+120 
+121         residuals = []
+122         for ii in range(nn):
+123             residuals.append(self.misfit(syn[ii].data, obs[ii].data, nt, dt))
+124 
+125         filename = path+'/'+'residuals'
+126         if exists(filename):
+127             residuals.extend(list(np.loadtxt(filename)))
+128 
+129         np.savetxt(filename, residuals)
+
+###
+/home/jiazeh/seisflows/seisflows/plugins/misfit.py
+ 10 def Waveform(syn, obs, nt, dt):
+ 11     # waveform difference
+ 12     wrsd = syn-obs
+ 13     return np.sqrt(np.sum(wrsd*wrsd*dt))
+
+###
+preprocess/base.py
+145     def write_adjoint_traces(self, path, syn, obs, channel):
+146         """
+147         Writes "adjoint traces" required for gradient computation
+148 
+149         :input path: location "adjoint traces" will be written
+150         :input syn: obspy Stream object containing synthetic data
+151         :input obs: obspy Stream object containing observed data
+152         :input channel: channel or component code used by writer
+153         """
+154         nt, dt, _ = self.get_time_scheme(syn)
+155         nn, _ = self.get_network_size(syn)
+156         # adjoint trace generation     
+157         adj = syn
+158         for ii in range(nn):
+159             #print('shape of syn[ii].data:', syn[ii].data.shape)
+160             adj[ii].data = self.adjoint(syn[ii].data, obs[ii].data, nt, dt)
+161         self.writer(adj, path, channel)
+
+##
+plugins/adjoint.py
+ 17 def Waveform(syn, obs, nt, dt):
+ 18     # waveform difference
+ 19     # (Tromp et al 2005, eq 9)
+ 20     wadj = (syn - obs)
+ 21     return wadj
+
+
+
+##### 
+/home/jiazeh/seisflows/seisflows/workflow/inversion_sm.py
+218     def evaluate_gradient(self):
+219         """ Performs adjoint simulation to evaluate gradient
+220         """
+221         system.run('solver', 'eval_grad',
+222                    path=PATH.GRAD,
+223                    export_traces=divides(optimize.iter, PAR.SAVETRACES))
+224 
+225         self.write_gradient(path=PATH.GRAD, suffix='new')
+
+####
+./solver/base2.py:217:    def eval_grad(self, path='', export_traces=False):
+217     def eval_grad(self, path='', export_traces=False):
+218         """ Evaluates gradient by carrying out adjoint simulation
+219 
+220           (A function evaluation must already have been carried out and adjoint
+221           traces must already be in place.) 
+222 
+223          INPUT
+224             PATH - the directory to which output files are exported
+225             EXPORT_TRACES - save or discard traces?
+226         """
+227         unix.cd(self.cwd)
+228         self.adjoint()
+229         self.export_kernels(path)
+230         if export_traces:
+231             self.export_traces(path+'/'+'traces/syn', prefix='traces/syn')
+232             self.export_traces(path+'/'+'traces/adj', prefix='traces/adj')
+233         if PAR.ATTENUATION == 'yes' :
+234               unix.cd(self.cwd)
+235               self.adjoint_att()
+236               self.export_att_kernel(path)
+
+###
+/home/jiazeh/seisflows/seisflows/solver/specfem2d_new_ze_debug.py
+210     def adjoint(self):
+211         """ Calls SPECFEM2D adjoint solver
+212         """
+213         setpar('SIMULATION_TYPE', '3')
+214         setpar('SAVE_FORWARD', '.false.')
+215         # remove the folder to hold the adj sources
+216         unix.rm('SEM')
+217         # linked adj folder for 'SEM' 
+218         unix.ln('traces/adj', 'SEM')
+219 
+220         # hack to deal with different SPECFEM2D name conventions for
+221         # regular traces and 'adjoint' traces
+222         if PAR.FORMAT in ['SU', 'su']:
+223             files = glob('traces/adj/*.su')
+224             #unix.rename('.su', '.su.adj', files)
+225             unix.rename('_x.su', '.su', files)
+226         call_solver(system.mpiexec(), 'bin/xmeshfem2D',output='meshiadj.log')
+227         call_solver(system.mpiexec(), 'bin/xspecfem2D',output='solver_adj.log')
+
+##
+/home/jiazeh/seisflows/seisflows/tools/unix.py
+112 def rename(old, new, names):
+113     for name in iterable(names):
+114         if name.find(old) >= 0:
+115             os.rename(name, name.replace(old, new))
+
+### 
+solver/base2.py    
+437     def export_kernels(self, path):
+438         unix.cd(self.kernel_databases)
+439 
+440         # work around conflicting name conventions
+441         self.rename_kernels()
+442 
+443         src = glob('*_kernel.bin')
+444         dst = join(path, 'kernels', self.source_name)
+445         unix.mkdir(dst)
+446         unix.mv(src, dst)
+
+
+
+###############
+##### 
+workflow/inversion_sm.py 
+168     def compute_direction(self):
+169         """ Computes search direction
+170         """
+171         optimize.compute_direction()
+
+####
+optimize/LBFGS.py  
+ 12 class LBFGS(custom_import('optimize', 'base')):
+ 13     """ Limited memory BFGS algorithm
+ 14     """
+ 15 
+ 16     def check(self):
+ 17         """ Checks parameters, paths, and dependencies
+ 18         """
+ 19         # line search algorithm
+ 20         if 'LINESEARCH' not in PAR:
+ 21             setattr(PAR, 'LINESEARCH', 'Backtrack')
+ 22 
+ 23         # LBFGS memory
+ 24         if 'LBFGSMEM' not in PAR:
+ 25             setattr(PAR, 'LBFGSMEM', 3)
+ 26 
+ 27         # LBFGS periodic restart interval
+ 28         if 'LBFGSMAX' not in PAR:
+ 29             setattr(PAR, 'LBFGSMAX', np.inf)
+ 30 
+ 31         # LBFGS angle restart threshold
+ 32         if 'LBFGSTHRESH' not in PAR:
+ 33             setattr(PAR, 'LBFGSTHRESH', 0.)
+ 34 
+ 35         super(LBFGS, self).check()
+ 49     def compute_direction(self):
+ 50         g_new = self.load('g_new')
+ 51         p_new, self.restarted = self.LBFGS()
+ 52         self.save('p_new', p_new)
+
+
+
+
 
 ################### common check list ###################################
 ### system-wise 
@@ -709,6 +1175,36 @@ in output.log
 
 
 
+###### 
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+xspecfem2D         00000000006DC27D  Unknown               Unknown  Unknown
+######
+name_of_source_file          =  /home/jiazeh/csp2d_base/DATA/sources/4ricker_rect_iobs/0006 
+source time function is not in place 
+#### solution 
+
+
+##### 
+error while reading input file
+ Error detected, aborting MPI... proc            0
+#### SOURCE files does not match NREC, NSRC, or 107 NSOURCES in Par_file
+#### solution 
+fix the errors
+
+### error vs _kernal no size
+At line 182 of file src/tomography/postprocess_sensitivity_kernels/combine_sem.F90 (unit = 40, file = '/home/jiazeh/itt2/scratch/evalgrad/kernels/000000/proc000000_vs_kernel.bin')
+Fortran runtime error: End of file
+### causes : model_init was not elastic
+### solution: regerate the models. 
+
+###### error of seisflows not run due to specfem2d
+(obspy) [jiazeh@tigercpu 000000]$ cat mesh2.log 
+--------------------------------------------------------------------------
+It looks like orte_init failed for some reason; your parallel process is
+### recompile specfem using 
+### from Uno
+./configure FC=ifort CC=mpicc MPIFC=mpif90 MPICC=mpicc 
 
 
 

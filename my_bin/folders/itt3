@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "switch to the path and folder to itt2"
+
+cd $HOME/itt3/
+
+
+

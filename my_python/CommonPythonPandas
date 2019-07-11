@@ -1344,6 +1344,27 @@ attrs = vars(an)
 print ', '.join("%s: %s" % item for item in attrs.items())
 
 
+#### get the list for parameters
+127 def loadpy(filename):
+128     if not exists(filename):
+129         print msg.FileError % filename
+130         raise IOError
+131 
+132     # load module
+133     name = re.sub('.py$', '', basename(filename))
+134     module = load_source(name, filename)
+135 
+136     # strip private attributes
+137     output = Struct()
+138     for key, val in vars(module).items():
+139         if key[0] != '_':
+140             output[key] = val
+141     return output
+imp.load_source(name, pathname[, file])
+Load and initialize a module implemented as a Python source file and return its module object. If the module was already initialized, it will be initialized again. The name argument is used to create or access a module object. The pathname argument points to the source file. The file argument is the source file, open for reading as text, from the beginning. It must currently be a real file object, not a user-defined class emulating a file. Note that if a properly matching byte-compiled file (with suffix .pyc or .pyo) exists, it will be used instead of parsing the given source file.
+
+
+
 
 
 ####################################################################### general python ##### 

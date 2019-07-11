@@ -46,3 +46,15 @@ def toneburst(peaks,delay_steps=0,f=300000,dtNew=1e-8,NtNew=5800):
     signal5 = np.append(signal4,np.zeros(int(NtNew-df1-delay_steps)), axis=0)
     return signal5
 
+def toneburstad(peaks,delay_steps=0, amp_att=1,f=300000,dt=1e-8,Nt=5800):
+    t = np.arange(0, ((Nt*dt)-dt), dt)
+    B=2*f/m.sqrt(3)/peaks
+    fmax=f+B
+    fmin=f-B
+    dfpulselen = (peaks/fmax)
+    df1 = m.ceil(dfpulselen/dt)
+
+    signal3 = np.sin(2*m.pi*f*dt*np.arange(0, df1))*np.hanning(df1)
+    signal4 = np.append(np.zeros(int(delay_steps)),signal3, axis=0)
+    signal5 = amp_att * np.append(signal4,np.zeros(int(Nt-df1-delay_steps)), axis=0)
+    return t,signal5

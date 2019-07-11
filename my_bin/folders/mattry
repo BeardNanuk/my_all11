@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "switch to the path and folder to try_matlab_module for matlab"
+
+final_dir=$HOME/Desktop/alljh/pfiles/my_matlab_lib/try_matlab_module
+
+cd $final_dir
+
+
+#cd /home/jiazeh/Desktop/my_files/my_bin

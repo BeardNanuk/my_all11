@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "switch to mv folder in the current dir to temp"
+
+final_dir="$HOME/temp"
+
+eval mv $1 $final_dir

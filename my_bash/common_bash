@@ -639,5 +639,10 @@ chmod 0777 file
 ## more at https://www.mkssoftware.com/docs/man1/chmod.1.asp
 
 
+########### compress a folder using tar 
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
+tar -czvf sfs20190708sp2d.tar.gz tar_temp/
+########## uncompress
+tar -xvf file.tar
 
 ## install nont 
