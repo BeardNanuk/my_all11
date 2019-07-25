@@ -29,3 +29,5 @@ def zplot_signals_one_iter_one_source(iter_num,source_num, rec_matrix,save_sig_p
 
 
 
+Fri Jul 19 19:06:55 UTC 2019
+(obspy) [jiazeh@paris prusct_wd]$ vi make_istf_mat.py 

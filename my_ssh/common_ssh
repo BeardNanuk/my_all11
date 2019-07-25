@@ -202,6 +202,9 @@ Connection to tigercpu closed.
    99  ./configure FC=ifort --with-mpi --with-cuda=cuda8
   100  make realclean
   101  make -j
+
+module load openmpi/intel-16.0/1.10.2/64 cudatoolkit/10.1 intel/16.0/64/16.0.4.258
+
 ## vi parallel
 make xcombine_sem
 
@@ -565,6 +568,7 @@ WALLTIME=1000 # walltime (unit: minute)  ##$ on cluster, this needs to be change
 
 ## check your jobs
 squeue -u jiazeh
+
 
 
 

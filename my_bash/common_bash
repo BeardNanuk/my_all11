@@ -347,6 +347,9 @@ rm -fr my*
 # be careful about the "" in the following commands
          rm -r "$foldname_for_results_saving_remote"
 
+## copy with parent directory 
+temp_full="$dfolder"
+eval cp --parents "output/OUTPUT_FILES/*/plot_source_time_function.txt" $temp_full
 
 
 ### search related 
@@ -400,7 +403,8 @@ grep -n ^'[cs]' let_vim_do_the_typing
 grep -nr 'mkdir' ./*
 # find all lines containing all files with exact match 
 grep -wnr 'mkdir' ./*
- 
+# grep on all files non-recursively (in the current) in a directory
+grep -s "string" * .* 
 
 # contains a word, but not contains another 
 (grep -nr 'constants' ./*) >> z_grep_temp.txt

@@ -28,6 +28,17 @@ def readebsu(idir='', t_total=0,NREC=0):
     
     return data_2d[60:,:]
 
+####### seismic unix
+    with open(idir, 'rb') as file:
+      SU_data_linear = np.fromfile(file,dtype=np.float64)
+    #print('shape of SU_data_linear:',SU_data_linear.shape)     
+    #print('time steps found as :',len(SU_data_linear)/float(NREC))   
+    data_2d = SU_data_linear.reshape(NREC,t_total).transpose()
+
+    return data_2d[:,:]
+
+
+
 #def readebsu(idir='',trace_obs=0, t_total_obs=0):
 #    """ Reads Seismic Unix files
 #
@@ -140,6 +151,58 @@ def mat_to_su(obs_file=0,i=0,t_total_obs=0,t_totalNew_obs=0):
     stream_interp(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
     #stream_no_interp(idir=ifile, t_total_obs=t_total_obs, t_totalNew_obs=t_totalNew_obs, ofolder=ofolder, ofile=ofile)
 
+def itsu2mat(itfoldername,ifolder,ofolder,NSRC=20):
+    from shutil import copyfile,rmtree
+    from scipy.io import savemat
+    import os
+
+    if os.path.exists(ofolder+itfoldername):
+       rmtree(ofolder+itfoldername)
+    os.makedirs(ofolder+itfoldername)
+    for k in range(1,NSRC+1): 
+    
+        ifile = "output/traces/syn/%06d/Up_file_single.su" % (k-1)
+        ipath = ifolder+itfoldername+ifile
+        print(itfoldername + ifile +' copied')
+        data_np=readsu(idir=ipath)
+        adict = {}
+        adict['rtoall'] = data_np
+        adict['whatever'] = 1
+        
+        ofile = "Up_file_single_sfs_%04d.mat" % (k-1)
+        opath = ofolder+itfoldername+ofile
+        savemat(opath,adict)
+        
+        ####### STFs copy #################
+        ifile = "output/OUTPUT_FILES/%06d/plot_source_time_function.txt" % (k-1)
+        ipath = ifolder+itfoldername+ifile
+        
+        ofile = "stf_sfs_%04d.txt" % (k-1)
+        opath = ofolder+itfoldername+ofile
+        copyfile(ipath,opath)
+
+def spsu2mat(spfoldername,itfoldername,ifolder,ofolder):
+    from shutil import copyfile,rmtree
+    from scipy.io import savemat
+    import os
+
+    if os.path.exists(ofolder+itfoldername):
+       #rmtree(ofolder+itfoldername)
+        print(ofolder+itfoldername)
+    else:
+        os.makedirs(ofolder+itfoldername)
+
+    ifile = "OUTPUT_FILES/Up_file_single.su"
+    ipath = ifolder+spfoldername+ifile
+    print(spfoldername + ifile +' copied')
+    data_np=readsu(idir=ipath)
+    adict = {}
+    adict['rtoall'] = data_np
+    adict['whatever'] = 1
+
+    ofile = "Up_file_single_ro.mat"
+    opath = ofolder+itfoldername+ofile
+    savemat(opath,adict)
 
 
 def stream_no_interp(idir=0, t_total_obs=0, t_totalNew_obs=0, ofolder=0, ofile=0):
