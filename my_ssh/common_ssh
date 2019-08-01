@@ -262,10 +262,11 @@ running solver - done
 
 
 
+
 #### waiting to try 
 ./configure CC=icc FC=ifort MPIFC=mpif90 --with-mpi --with-cuda=cuda8
 
-
+./configure FC=ifort --with-cuda=cuda8
 
 
 ########## dropbox related  ##########################
